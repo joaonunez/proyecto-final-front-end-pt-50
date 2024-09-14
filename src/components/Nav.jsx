@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../assets/images/logocamping.jpg";
+import logo from "../assets/images/logo/logocamping.jpg";
 import { Link, useLocation } from "react-router-dom";
 import { MdForest } from "react-icons/md";
 import { GiCampingTent } from "react-icons/gi";
@@ -8,7 +8,7 @@ import { MdContacts } from "react-icons/md";
 import { RiLoginBoxLine } from "react-icons/ri";
 
 export function Nav() {
-  const location = useLocation(); // Hook para obtener la ruta actual
+  const location = useLocation();
 
   return (
     <>
@@ -70,8 +70,8 @@ export function Nav() {
                 </Link>
               </li>
             </ul>
-            <button className="btn btn-login" type="button">
-              <Link to={"/login"} className="btn-login-link">
+            <button className="btn btn-login-nav" type="button">
+              <Link to={"/login"} className="btn-to-login-link">
                 Ingresar <RiLoginBoxLine />
               </Link>
             </button>
