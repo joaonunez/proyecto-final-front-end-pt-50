@@ -2,8 +2,9 @@
     text-align: center;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
+}
+.image-container{
     gap: 0;
 }
 .image-banner{
