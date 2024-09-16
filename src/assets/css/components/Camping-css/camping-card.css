@@ -1,0 +1,60 @@
+.camping-card  {
+    display: flex;   
+
+    padding: 30px;
+    color: black;
+}
+
+.camping-logo-image {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+    margin-left: 5rem;   
+    margin-right: 5rem; 
+   
+}
+
+.camping-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.camping-name {
+    padding-bottom: 1rem;
+    border-bottom: 2px solid grey;
+}
+
+.description {
+    text-align: justify;
+}
+
+.button-rating {
+    width: 5rem;
+    height: 5rem;
+    font-size: 40px;
+   
+}
+
+.comment-icon {
+    font-size: 20px;
+    display: flex;
+    margin: auto;
+    
+}
+
+.icons {
+    font-size: 20px;
+    margin: 5px;
+}
+
+.line {
+    
+    border-bottom: 2px solid grey;
+    border-radius: 10px;
+    width: 80%;
+    margin: auto;
+    margin-top: 10px;
+
+}
+

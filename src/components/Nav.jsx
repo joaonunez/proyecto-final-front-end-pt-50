@@ -41,7 +41,7 @@ export function Nav() {
               </li>
               <li className="nav-item">
                 <Link
-                  to="/camping"
+                  to="/campings"
                   className={`nav-link ${
                     location.pathname === "/camping" ? "active" : ""
                   }`}

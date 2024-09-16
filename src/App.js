@@ -6,6 +6,7 @@ import { Camping } from "./views/Camping";
 import { AboutUs } from "./views/AboutUs";
 import { Contact } from "./views/Contact";
 import { Login } from "./views/Login";
+import { Campings } from "./views/Campings";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
             <Route path="/" element={< Home/>} />
             <Route path="/camping" element={<Camping/>} />
+            <Route path="/campings" element={<Campings />} />
             <Route path="/about-us" element={<AboutUs/>} />
             <Route path="/contact" element={<Contact/>} />
             <Route path="/login" element={<Login/>} />
