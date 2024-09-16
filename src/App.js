@@ -6,6 +6,7 @@ import { Camping } from "./views/Camping";
 import { AboutUs } from "./views/AboutUs";
 import { Contact } from "./views/Contact";
 import { Login } from "./views/Login";
+import { Prereserva } from "./components/Prereserva/Prerserva";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/about-us" element={<AboutUs/>} />
             <Route path="/contact" element={<Contact/>} />
             <Route path="/login" element={<Login/>} />
+            <Route path="/Prereserva" element={<Prereserva/>} />
         </Routes>
       </Router>
     </>
