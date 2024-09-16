@@ -1,0 +1,221 @@
+.titulo {
+    margin: 0 auto;
+    margin-top: 4%;
+    width: 400px;
+    height: 50px;
+}
+
+.container form {
+    margin: 0 auto;
+    width: 800px;
+    height: 500px;
+    border: 1px solid black;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+
+.Fcamping {
+    margin: 0 auto;
+    margin-top: 2%;
+    width: 1000px;
+    height: 1250px;
+    border: 1px solid black;
+
+}
+
+form {
+    justify-content: center;
+}
+
+.Servicios {
+    margin: 0 auto;
+    width: 720px;
+    height: 310px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.Basicos {
+    margin-left: 5%;
+    width: 200px;
+    height: 300px;
+    text-align: left;
+}
+
+.Adicionales {
+    width: 150px;
+    height: 300px;
+    text-align: left;
+
+}
+
+.Premiun {
+    margin-right: 5%;
+    width: 200px;
+    height: 300px;
+    text-align: left;
+}
+
+.Sitios {
+
+    border: 1px solid black;
+    width: 1270px;
+    height: 350px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.icons {
+    width: 120px;
+    height: 30px;
+    font-size: x-large;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.description {
+    width: 800px;
+    height: 250px;
+    border: 1px solid black;
+}
+
+.image {
+    width: 300px;
+    height: 250px;
+    border: 1px solid black;
+    margin-left: 2%;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.information {
+    width: 1270px;
+    height: 680px;
+    border: 1px solid black;
+    margin: 0 auto;
+    flex-wrap: wrap;
+
+}
+
+.title {
+    margin-top: 5%;
+    text-align: center;
+}
+
+.service {
+    margin: 0 auto;
+    width: 1070px;
+    height: 200px;
+}
+
+.form-control {
+    outline: none;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+}
+
+.login {
+
+    margin-left: 5%;
+
+}
+
+.card {
+    width: 800px;
+    margin: 0 auto;
+    list-style: none;
+
+}
+
+.Prereserva {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    width: 800px;
+    height: 400px;
+    border: 1px solid black;
+
+}
+
+.photo {
+    margin-left: 2%;
+    margin-top: 3%;
+    width: 300px;
+    height: 290px;
+    border: 1px solid black;
+}
+
+.detalle {
+    margin-left: 2%;
+    margin-top: 3%;
+    width: 450px;
+    height: 300px;
+
+}
+
+.boton {
+    width: 480px;
+    height: 50px;
+    
+   
+
+}
+
+h1 {
+    display: flex;
+    justify-content: center;
+
+}
+
+.reserva {
+    margin: 0 auto;
+    width: 1200px;
+    height: 625px;
+    border: 1px solid black;
+    display: flex;
+   
+
+
+}
+
+.confirmacion {
+    width: 790px;
+    height: 380px;
+    border: 1px solid black;
+    display: flex;
+
+}
+.pago{
+    width: 400px;
+    height: 480px;
+    border: 1px solid black;
+    
+}
+.iconos{
+    width: 300px;
+    height: 50px;
+    font-size: xx-large;
+    margin-left: 2%;
+    display: flex;
+    justify-content: space-between;
+}
+.icons{
+    width: 300px;
+    height: 50px;
+    font-size: xx-large;
+    border: 1px solid black;
+    margin-top: 2%;
+    margin-left: 9%;
+}
