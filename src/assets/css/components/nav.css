@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #004d40; /* Dark green background */
+    background-color: #004d40; 
     padding: 1rem;
 }
 .logo-nav{
@@ -19,11 +19,11 @@
 }
 
 .navbar-nav .nav-link:hover {
-    color: #cfd8dc; /* Light gray hover */
+    color: #cfd8dc; 
 }
 
-.btn-login {
-    background-color: #fbc02d; /* Yellow button for Login */
+.btn-login-nav {
+    background-color: #fbc02d; 
     color: #004d40;
     border: none;
     padding: 1rem 1.5rem;
@@ -31,13 +31,13 @@
     font-size: 1.3rem;
     
 }
-.btn-login-link{
+.btn-to-login-link{
         text-decoration: none;
         color: inherit;
 }
 
-.btn-login:hover {
-    background-color: #ffd54f; /* Lighter yellow on hover */
+.btn-login-nav:hover {
+    background-color: #ffd54f; 
     color: #004d40;
 }
 
