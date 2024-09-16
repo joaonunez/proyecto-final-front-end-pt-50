@@ -1,0 +1,11 @@
+.container-banner{
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0;
+}
+.image-banner{
+    width: 500px;
+}
