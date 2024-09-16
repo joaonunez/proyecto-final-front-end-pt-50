@@ -1,0 +1,7 @@
+{
+    "editor.fontFamily": "Cascadia Code",
+    "editor.cursorBlinking": "expand",
+    "editor.cursorStyle": "line",
+    "editor.fontSize": 20,
+    "editor.cursorSmoothCaretAnimation": "on"
+}
