@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import logo from "../assets/images/logo/logocamping.jpg";
 import { Link, useLocation } from "react-router-dom";
 import { MdForest } from "react-icons/md";
@@ -6,78 +6,120 @@ import { GiCampingTent } from "react-icons/gi";
 import { FaPeopleRoof } from "react-icons/fa6";
 import { MdContacts } from "react-icons/md";
 import { RiLoginBoxLine } from "react-icons/ri";
+import { TbTableOptions } from "react-icons/tb";
+import { Context } from '../store/context';
 
 export function Nav() {
   const location = useLocation();
+  const { store, actions } = useContext(Context); 
+
+  const handleLogout = () => {
+    actions.logout(); 
+  };
 
   return (
-    <>
-      <nav className="navbar navbar-expand-lg navbar-dark">
-        <div className="container-fluid">
-          <img src={logo} alt="Logo Camping" className="logo-nav" />
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <Link
-                  to="/"
-                  className={`nav-link ${
-                    location.pathname === "/" ? "active" : ""
-                  }`}
-                  aria-current="page"
-                >
-                  Inicio <MdForest />
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to="/campings"
-                  className={`nav-link ${
-                    location.pathname === "/camping" ? "active" : ""
-                  }`}
-                >
-                  Campings <GiCampingTent />
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to="/about-us"
-                  className={`nav-link ${
-                    location.pathname === "/about-us" ? "active" : ""
-                  }`}
-                >
-                  Nosotros <FaPeopleRoof />
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  to="/contact"
-                  className={`nav-link ${
-                    location.pathname === "/contact" ? "active" : ""
-                  }`}
-                >
-                  Contacto <MdContacts />
-                </Link>
-              </li>
-            </ul>
-            <button className="btn btn-login-nav" type="button">
-              <Link to={"/login"} className="btn-to-login-link">
-                Ingresar <RiLoginBoxLine />
+    <nav className="navbar navbar-expand-lg navbar-dark">
+      <div className="container-fluid">
+        <img src={logo} alt="Logo Camping" className="logo-nav" />
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link
+                to="/"
+                className={`nav-link ${
+                  location.pathname === "/" ? "active" : ""
+                }`}
+                aria-current="page"
+              >
+                Inicio <MdForest />
               </Link>
-            </button>
-          </div>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/camping"
+                className={`nav-link ${
+                  location.pathname === "/camping" ? "active" : ""
+                }`}
+              >
+                Campings <GiCampingTent />
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/about-us"
+                className={`nav-link ${
+                  location.pathname === "/about-us" ? "active" : ""
+                }`}
+              >
+                Nosotros <FaPeopleRoof />
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                to="/contact"
+                className={`nav-link ${
+                  location.pathname === "/contact" ? "active" : ""
+                }`}
+              >
+                Contacto <MdContacts />
+              </Link>
+            </li>
+          </ul>
+
+          
+          {store.user ? (
+            <div className="d-flex align-items-center">
+              
+              <span className="navbar-text me-3">
+                Bienvenido, {store.user.first_name}
+              </span>
+             
+              <div className="btn-group">
+                <button
+                  type="button"
+                  className="btn btn-secondary dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <TbTableOptions />
+                </button>
+                <ul className="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <Link className="dropdown-item" to="/configuracion">
+                      Configuración
+                    </Link>
+                  </li>
+                  <li>
+                    <button className="dropdown-item" onClick={handleLogout}>
+                      Cerrar sesión
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          ) : (
+            
+            
+              <Link to={"/login"} className="btn-to-login-link">
+                <button className="btn btn-login-nav" type="button">
+                Ingresar <RiLoginBoxLine />
+                </button>
+              </Link>
+            
+          )}
         </div>
-      </nav>
-    </>
+      </div>
+    </nav>
   );
 }

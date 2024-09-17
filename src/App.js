@@ -5,7 +5,9 @@ import { Nav } from "./components/Nav";
 import { Camping } from "./views/Camping";
 import { AboutUs } from "./views/AboutUs";
 import { Contact } from "./views/Contact";
-import { Login } from "./views/Login";<<<<<<< develop-martin
+import { Login } from "./views/Login";
+import { Register } from "./views/Register";
+import { Login } from "./views/Login";
 import { Campings } from "./views/Campings";
 import { Prereserva } from "./components/Prereserva/Prerserva";
 
@@ -22,6 +24,8 @@ function App() {
             <Route path="/contact" element={<Contact/>} />
             <Route path="/login" element={<Login/>} />
             <Route path="/Prereserva" element={<Prereserva/>} />
+            <Route path="/register" element={<Register />} />
+
         </Routes>
       </Router>
     </>
