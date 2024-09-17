@@ -24,7 +24,6 @@ function App() {
             <Route path="/login" element={<Login/>} />
             <Route path="/prereserva" element={<Prereserva/>} />
             <Route path="/register" element={<Register />} />
-
         </Routes>
       </Router>
     </>
