@@ -25,26 +25,30 @@
     border-bottom: 2px solid grey;
 }
 
-.description {
+.description-camping {
     text-align: justify;
 }
 
 .button-rating {
-    width: 5rem;
+    width: 8rem;
     height: 5rem;
     font-size: 40px;
-   
-}
-
-.comment-icon {
-    font-size: 20px;
     display: flex;
-    margin: auto;
-    
+    align-items: center;
+    justify-content: center;
 }
 
-.icons {
-    font-size: 20px;
+.container-comments-space {
+    margin:1rem;
+}
+
+.comment-icon-camping {
+    font-size: x-large;
+    margin-right: 5px;    
+}
+
+.icons-camping-card {
+    font-size: xx-large;
     margin: 5px;
 }
 
