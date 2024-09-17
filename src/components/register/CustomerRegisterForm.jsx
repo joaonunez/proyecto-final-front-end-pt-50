@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../../store/context';
 
-export function RegisterForm() {
+export function CustomerRegisterForm() {
   const { actions } = useContext(Context);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -16,7 +16,7 @@ export function RegisterForm() {
   const handleSubmit = async (e) => {
     e.preventDefault(); 
 
-    const success = await actions.register({
+    const success = await actions.registerCustomer({
       first_name: firstName,
       last_name: lastName,
       rut: rut,
