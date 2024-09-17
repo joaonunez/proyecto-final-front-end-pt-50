@@ -1,11 +1,11 @@
 import React from 'react';
-import { RegisterForm } from '../components/register/RegisterForm'; 
+import { CustomerRegisterForm } from '../../components/register/CustomerRegisterForm'; 
 export function Register() {
   return (
     <>
       <div className="register-page">
         <div className="register-form-container">
-          <RegisterForm /> 
+          <CustomerRegisterForm /> 
         </div>
       </div>
     </>

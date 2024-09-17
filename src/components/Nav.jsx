@@ -1,20 +1,23 @@
 import React, { useContext } from "react";
 import logo from "../assets/images/logo/logocamping.jpg";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdForest } from "react-icons/md";
 import { GiCampingTent } from "react-icons/gi";
 import { FaPeopleRoof } from "react-icons/fa6";
 import { MdContacts } from "react-icons/md";
 import { RiLoginBoxLine } from "react-icons/ri";
 import { TbTableOptions } from "react-icons/tb";
-import { Context } from '../store/context';
+import { MdOutlinePublish } from "react-icons/md";
+import { Context } from "../store/context";
 
 export function Nav() {
+  const navigate = useNavigate();
   const location = useLocation();
-  const { store, actions } = useContext(Context); 
+  const { store, actions } = useContext(Context);
 
   const handleLogout = () => {
-    actions.logout(); 
+    actions.logout();
+    navigate("/login");
   };
 
   return (
@@ -77,18 +80,16 @@ export function Nav() {
             </li>
           </ul>
 
-          
           {store.user ? (
             <div className="d-flex align-items-center">
-              
               <span className="navbar-text me-3">
                 Bienvenido, {store.user.first_name}
               </span>
-             
+
               <div className="btn-group">
                 <button
                   type="button"
-                  className="btn btn-secondary dropdown-toggle"
+                  className="btn btn-settings-nav dropdown-toggle"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
@@ -109,14 +110,18 @@ export function Nav() {
               </div>
             </div>
           ) : (
-            
-            
-              <Link to={"/login"} className="btn-to-login-link">
-                <button className="btn btn-login-nav" type="button">
-                Ingresar <RiLoginBoxLine />
+            <div className="d-flex align-items-center">
+              <Link to="/provider-login" className="btn-to-camping-link">
+                <button className="btn btn-camping-nav" type="button">
+                  Registra tu camping <MdOutlinePublish />
                 </button>
               </Link>
-            
+              <Link to="/login" className="btn-to-login-link ms-3">
+                <button className="btn btn-login-nav" type="button">
+                  Ingresar <RiLoginBoxLine />
+                </button>
+              </Link>
+            </div>
           )}
         </div>
       </div>
