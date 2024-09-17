@@ -12,7 +12,7 @@ import { FaHotTubPerson } from "react-icons/fa6";
 
 export function CampingCard() {
 
-   
+
     return (
         <>
             <div className="container-fluid camping-card mt-5">
@@ -22,17 +22,20 @@ export function CampingCard() {
                 <div className="camping-card-info">
                     <div className="camping-header">
 
-                    <h1 className="camping-name">Camping El Huarango</h1>
-                    <div className="rating-info ">
+                        <h1 className="camping-name">Camping El Huarango</h1>
+                        <div className="rating-info ">
 
-                        <button className="btn btn-warning button-rating"> 8</button>
-                        
-                        < FaComments className="comment-icon mt-3" />
-                    </div>
-                    
+                            <button className="btn btn-warning button-rating"> 8</button>
+                            <div className="container-comments-space">
+
+                                < FaComments className="comment-icon-camping " />
+                                <span>Comments</span>
+                            </div>
+                        </div>
+
 
                     </div>
-                    <p className="description ">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                    <p className="description-camping ">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
                         Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum
                         iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
                         dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
@@ -42,20 +45,20 @@ export function CampingCard() {
 
                     <div className="icons-container">
 
-                    <PiTentBold className="icons"/>
-                    <FaWifi className="icons"/> 
-                    <FaShower className="icons"/>
-                    <FaHotTubPerson className="icons"/>
+                        <PiTentBold className="icons-camping-card" />
+                        <FaWifi className="icons-camping-card" />
+                        <FaShower className="icons-camping-card" />
+                        <FaHotTubPerson className="icons-camping-card" />
 
                     </div>
-                    
+
 
 
 
                 </div>
 
             </div>
-            <div className="line" /> 
+            <div className="line" />
 
         </>
     )

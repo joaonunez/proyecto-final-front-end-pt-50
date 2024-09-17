@@ -7,8 +7,7 @@ import { AboutUs } from "./views/AboutUs";
 import { Contact } from "./views/Contact";
 import { Login } from "./views/Login";
 import { Register } from "./views/Register";
-import { Login } from "./views/Login";
-import { Campings } from "./views/Campings";
+import { Campings } from "./views/Campings-List";
 import { Prereserva } from "./components/Prereserva/Prerserva";
 
 function App() {
@@ -23,7 +22,7 @@ function App() {
             <Route path="/about-us" element={<AboutUs/>} />
             <Route path="/contact" element={<Contact/>} />
             <Route path="/login" element={<Login/>} />
-            <Route path="/Prereserva" element={<Prereserva/>} />
+            <Route path="/prereserva" element={<Prereserva/>} />
             <Route path="/register" element={<Register />} />
 
         </Routes>
