@@ -5,7 +5,7 @@ const AvailableSites = ({ onSiteSelect }) => {
   const [campings, setCampings] = useState([]);
 
   useEffect(() => {
-    fetch('jdbc:mysql://45.236.165.191:3306/joaodevc_camping') // Cambia esta URL según tu API real
+    fetch('http://localhost:3001/') // Cambia esta URL según tu API real
       .then((response) => response.json())
       .then((data) => setCampings(data))
       .catch((error) => console.error('Error fetching campings:', error));

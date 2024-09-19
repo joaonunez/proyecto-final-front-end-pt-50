@@ -15,7 +15,7 @@ const CardSite = ({ siteId }) => {
 
   useEffect(() => {
     if (siteId) {
-      fetch(`https://your-api-endpoint.com/site/${siteId}`)
+      fetch(`http://localhost:3001/${siteId}`)
         .then((response) => response.json())
         .then((data) => {
           setSiteData(data);
