@@ -1,27 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const AvailableSites = () => {
+const AvailableSites = ({ onSiteSelect }) => {
+  const [campings, setCampings] = useState([]);
+
+  useEffect(() => {
+    fetch('https://your-api-endpoint.com/camping') // Cambia esta URL según tu API real
+      .then((response) => response.json())
+      .then((data) => setCampings(data))
+      .catch((error) => console.error('Error fetching campings:', error));
+  }, []);
+
   return (
     <div className="container mt-4">
-      <h2 className="text-center">Sitios Disponibles</h2>
-
-      {/* Botones de los sitios */}
+      <h2 className="text-center">Campings Disponibles</h2>
       <div className="d-flex flex-wrap justify-content-center mb-4">
-        <button className="btn m-2" style={{ backgroundColor: '#9E9E9E' }}>Sitio 1</button>
-        <button className="btn m-2" style={{ backgroundColor: '#9E9E9E' }}>Sitio 2</button>
-        <button className="btn m-2" style={{ backgroundColor: '#9E9E9E' }}>Sitio 3</button>
-        <button className="btn m-2" style={{ backgroundColor: '#8BC34A' }}>Sitio 5</button>
-        <button className="btn m-2" style={{ backgroundColor: '#9E9E9E' }}>Sitio 20</button>
+        {campings.map((camping) => (
+          <div key={camping.id} className="m-2">
+            <h4>{camping.name}</h4>
+            {camping.zones.map((site) => (
+              <button
+                key={site.id}
+                className="btn m-2"
+                style={{ backgroundColor: site.status === 'available' ? '#8BC34A' : '#9E9E9E' }}
+                onClick={() => onSiteSelect(site.id)}
+              >
+                {site.name}
+              </button>
+            ))}
+          </div>
+        ))}
       </div>
-
-      {/* Imagen del mapa del camping */}
       <div className="d-flex justify-content-center">
-        <img 
+        <img
           src="https://sendasconguillio.cl/wp-content/uploads/2023/11/Camping-Nirres-baja.jpg"
-          alt="Mapa de camping" 
-          className="img-fluid rounded" 
-          style={{ maxWidth: '100%', maxHeight: '600px' }} 
+          alt="Mapa de camping"
+          className="img-fluid rounded"
+          style={{ maxWidth: '100%', maxHeight: '600px' }}
         />
       </div>
     </div>
