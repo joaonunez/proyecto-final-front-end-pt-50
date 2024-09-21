@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import { FaComments } from "react-icons/fa";
 import { PiTentBold } from "react-icons/pi";
 import { FaWifi } from "react-icons/fa";
@@ -10,19 +11,38 @@ import { FaHotTubPerson } from "react-icons/fa6";
 
 
 
-export function CampingCard() {
+export function CampingCard({ id }) {
+
+    const [camping, setCamping] = useState([]);
+    useEffect(() => {
+        fetch(`http://localhost:3001/camping/camping/${id}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+            .then((resp) => resp.json())
+            .then((data) => setCamping(data))
+            .catch((error) => console.log(error))
+    }, [])
 
 
     return (
         <>
-            <div className="container-fluid camping-card mt-5">
-                <div className="camping-logo">
-                    <img className="camping-logo-image" src="https://sendasconguillio.cl/wp-content/uploads/2022/11/logo-vertical-color.png" alt="#" />
+
+
+
+            <div className="container-fluid camping-card mt-5 row">
+                <div className="camping-logo col-3">
+                    <img
+                        className="camping-logo-image"
+                        src={camping.main_image}
+                        alt="..." />
                 </div>
-                <div className="camping-card-info">
+                <div className="camping-card-info col-9">
                     <div className="camping-header">
 
-                        <h1 className="camping-name">Camping El Huarango</h1>
+                        <h1 className="camping-name">{camping.name} </h1>
                         <div className="rating-info ">
 
                             <button className="btn btn-warning button-rating"> 8</button>
@@ -35,13 +55,7 @@ export function CampingCard() {
 
 
                     </div>
-                    <p className="description-camping ">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                        Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum
-                        iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio
-                        dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
-                        Lorem ipsum dolor sit amet, cons ectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                        Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                    <p className="description-camping ">{camping.description}</p>
 
                     <div className="icons-container">
 
@@ -59,6 +73,19 @@ export function CampingCard() {
 
             </div>
             <div className="line" />
+            <div className="container">
+                <div className="image-container row m-5">
+                    {camping.images && camping.images.length > 0 ? (
+                        camping.images.map((campingImages, index) => (
+                            <div className="col-4" key={index}>
+                                <img src={campingImages} className="img-fluid p-3" alt="..." />
+                            </div>
+                        ))
+                    ) : (
+                        <p>No images available de este camping</p> 
+                    )}
+                </div>
+            </div>
 
         </>
     )
