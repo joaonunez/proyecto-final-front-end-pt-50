@@ -19,7 +19,7 @@ function App() {
         <Nav />
         <Routes>
             <Route path="/" element={< Home/>} />
-            <Route path="/camping" element={<Camping/>} />
+            <Route path="/camping/:id" element={<Camping/>} />
             <Route path="/campings" element={<Campings />} />
             <Route path="/about-us" element={<AboutUs/>} />
             <Route path="/contact" element={<Contact/>} />
