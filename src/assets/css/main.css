@@ -8,7 +8,10 @@
 @import url('components/prereserva.css');
 @import url('components/login/provider-login.css');
 @import url('components/register/provider-register.css');
-
+@import url('components/about-us/about-us.css');
+@import url('components/contact/contact.css');
+@import url('components/background-app/background.css');
+@import url('components/home/home.css');
 
 
 
