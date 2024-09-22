@@ -15,7 +15,7 @@ const CardSite = ({ siteId }) => {
 
   useEffect(() => {
     if (siteId) {
-      fetch(`http://localhost:3001/${siteId}`)
+      fetch(`http://localhost:3001/site/${siteId}`) 
         .then((response) => response.json())
         .then((data) => {
           setSiteData(data);
@@ -44,7 +44,7 @@ const CardSite = ({ siteId }) => {
         </h3>
       </div>
       <img
-        src={url_photo_site || "https://sendasconguillio.cl/wp-content/uploads/2023/10/camping.jpg"}
+        src={url_photo_site || "https://catarsiscreativa.com/camping_app/img/sitio_defecto.png"}  // Usa una imagen por defecto si no se proporciona una URL
         className="card-img-top"
         alt="Camping Site"
       />
