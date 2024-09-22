@@ -35,7 +35,7 @@ export const Prereserva = () => {
         </div>
         <div className='boton'>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <Link to="/reserva">
+          <Link to="/booking">
             <button class="btn btn-success me-md-2" type="button">confirmar</button>
             </Link>
           </div>

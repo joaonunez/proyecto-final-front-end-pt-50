@@ -12,6 +12,7 @@ import { Prereserva } from "./components/Prereserva/Prerserva";
 import { ProviderLogin } from "./views/login/ProviderLogin";
 import { ProviderRegister } from "./views/register/ProviderRegister";
 import { Review } from "./components/review/review";
+import { Booking } from "./components/booking/Booking";
 
 
 function App() {
@@ -31,6 +32,8 @@ function App() {
             <Route path="/provider-login" element={<ProviderLogin/>} />
             <Route path="provider-register" element={<ProviderRegister/>} />
             <Route path="/review" element={<Review/>} />
+            <Route path="/booking" element={<Booking/>} />
+
         </Routes>
       </Router>
     </>
