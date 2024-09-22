@@ -19,11 +19,15 @@ export function Nav() {
     actions.logout();
     navigate("/login");
   };
+<nav class="navbar navbar-expand-lg navigation fixed-top" id="navbar">
+	<div class="container-fluid">
+	</div>
+</nav>
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark">
+    <nav className="navbar navbar-expand-lg navigation fixed-top">
       <div className="container-fluid">
-        <img src={logo} alt="Logo Camping" className="logo-nav" />
+        <img src="https://catarsiscreativa.com/camping_app/img/logoCamping.png" alt="Logo Camping" className="logo-nav" />
         <button
           className="navbar-toggler"
           type="button"

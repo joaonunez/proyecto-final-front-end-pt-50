@@ -10,65 +10,65 @@ import { MdOutdoorGrill } from "react-icons/md";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-const CardSite = () => {
-  const [headerData, setHeaderData] = useState("");
-  const [bodyData, setBodyData] = useState("");
-  const [footerText, setFooterText] = useState("");
+const CardSite = ({ siteId }) => {
+  const [siteData, setSiteData] = useState(null);
 
   useEffect(() => {
-    // Simulación de una llamada a la API
-    fetch("https://api-tu-base-de-datos.com/site-data")
-      .then((response) => response.json())
-      .then((data) => {
-        setHeaderData(data.header);
-        setBodyData(data.body);
-        setFooterText(data.footer);
-      })
-      .catch((error) => {
-        console.error("Error al obtener los datos:", error);
-      });
-  }, []);
+    if (siteId) {
+      fetch(`http://localhost:3001/site/${siteId}`) 
+        .then((response) => response.json())
+        .then((data) => {
+          setSiteData(data);
+        })
+        .catch((error) => {
+          console.error("Error fetching site data:", error);
+        });
+    }
+  }, [siteId]);
 
-  // Definir la función handleClick
   const handleClick = () => {
     console.log("Botón de reservar presionado");
     // Lógica adicional para reservar el sitio
   };
 
+  if (!siteData) return <div>Selecciona un sitio para ver los detalles</div>;
+
+  const { name, price, max_of_people, url_photo_site, dimensions } = siteData;
+  const surfaceArea = dimensions ? dimensions.width * dimensions.length : 0;
+
   return (
     <div className="card border-success mb-2 mt-auto" style={{ width: "18rem" }}>
       <div className="card-header bg-transparent border-success" style={{ padding: "5px", height: "50px" }}>
         <h3 className="d-flex justify-content-center min-height" style={{ fontSize: "1.5rem" }}>
-          {headerData || "Sitio 1"}
+          {name}
         </h3>
       </div>
       <img
-        src="https://sendasconguillio.cl/wp-content/uploads/2023/10/camping.jpg"
+        src={url_photo_site || "https://catarsiscreativa.com/camping_app/img/sitio_defecto.png"}  // Usa una imagen por defecto si no se proporciona una URL
         className="card-img-top"
         alt="Camping Site"
       />
       <div className="card-body p-2" style={{ padding: "2px", height: "50px" }}>
-        <p className="fs-5 d-flex justify-content-center">{bodyData || "largo, Ancho"}</p>
+        <p className="fs-5 d-flex justify-content-center">
+          Superficie: {surfaceArea} m², Precio: ${price}, Capacidad: {max_of_people} personas
+        </p>
       </div>
       <div className="card-footer bg-transparent border-success">
         <p className="card-text">
-          {footerText || "Lorem Ipsum is simply dummy text of the printing and typesetting industry."}
+          {siteData.review || "Reseña no disponible."}
         </p>
       </div>
       
-      {/* Actualización de la sección de iconos */}
       <div className="card-footer bg-transparent border-success">
         <div className="d-flex justify-content-around">
-          <i className="material-icons" alt="fogata"  ><TbCampfire /></i>        {/* Fogata */}
-          <i className="material-icons" alt="picnic" ><PiPicnicTableBold /></i>    {/* Picnic */}
-          <i className="material-icons" alt="Mapa de camping" ><FaFaucetDrip /></i>          {/* Agua */}
-          <i className="material-icons" alt="Mapa de camping" ><FaPlug /></i>               {/* Electricidad */}
-          <i className="material-icons" alt="Mapa de camping" ><FaCarAlt /></i>         {/* Estacionamiento */}
-          <i className="material-icons" alt="Mapa de camping" ><MdWarehouse /></i>       {/* techo */}
-          <i className="material-icons" alt="Mapa de camping" ><FaHotTubPerson /></i>       {/* techo */}
-           <i className="material-icons" alt="Mapa de camping" ><MdOutdoorGrill /></i>       {/* techo */}
-          
-          
+          <i className="material-icons" alt="fogata"><TbCampfire /></i>
+          <i className="material-icons" alt="picnic"><PiPicnicTableBold /></i>
+          <i className="material-icons" alt="agua"><FaFaucetDrip /></i>
+          <i className="material-icons" alt="electricidad"><FaPlug /></i>
+          <i className="material-icons" alt="estacionamiento"><FaCarAlt /></i>
+          <i className="material-icons" alt="techado"><MdWarehouse /></i>
+          <i className="material-icons" alt="bañera"><FaHotTubPerson /></i>
+          <i className="material-icons" alt="parrilla"><MdOutdoorGrill /></i>
         </div>
       </div>
 

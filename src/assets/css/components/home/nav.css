@@ -1,7 +1,16 @@
-
 .navbar {
-    background-color: #004d40; 
+    background-color: #004d40ae;
     padding: 1rem;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: .5rem 1rem
 }
 
 .logo-nav {
@@ -21,17 +30,17 @@
 }
 
 .navbar-nav .nav-link:hover {
-    color: #cfd8dc; 
+    color: #cfd8dc;
 }
 
 
 .btn-login-nav {
-    background-color: #fbc02d; 
+    background-color: #fbc02d;
     color: #004d40;
     border: none;
-    padding: 0.75rem 1.25rem; 
+    padding: 0.75rem 1.25rem;
     font-weight: bold;
-    font-size: 1.1rem; 
+    font-size: 1.1rem;
     cursor: pointer;
 }
 
@@ -41,18 +50,18 @@
 }
 
 .btn-login-nav:hover {
-    background-color: #ffd54f; 
+    background-color: #ffd54f;
     color: #004d40;
 }
 
 
 .btn-camping-nav {
-    background-color: #fbc02d;  
-    color: #004d40;  
+    background-color: #fbc02d;
+    color: #004d40;
     border: none;
-    padding: 0.75rem 1.25rem; 
+    padding: 0.75rem 1.25rem;
     font-weight: bold;
-    font-size: 1.1rem; 
+    font-size: 1.1rem;
     cursor: pointer;
 }
 
@@ -62,39 +71,39 @@
 }
 
 .btn-camping-nav:hover {
-    background-color: #ffd54f;  
+    background-color: #ffd54f;
     color: #004d40;
 }
 
 
 .btn-settings-nav {
-    background-color: #fbc02d;  
-    color: #004d40;  
+    background-color: #fbc02d;
+    color: #004d40;
     border: none;
-    padding: 0.75rem 1.25rem; 
+    padding: 0.75rem 1.25rem;
     font-weight: bold;
-    font-size: 1.1rem; 
+    font-size: 1.1rem;
     cursor: pointer;
 }
 
 .btn-settings-nav:hover {
-    background-color: #ffd54f;  
-    color: #004d40;
+    background-color: #ffd54f;
+    color: #4d0027;
 }
 
 /* Dropdown menu */
 .dropdown-menu-end {
-    background-color: #f1f8e9; 
+    background-color: #f1f8e9;
 }
 
 .dropdown-item {
-    color: #004d40;  
+    color: #4d001f;
     font-size: 1.2rem;
 }
 
 .dropdown-item:hover {
-    background-color: #ffd54f;  
-    color: #004d40;
+    background-color: #ffd54f;
+    color: #4d0015;
 }
 
 .nav-item .active {
@@ -102,6 +111,6 @@
 }
 
 .navbar-text {
-    font-size: 1.3rem;  
+    font-size: 1.3rem;
     color: white;
 }

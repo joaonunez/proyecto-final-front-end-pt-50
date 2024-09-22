@@ -9,8 +9,6 @@ import { FaHotTubPerson } from "react-icons/fa6";
 
 
 
-
-
 export function CampingCard({ id }) {
 
     const [camping, setCamping] = useState([]);
@@ -29,7 +27,6 @@ export function CampingCard({ id }) {
 
     return (
         <>
-
 
 
             <div className="container-fluid camping-card mt-5 row">

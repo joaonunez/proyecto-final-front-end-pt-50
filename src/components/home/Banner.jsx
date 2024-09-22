@@ -2,6 +2,7 @@ import React from "react";
 import image_camper from "../../assets/images/banner/banner_camper.jpg";
 import image_camping from "../../assets/images/banner/banner_camping.jpg";
 import image_glamping from "../../assets/images/banner/banner_glamping.jpg";
+import '../../assets/css/components/home/banner.css';
 
 
 export function Banner() {
