@@ -1,0 +1,52 @@
+.componente{
+    margin: 0 auto;
+    width: 1200px;
+    height: 460px;
+    gap: 1px;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.reserv {
+    margin-top: 5%;
+    width: 750px;
+    height: 400px;
+    border: 2px solid green;
+    gap: 1px;
+    display: flex;
+    flex-wrap: wrap;
+    
+
+}
+
+.text-card {
+    width: 740px;
+    height: 350px;
+    display: flex;
+    gap: 2%;
+
+}
+
+.card-icons {
+    margin-left: 2%;
+    width: 300px;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    font-size: xx-large;
+}
+
+.card-boton {
+    width: 300px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+
+}
+.pasarela-pago{
+    margin-top: 5%;
+    width: 440px;
+    height: 400px;
+    border: 2px solid green;
+}

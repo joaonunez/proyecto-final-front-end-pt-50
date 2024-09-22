@@ -11,6 +11,7 @@ export function Home() {
                 <source src="https://catarsiscreativa.com/camping_app/img/back_video_camping_4.mp4" type="video/mp4" />
                 Tu navegador no soporta la etiqueta de video.
             </video>
+
             <div className="content">
                 <div className="search-form">
                     <h2>Encuentra tu próxima aventura</h2>

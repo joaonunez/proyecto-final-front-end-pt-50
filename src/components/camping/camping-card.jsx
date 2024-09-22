@@ -28,6 +28,7 @@ export function CampingCard({ id }) {
     return (
         <>
 
+
             <div className="container-fluid camping-card mt-5 row">
                 <div className="camping-logo col-3">
                     <img

@@ -5,7 +5,6 @@ import image_glamping from "../../assets/images/banner/banner_glamping.jpg";
 import '../../assets/css/components/home/banner.css';
 
 
-
 export function Banner() {
     return (
         <div className="col-12 banner-section">

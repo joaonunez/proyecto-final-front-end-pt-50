@@ -10,15 +10,13 @@ export function CustomerLoginForm() {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     const success = await actions.login(email, password);
 
     if (success) {
-     
       navigate("/");
     } else {
-   
       setError(store.error);
     }
   };
@@ -31,11 +29,11 @@ export function CustomerLoginForm() {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Correo Electrónico</label>
-            <input 
-              type="email" 
-              id="email" 
-              className="form-control" 
-              placeholder="Ingresa tu correo" 
+            <input
+              type="email"
+              id="email"
+              className="form-control"
+              placeholder="Ingresa tu correo"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -43,11 +41,11 @@ export function CustomerLoginForm() {
           </div>
           <div className="form-group">
             <label htmlFor="password">Contraseña</label>
-            <input 
-              type="password" 
-              id="password" 
-              className="form-control" 
-              placeholder="Ingresa tu contraseña" 
+            <input
+              type="password"
+              id="password"
+              className="form-control"
+              placeholder="Ingresa tu contraseña"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -60,6 +58,7 @@ export function CustomerLoginForm() {
         <hr className="login-separator" />
         <div className="register-link">
           <p>¿No estás registrado? <a href="/register">Regístrate</a></p>
+          <p>¿Olvidaste tu contraseña? <a href="/reset-password">Recupérala aquí</a></p>
         </div>
       </div>
     </div>
