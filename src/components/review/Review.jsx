@@ -8,7 +8,7 @@ export const Review = () => {
 
   useEffect(() => {
     actions.getReviews(id); // llamar a la acción para obtener los comentarios del camping específico
-  }, [id, actions]);
+  }, [id]);
 
   return (
     <>

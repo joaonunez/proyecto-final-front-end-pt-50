@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useParams } from 'react-router-dom';
 
 const AvailableSites = ({ onSiteSelect }) => {
   const [sites, setSites] = useState([]);
   const [selectedSite, setSelectedSite] = useState(null);
+const {id}=useParams()
 
   useEffect(() => {
-    fetch('http://localhost:3001/site/site{camping_id}') // Si el endpoint es para obtener todos los sitios
+    fetch('http://localhost:3001/site/'+id) // Si el endpoint es para obtener todos los sitios
       .then((response) => response.json())
       .then((data) => setSites(data))
       .catch((error) => console.error('Error fetching sites:', error));
