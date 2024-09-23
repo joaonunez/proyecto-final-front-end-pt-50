@@ -29,7 +29,7 @@ export function CampingCard({ id }) {
         <>
 
 
-            <div className="container-fluid camping-card mt-5 row">
+            <div className="container-fluid camping-card mt-5" style={{width:"83rem"}}>
                 <div className="camping-logo col-3">
                     <img
                         className="camping-logo-image"

@@ -13,12 +13,10 @@ export const Review = () => {
   return (
     <>
       {store.reviews.map(review => (
-
-        <div className='review'>
+        <div className='review'key={review.id}>
           <div className="container mt-3">
             <div className="row">
-
-              <div className="col-md-4" key={review.id}>
+              <div className="col-md-4">
                 <div className="card-comment">
                   <div className="card-body">
                     <h5 className="card-title">{review.user.first_name} {review.user.last_name}</h5>
@@ -34,12 +32,8 @@ export const Review = () => {
             </div>
           </div>
         </div>
-
       ))}
-
-
     </>
-
   );
 };
 
