@@ -22,7 +22,6 @@ function App() {
     <>
       <Router>
         <Nav />
-        <Footter />
         <Routes>
             <Route path="/" element={< Home/>} />
             <Route path="/camping/:id" element={<Camping/>} />
