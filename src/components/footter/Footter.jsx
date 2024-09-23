@@ -1,11 +1,11 @@
 import React from "react";
-import '../../assets/css/components/footer/footer.css'; 
+import '../../assets/css/components/footter/footter.css'; 
 import { FaFacebook, FaInstagram, FaTiktok, FaGithub, FaTwitter } from "react-icons/fa"; 
 import { Link } from "react-router-dom"; 
 
-export function Footer() {
+export function Footter() {
     return (
-        <footer className="footer bg-black" style={{padding: "20px", alignItems: "bottom"}}> 
+        <footer className="footer bg-black">
             <div className="container-fluid">
                 <div className="row">   
                     <div className="col-lg-3 col-md-6 mb-5 mb-lg-0">

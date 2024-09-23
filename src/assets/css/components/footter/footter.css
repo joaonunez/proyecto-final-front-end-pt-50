@@ -4,8 +4,9 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    background-color: #be1b1b;
-    z-index: -1;
+    padding-top: 90px;
+    padding-bottom: 45px;
+    background-color: #000;
 }
 
 .logofooter {

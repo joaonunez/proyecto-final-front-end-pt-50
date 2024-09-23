@@ -40,7 +40,7 @@ export const Booking = () => {
                     </div>
                 </div>
                 <div className='pasarela-pago'>
-                    <a href='https://publico.transbank.cl/'>
+                    < a href=''>
                         <img src="https://risi.cl/wp-content/uploads/2022/08/9386b0c2-9abb-4893-ba44-2710767a6c6c.jpg" alt="" />
                     </a>
                 </div>
