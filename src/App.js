@@ -13,9 +13,10 @@ import { ProviderLogin } from "./views/login/ProviderLogin";
 import { ProviderRegister } from "./views/register/ProviderRegister";
 import { Review } from "./components/review/review";
 import { Booking } from "./components/booking/Booking";
-
 import CampingSite from "./components/site/CampingSite";
 import { Footer } from "./components/footer/Footer";
+import { ProviderDashboard } from "./views/provider-camping/ProviderDashboard";
+
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
             <Route path="/review" element={<Review />} />
             <Route path="/booking" element={<Booking />} />
             <Route path="/campingSite" element={<CampingSite />} />
+            <Route path="/provider-dashboard" element={<ProviderDashboard />} /> 
           </Routes>
         </div>
         <Footer />
