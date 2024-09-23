@@ -2,9 +2,10 @@ const getState = ({ getActions, getStore, setStore }) => {
   return {
     store: {
       user: null,
-      token: null, 
+      token: null,
       error: null,
-      campings:[],
+      campings: [],
+      reviews:{},
     },
     actions: {
       registerProvider: async (providerData) => {
@@ -16,15 +17,15 @@ const getState = ({ getActions, getStore, setStore }) => {
             },
             body: JSON.stringify({
               ...providerData,
-              role_id: 2, 
+              role_id: 2,
             }),
           });
-  
+
           if (response.ok) {
-            return true; 
+            return true;
           } else {
             console.error("Error al registrar el proveedor");
-            return false; 
+            return false;
           }
         } catch (err) {
           console.error("Error en la solicitud de registro:", err);
@@ -40,15 +41,15 @@ const getState = ({ getActions, getStore, setStore }) => {
             },
             body: JSON.stringify({
               ...userData,
-              role_id: 3, 
+              role_id: 3,
             }),
           });
-  
+
           if (response.ok) {
-            return true; 
+            return true;
           } else {
             console.error("Error al registrar el usuario");
-            return false; 
+            return false;
           }
         } catch (err) {
           console.error("Error en la solicitud de registro:", err);
@@ -64,9 +65,9 @@ const getState = ({ getActions, getStore, setStore }) => {
             },
             body: JSON.stringify({ email, password }),
           });
-  
+
           const result = await response.json();
-  
+
           if (response.ok) {
             // Guardar usuario y token en el store y localStorage.
             setStore({ user: result.user, token: result.token, error: null });
@@ -84,7 +85,7 @@ const getState = ({ getActions, getStore, setStore }) => {
         }
       },
       logout: () => {
-        setStore({ user: null, token: null }); 
+        setStore({ user: null, token: null });
         localStorage.removeItem("user"); // eliminar el user del localstorage
         localStorage.removeItem("token"); // eliminar el token del localstorage
       },
@@ -112,6 +113,25 @@ const getState = ({ getActions, getStore, setStore }) => {
         } catch (err) {
           console.error("Error fetching campings:", err);
           setStore({ error: "Error al cargar campings. Por favor, intenta nuevamente." });
+        }
+      },
+      // carga de comentarios para cada camping
+      getReviews: async (campingId) => {
+        const store = getStore();
+        try {
+          const response = await fetch(`http://localhost:3001/review/camping/${campingId}/reviews`, {
+            headers: {
+              Authorization: `Bearer ${store.token}`,
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setStore({ reviews: data });
+          } else {
+            console.error("Error al obtener los comentarios del camping.");
+          }
+        } catch (err) {
+          console.error("Error en la solicitud de comentarios del camping:", err);
         }
       },
     }

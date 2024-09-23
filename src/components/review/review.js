@@ -1,52 +1,35 @@
-import React from 'react'
+import React, { useEffect, useContext } from 'react';
+import { Context } from "../../store/context";
 
-const users = [
-   {
+export const Review = ({ campingId }) => { 
+  const { store, actions } = useContext(Context);
 
-      id: 1,
-      name: "Juan Perez",
-      description: "¡Un lugar increíble para acampar! La naturaleza es espectacular.",
-      image: "https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001877.png",
-   }
-   ,
-   {
-      id: 2,
-      name: "Juan Perez",
-      description: "¡Un lugar increíble para acampar! La naturaleza es espectacular.",
-      image: "https://png.pngtree.com/png-clipart/20230927/original/pngtree-man-avatar-image-for-profile-png-image_13001877.png"
-   }
-]
+  useEffect(() => {
+    if (store.user) {
+      actions.getReviews(campingId); 
+    }
+  }, [store.user, actions, campingId]);
 
-export const Review = () => {
-   return (
-      <div className='review'>
-         <div class="container mt-3">
-            <div class="row">
-               {
-                  users.map(user => {
-                     return (
-                        <div class="col-md-4">
-                           <div class="card-comment">
-                              <div class="card-body d-flex">
-                                 <img src={user.image} alt="Perfil" class="profile-pic me-3"
-                                    style={{ width: "5rem", height: "5rem" }} />
-                                 <div>
-                                    <h5 class="card-title">{user.name}</h5>
-                                    <div class="rating">
-                                       muy buena
-                                    </div>
-                                    <p class="card-text">{user.description}</p>
-                                    <small class="text-muted">Hace 2 horas</small>
-                                 </div>
-                              </div>
-
-                           </div>
-                        </div>
-                     )
-                  })
-               }
+  return (
+    <div className='review'>
+      <div className="container mt-3">
+        <div className="row">
+          {store.reviews.map(review => (
+            <div className="col-md-4" key={review.id}>
+              <div className="card-comment">
+                <div className="card-body">
+                  <h5 className="card-title">{review.user.first_name} {review.user.last_name}</h5>
+                  <div className="rating">
+                    {`Calificación: ${review.rating}`}
+                  </div>
+                  <p className="card-text">{review.comment}</p>
+                  <small className="text-muted">{new Date(review.date).toLocaleString()}</small>
+                </div>
+              </div>
             </div>
-         </div>
+          ))}
+        </div>
       </div>
-   )
-}
+    </div>
+  );
+};

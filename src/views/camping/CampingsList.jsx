@@ -9,7 +9,7 @@ import { FaHotTubPerson } from "react-icons/fa6";
 import { GiCampingTent } from "react-icons/gi";
 
 
-export function Campings() {
+export function CampingsList() {
     
     const [campings, setCampings] = useState([]);
 
