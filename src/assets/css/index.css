@@ -1,0 +1,30 @@
+body {
+    height: 100%;
+    margin: 0;
+    display: grid;
+    min-height: 100vh;
+    grid-template-rows: auto 1fr auto;
+}
+footer {
+position: bottom;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.flex-column {
+    flex-direction: column !important;
+}
+
+.flex-grow-1 {
+    flex-grow: 1 !important;
+}
+
+.min-vh-100 {
+    min-height: 100vh !important;
+}
+
+footer {
+    margin-top: auto;
+}

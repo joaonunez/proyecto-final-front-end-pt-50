@@ -14,45 +14,6 @@
 @import url('components/home/home.css');
 @import url('components/review-app/review.css');
 @import url('components/booking.css/booking.css');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@import url('components/footer/footer.css');
+@import url('./index.css');
+@import url('components/site/site.css');
