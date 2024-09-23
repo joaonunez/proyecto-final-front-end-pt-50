@@ -1,0 +1,116 @@
+.provider-campings-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: #e0f7fa;
+    min-height: 100vh;
+}
+
+.campings-header {
+    font-size: 2.5rem;
+    color: #004d40;
+    margin-bottom: 2rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.campings-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    width: 80%;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.camping-card {
+    background-color: #00796b;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 600px; /* Ancho de la tarjeta */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.camping-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.camping-image {
+    width: 100%;
+    height: 300px; /* Altura de la imagen */
+    object-fit: cover;
+}
+
+.camping-content {
+    padding: 1.5rem;
+}
+
+.camping-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #ffd54f;
+}
+
+.camping-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.camping-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.camping-label {
+    font-weight: bold;
+    color: #fbc02d;
+    flex-basis: 30%;
+}
+
+.camping-value {
+    flex-basis: 65%;
+    font-size: 1rem;
+    word-wrap: break-word;
+}
+
+.camping-link {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.75rem 1.25rem;
+    background-color: #fbc02d;
+    color: #004d40;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.camping-link:hover {
+    background-color: #ffd54f;
+    color: #004d40;
+}
+
+.error {
+    color: #e57373;
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.loading-message {
+    font-size: 1.3rem;
+    color: #004d40;
+}
