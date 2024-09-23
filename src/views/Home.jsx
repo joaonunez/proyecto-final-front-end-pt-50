@@ -1,6 +1,7 @@
 import React from "react";
 import { Banner } from "../components/home/Banner";
 import '../assets/css/components/home/home.css';
+import { Footter } from "../components/footter/Footter";
 
 
 export function Home() {
@@ -29,7 +30,7 @@ export function Home() {
                         </button>
                     </form>
                 </div>
-                <Banner />
+                <Banner /> 
             </div>
         </div>
     );

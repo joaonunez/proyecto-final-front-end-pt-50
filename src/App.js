@@ -13,6 +13,8 @@ import { ProviderLogin } from "./views/login/ProviderLogin";
 import { ProviderRegister } from "./views/register/ProviderRegister";
 import { Review } from "./components/review/review";
 import { Booking } from "./components/booking/Booking";
+import { Footter } from "./components/footter/Footter";
+import CampingSite from "./components/site/CampingSite";
 
 
 function App() {
@@ -20,6 +22,7 @@ function App() {
     <>
       <Router>
         <Nav />
+        <Footter />
         <Routes>
             <Route path="/" element={< Home/>} />
             <Route path="/camping/:id" element={<Camping/>} />
@@ -33,7 +36,8 @@ function App() {
             <Route path="provider-register" element={<ProviderRegister/>} />
             <Route path="/review" element={<Review/>} />
             <Route path="/booking" element={<Booking/>} />
-
+            <Route path="/footter" element={<Footter/>} />
+            <Route path="/campingSite" element={<CampingSite/>} />
         </Routes>
       </Router>
     </>

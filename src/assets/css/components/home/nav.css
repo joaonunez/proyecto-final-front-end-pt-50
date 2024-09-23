@@ -107,7 +107,7 @@
 }
 
 .nav-item .active {
-    border-bottom: 2px solid #ffd54f;
+    border-bottom: 2px solid #ffd54f !important;
 }
 
 .navbar-text {
