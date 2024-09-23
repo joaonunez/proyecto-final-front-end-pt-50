@@ -7,27 +7,27 @@ import { AboutUs } from "./views/AboutUs";
 import { Contact } from "./views/Contact";
 import { Login } from "./views/login/CustomerLogin";
 import { Register } from "./views/register/CustomerRegister";
-import { Campings } from "./views/camping/Campings-List";
+import { CampingsList } from "./views/camping/CampingsList";
 import { Prereserva } from "./components/Prereserva/Prerserva";
 import { ProviderLogin } from "./views/login/ProviderLogin";
 import { ProviderRegister } from "./views/register/ProviderRegister";
-import { Review } from "./components/review/review";
+import { Review } from "./components/review/Review";
 import { Booking } from "./components/booking/Booking";
-import { Footer } from "./components/footer/Footer";
 import CampingSite from "./components/site/CampingSite";
-import './assets/css/index.css';
-import './assets/css/main.css';
+import { Footer } from "./components/footer/Footer";
+import { ProviderDashboard } from "./views/provider-camping/ProviderDashboard";
+
 
 function App() {
   return (
-    <Router>
-      <div className="d-flex flex-column min-vh-100">
+    <div className="main-container">
+      <Router>
         <Nav />
-        <div className="flex-grow-1">
+        <div className="content-container">
           <Routes>
-            <Route path="/" element={< Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="/camping/:id" element={<Camping />} />
-            <Route path="/campings" element={<Campings />} />
+            <Route path="/campings" element={<CampingsList />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
@@ -38,14 +38,12 @@ function App() {
             <Route path="/review" element={<Review />} />
             <Route path="/booking" element={<Booking />} />
             <Route path="/campingSite" element={<CampingSite />} />
-            <Route path="/footer" element={<Footer />} />
+            <Route path="/provider-dashboard" element={<ProviderDashboard />} /> 
           </Routes>
         </div>
-        <div className="footer d-flex align-items-end">
-          <Footer />
-        </div>
-      </div>
-    </Router>
+        <Footer />
+      </Router>
+    </div>
   );
 }
 
