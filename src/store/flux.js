@@ -159,11 +159,6 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("Error en la solicitud de comentarios del camping:", err);
         }
       },
-      getSiteByCamping: async (campingId) => {
-        const store = getStore();
-
-
-      }
     }
   };
 };
