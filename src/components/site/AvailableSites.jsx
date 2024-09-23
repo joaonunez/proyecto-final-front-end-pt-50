@@ -6,7 +6,7 @@ const AvailableSites = ({ onSiteSelect }) => {
   const [selectedSite, setSelectedSite] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3001/site') // Si el endpoint es para obtener todos los sitios
+    fetch('http://localhost:3001/site/site{camping_id}') // Si el endpoint es para obtener todos los sitios
       .then((response) => response.json())
       .then((data) => setSites(data))
       .catch((error) => console.error('Error fetching sites:', error));

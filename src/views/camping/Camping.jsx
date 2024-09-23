@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom"
 import CampingSite from "../../components/site/CampingSite";
 import { CampingCard } from "../../components/camping/camping-card";
+import { Review } from "../../components/review/Review";
 
 
 
@@ -13,6 +14,8 @@ import { CampingCard } from "../../components/camping/camping-card";
             < CampingCard id={id} />
            
             <CampingSite />
+
+            <Review />
 
         </>
     );

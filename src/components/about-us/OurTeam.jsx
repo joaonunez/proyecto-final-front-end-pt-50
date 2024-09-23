@@ -23,7 +23,7 @@ export function OurTeam() {
         </div>
         <div className="team-member">
           <h4>José Antonio</h4>
-          <p>Desarrollador Backend</p>
+          <p>Desarrollador Backend & Scrum Master</p>
         </div>
       </div>
     </section>

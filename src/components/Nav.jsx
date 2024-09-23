@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import logo from "../assets/images/logo/logocamping.jpg";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdForest } from "react-icons/md";
 import { GiCampingTent } from "react-icons/gi";
@@ -18,15 +19,11 @@ export function Nav() {
     actions.logout();
     navigate("/login");
   };
-<nav class="navbar navbar-expand-lg navigation fixed-top" id="navbar">
-	<div class="container-fluid">
-	</div>
-</nav>
 
   return (
     <nav className="navbar navbar-expand-lg navigation fixed-top">
       <div className="container-fluid">
-        <img src="https://catarsiscreativa.com/camping_app/img/logoCamping.png" alt="Logo Camping" className="logo-nav" />
+        <img src={logo} alt="Logo Camping" className="logo-nav" />
         <button
           className="navbar-toggler"
           type="button"
@@ -55,7 +52,7 @@ export function Nav() {
               <Link
                 to="/campings"
                 className={`nav-link ${
-                  location.pathname === "/camping" ? "active" : ""
+                  location.pathname === "/campings" ? "active" : ""
                 }`}
               >
                 Campings <GiCampingTent />
@@ -86,7 +83,7 @@ export function Nav() {
           {store.user ? (
             <div className="d-flex align-items-center">
               <span className="navbar-text me-3">
-                Bienvenido, {store.user.first_name}
+                Bienvenido, {store.user.first_name + " " + store.user.last_name}
               </span>
 
               <div className="btn-group">
@@ -99,6 +96,20 @@ export function Nav() {
                   <TbTableOptions />
                 </button>
                 <ul className="dropdown-menu dropdown-menu-end">
+                  {store.user.role.id === 2 && ( // Proveedor
+                    <li>
+                      <Link className="dropdown-item" to="/provider-dashboard">
+                        Ver mis Campings
+                      </Link>
+                    </li>
+                  )}
+                  {store.user.role.id === 3 && ( // Cliente
+                    <li>
+                      <Link className="dropdown-item" to="/mis-reservas">
+                        Ver mis Reservas
+                      </Link>
+                    </li>
+                  )}
                   <li>
                     <Link className="dropdown-item" to="/configuracion">
                       Configuración

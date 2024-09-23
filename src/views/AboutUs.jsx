@@ -8,7 +8,6 @@ export function AboutUs() {
       <OurMission />
       <OurValues />
       <OurTeam />
-
     </div>
   );
 }

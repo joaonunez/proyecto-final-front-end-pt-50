@@ -1,5 +1,5 @@
 .navbar {
-    background-color: #004d40ae;
+    background-color: #004d40;  
     padding: 1rem;
     position: relative;
     display: -ms-flexbox;
@@ -10,7 +10,7 @@
     align-items: center;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    padding: .5rem 1rem
+    padding: .5rem 1rem;
 }
 
 .logo-nav {
@@ -27,12 +27,18 @@
     color: #fff;
     font-size: 1.5rem;
     margin-left: 1rem;
+    transition: color 0.3s ease;
 }
 
-.navbar-nav .nav-link:hover {
-    color: #cfd8dc;
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+    color: #ffd54f;
 }
 
+.navbar-nav .nav-link.active {
+    color: #ffd54f; 
+    border-bottom: 2px solid #ffd54f; 
+}
 
 .btn-login-nav {
     background-color: #fbc02d;
@@ -54,7 +60,6 @@
     color: #004d40;
 }
 
-
 .btn-camping-nav {
     background-color: #fbc02d;
     color: #004d40;
@@ -74,7 +79,6 @@
     background-color: #ffd54f;
     color: #004d40;
 }
-
 
 .btn-settings-nav {
     background-color: #fbc02d;
@@ -108,6 +112,7 @@
 
 .nav-item .active {
     border-bottom: 2px solid #ffd54f !important;
+    color: #ffd54f;
 }
 
 .navbar-text {
