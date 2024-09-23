@@ -11,7 +11,7 @@ import { CampingsList } from "./views/camping/CampingsList";
 import { Prereserva } from "./components/Prereserva/Prerserva";
 import { ProviderLogin } from "./views/login/ProviderLogin";
 import { ProviderRegister } from "./views/register/ProviderRegister";
-import { Review } from "./components/review/review";
+import { Review } from "./components/review/Review";
 import { Booking } from "./components/booking/Booking";
 import CampingSite from "./components/site/CampingSite";
 import { Footer } from "./components/footer/Footer";

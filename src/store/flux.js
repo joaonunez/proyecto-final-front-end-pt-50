@@ -5,7 +5,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       token: null,
       error: null,
       campings: [],
-      reviews:{},
+      reviews: [],
     },
     actions: {
       registerProvider: async (providerData) => {
@@ -17,7 +17,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             },
             body: JSON.stringify({
               ...providerData,
-              role_id: 2,
+              role_id: 2, //para registrar un usuario con el rol de proveedor desde su seccion visual del register user
             }),
           });
 
@@ -41,7 +41,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             },
             body: JSON.stringify({
               ...userData,
-              role_id: 3,
+              role_id: 3, //para registrar un usuario con el rol de cliente desde su seccion visual del register user
             }),
           });
 
@@ -56,6 +56,7 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
+      //metodo post para logearse en la aplicacion
       login: async (email, password) => {
         try {
           const response = await fetch("http://localhost:3001/user/login", {
@@ -69,10 +70,11 @@ const getState = ({ getActions, getStore, setStore }) => {
           const result = await response.json();
 
           if (response.ok) {
-            // Guardar usuario y token en el store y localStorage.
+            // si las credenciales son validas, declaramos el user en el store asi como tambien su token
             setStore({ user: result.user, token: result.token, error: null });
-            localStorage.setItem("user", JSON.stringify(result.user));
-            localStorage.setItem("token", result.token); // Guardar el token.
+            
+            localStorage.setItem("user", JSON.stringify(result.user)); //se agrega el user al local storage
+            localStorage.setItem("token", result.token); //se agrega el token al local storage
             return true;
           } else {
             setStore({ error: result.error });
@@ -86,27 +88,50 @@ const getState = ({ getActions, getStore, setStore }) => {
       },
       logout: () => {
         setStore({ user: null, token: null });
-        localStorage.removeItem("user"); // eliminar el user del localstorage
-        localStorage.removeItem("token"); // eliminar el token del localstorage
+        localStorage.removeItem("user"); //al cerrar sesion se remueve el usuario del store y del local storage
+        localStorage.removeItem("token"); // lo mismo de arriba en base al token
       },
       loadUserFromStorage: () => {
-        const user = JSON.parse(localStorage.getItem("user"));
-        const token = localStorage.getItem("token"); //cargar el token del localstorage
+        const user = JSON.parse(localStorage.getItem("user")); //preguntar al profe si es seguro eso en localstorage
+        const token = localStorage.getItem("token"); //(preguntar)
         if (user && token) {
-          setStore({ user, token }); // establecer el usuario y el token en el store
+          setStore({ user, token });
         }
       },
+      //metodo para obtener todos los campings en  la vistaC ampingsList
+      getCampings: async () => {
+        try {
+          const response = await fetch("http://localhost:3001/camping/camping", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            setStore({ campings: data });
+          } else {
+            console.error("Error al obtener campings.");
+          }
+        } catch (err) {
+          console.error("Error en la solicitud de campings:", err);
+        }
+      },
+      //para obtener todos los campings de los que sea dueño un proveedor mediante su id en su dashboard
       getProviderCampings: async () => {
         const store = getStore();
         try {
           const response = await fetch(`http://localhost:3001/camping/provider/${store.user.id}/campings`, {
             headers: {
-              Authorization: `Bearer ${store.token}`, // usamos el token desde el store
+              Authorization: `Bearer ${store.token}`,//esto es para validar y autenticar a los usuarios para ver si el usuario tiene permiso para acceder a ciertos recursos del servidor 
+              //en cada solicitud se debe validad la identdiad y permisos del usuario
+              //se verifificara el token almacenado en el store.
             },
           });
           if (response.ok) {
             const data = await response.json();
-            setStore({ campings: data, error: null }); // actualizamos el store con los campings obtenidos
+            setStore({ campings: data, error: null });
           } else {
             setStore({ campings: [], error: "No se encontraron campings para este proveedor." });
           }
@@ -115,13 +140,13 @@ const getState = ({ getActions, getStore, setStore }) => {
           setStore({ error: "Error al cargar campings. Por favor, intenta nuevamente." });
         }
       },
-      // carga de comentarios para cada camping
+      //para obtener unos reviews atraves del useparams en el componente Camping.jsx, para asi poder obntener los reviews de cada camping
       getReviews: async (campingId) => {
         const store = getStore();
         try {
           const response = await fetch(`http://localhost:3001/review/camping/${campingId}/reviews`, {
             headers: {
-              Authorization: `Bearer ${store.token}`,
+              Authorization: `Bearer ${store.token}`,//preguntar al profe si es necesario tener esto aqui, ya que los reviews son algo publico que todos pueden ver
             },
           });
           if (response.ok) {
@@ -139,3 +164,17 @@ const getState = ({ getActions, getStore, setStore }) => {
 };
 
 export default getState;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

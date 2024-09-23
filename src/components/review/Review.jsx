@@ -1,14 +1,14 @@
 import React, { useEffect, useContext } from 'react';
 import { Context } from "../../store/context";
+import { useParams } from 'react-router-dom';
 
-export const Review = ({ campingId }) => { 
+export const Review = () => { 
   const { store, actions } = useContext(Context);
+  const { id } = useParams(); // obtenemos el ID del camping desde la URL
 
   useEffect(() => {
-    if (store.user) {
-      actions.getReviews(campingId); 
-    }
-  }, [store.user, actions, campingId]);
+    actions.getReviews(id); // llamar a la acción para obtener los comentarios del camping específico
+  }, [id, actions]);
 
   return (
     <div className='review'>
@@ -33,3 +33,15 @@ export const Review = ({ campingId }) => {
     </div>
   );
 };
+
+
+
+
+
+
+
+
+
+
+
+
