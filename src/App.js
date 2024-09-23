@@ -13,34 +13,35 @@ import { ProviderLogin } from "./views/login/ProviderLogin";
 import { ProviderRegister } from "./views/register/ProviderRegister";
 import { Review } from "./components/review/review";
 import { Booking } from "./components/booking/Booking";
-import { Footter } from "./components/footter/Footter";
-import CampingSite from "./components/site/CampingSite";
 
+import CampingSite from "./components/site/CampingSite";
+import { Footer } from "./components/footer/Footer";
 
 function App() {
   return (
-    <>
+    <div className="main-container">
       <Router>
         <Nav />
-        <Footter />
-        <Routes>
-            <Route path="/" element={< Home/>} />
-            <Route path="/camping/:id" element={<Camping/>} />
+        <div className="content-container">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/camping/:id" element={<Camping />} />
             <Route path="/campings" element={<Campings />} />
-            <Route path="/about-us" element={<AboutUs/>} />
-            <Route path="/contact" element={<Contact/>} />
-            <Route path="/login" element={<Login/>} />
-            <Route path="/prereserva" element={<Prereserva/>} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/prereserva" element={<Prereserva />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/provider-login" element={<ProviderLogin/>} />
-            <Route path="provider-register" element={<ProviderRegister/>} />
-            <Route path="/review" element={<Review/>} />
-            <Route path="/booking" element={<Booking/>} />
-            <Route path="/footter" element={<Footter/>} />
-            <Route path="/campingSite" element={<CampingSite/>} />
-        </Routes>
+            <Route path="/provider-login" element={<ProviderLogin />} />
+            <Route path="/provider-register" element={<ProviderRegister />} />
+            <Route path="/review" element={<Review />} />
+            <Route path="/booking" element={<Booking />} />
+            <Route path="/campingSite" element={<CampingSite />} />
+          </Routes>
+        </div>
+        <Footer />
       </Router>
-    </>
+    </div>
   );
 }
 

@@ -56,7 +56,7 @@ export function Nav() {
               <Link
                 to="/campings"
                 className={`nav-link ${
-                  location.pathname === "/camping" ? "active" : ""
+                  location.pathname === "/campings" ? "active" : ""
                 }`}
               >
                 Campings <GiCampingTent />
