@@ -72,7 +72,7 @@ const getState = ({ getActions, getStore, setStore }) => {
           if (response.ok) {
             // si las credenciales son validas, declaramos el user en el store asi como tambien su token
             setStore({ user: result.user, token: result.token, error: null });
-            
+
             localStorage.setItem("user", JSON.stringify(result.user)); //se agrega el user al local storage
             localStorage.setItem("token", result.token); //se agrega el token al local storage
             return true;
@@ -158,12 +158,31 @@ const getState = ({ getActions, getStore, setStore }) => {
         } catch (err) {
           console.error("Error en la solicitud de comentarios del camping:", err);
         }
+
       },
+      getSiteByCamping: async (campingId) => {
+        const store = getStore();
+        try {
+          const response = await fetch(`http://localhost:3001/site/camping/${campingId}/sites`, {
+            headers: {
+              Authorization: `Bearer ${store.token}`,
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setStore({ site: data });
+          } else {
+            console.error("error al obtener los sitios del camping");
+          }
+        } catch (err) {
+          console.error("Error en la solicitud de sitios del camping:", err);
+        }
+      }
     }
   };
 };
 
-export default getState;
+  export default getState;
 
 
 

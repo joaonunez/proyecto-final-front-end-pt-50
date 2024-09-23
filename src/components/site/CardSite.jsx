@@ -15,7 +15,7 @@ const CardSite = ({ siteId }) => {
 
   useEffect(() => {
     if (siteId) {
-      fetch(`http://localhost:3001/site/${siteId}`) 
+      fetch(`http://localhost:3001/site/site${siteId}`) 
         .then((response) => response.json())
         .then((data) => {
           setSiteData(data);
@@ -28,7 +28,7 @@ const CardSite = ({ siteId }) => {
 
   const handleClick = () => {
     console.log("Botón de reservar presionado");
-    // Lógica adicional para reservar el sitio
+  
   };
 
   if (!siteData) return <div>Selecciona un sitio para ver los detalles</div>;
