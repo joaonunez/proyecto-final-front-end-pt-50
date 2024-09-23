@@ -7,11 +7,11 @@ import { AboutUs } from "./views/AboutUs";
 import { Contact } from "./views/Contact";
 import { Login } from "./views/login/CustomerLogin";
 import { Register } from "./views/register/CustomerRegister";
-import { Campings } from "./views/camping/Campings-List";
+import { CampingsList } from "./views/camping/CampingsList";
 import { Prereserva } from "./components/Prereserva/Prerserva";
 import { ProviderLogin } from "./views/login/ProviderLogin";
 import { ProviderRegister } from "./views/register/ProviderRegister";
-import { Review } from "./components/review/review";
+import { Review } from "./components/review/Review";
 import { Booking } from "./components/booking/Booking";
 import CampingSite from "./components/site/CampingSite";
 import { Footer } from "./components/footer/Footer";
@@ -27,7 +27,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/camping/:id" element={<Camping />} />
-            <Route path="/campings" element={<Campings />} />
+            <Route path="/campings" element={<CampingsList />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
