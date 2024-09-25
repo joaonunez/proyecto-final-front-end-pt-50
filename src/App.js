@@ -17,6 +17,7 @@ import CampingSite from "./components/site/CampingSite";
 import { Footer } from "./components/footer/Footer";
 import { ProviderDashboard } from "./views/provider-camping/ProviderDashboard";
 import { ReservationCard } from "./components/reservation/Reservation";
+import { Formulario } from "./components/formularios/Formulario";
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
             <Route path="/campingSite" element={<CampingSite />} />
             <Route path="/provider-dashboard" element={<ProviderDashboard />} /> 
             <Route path="/mis-reservas" element={< ReservationCard />} /> 
+            <Route path="/formulario" element={<Formulario />} /> 
           </Routes>
         </div>
         <Footer />

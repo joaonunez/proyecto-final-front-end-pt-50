@@ -114,3 +114,14 @@
     font-size: 1.3rem;
     color: #004d40;
 }
+
+
+.ver-camping button{
+    height: 49px;
+    margin-top: 3%;
+    color: #004d40;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
