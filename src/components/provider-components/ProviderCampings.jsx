@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { Context } from "../../store/context";
+import { Link } from "react-router-dom";
 
 export function ProviderCampings() {
   const { store, actions } = useContext(Context);
@@ -54,14 +55,26 @@ export function ProviderCampings() {
                     <p className="camping-value">{camping.region}</p>
                   </div>
                 </div>
-                <a
-                  href={camping.url_web}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="camping-link"
-                >
-                  Ver Camping
-                </a>
+                <div className="ver-camping">
+                  <div class="gap-2 d-md-flex justify-content-md-end">
+                    <a
+                      href={camping.url_web}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="camping-link"
+                    >
+                      Ver Camping
+
+                    </a>
+                    <Link to="/formulario">
+                    <button class="btn btn-warning md-2" type="button">Editar</button>
+                    </Link>
+                    <button class="btn btn-warning" type="button">Eliminar</button>
+                  </div>
+
+                </div>
+
+
               </div>
             </div>
           ))}
