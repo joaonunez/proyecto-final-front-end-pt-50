@@ -16,6 +16,7 @@ import { Booking } from "./components/booking/Booking";
 import CampingSite from "./components/site/CampingSite";
 import { Footer } from "./components/footer/Footer";
 import { ProviderDashboard } from "./views/provider-camping/ProviderDashboard";
+import { ReservationCard } from "./components/reservation/Reservation";
 
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
             <Route path="/booking" element={<Booking />} />
             <Route path="/campingSite" element={<CampingSite />} />
             <Route path="/provider-dashboard" element={<ProviderDashboard />} /> 
+            <Route path="/mis-reservas" element={< ReservationCard />} /> 
           </Routes>
         </div>
         <Footer />

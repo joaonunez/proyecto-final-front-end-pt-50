@@ -11,7 +11,7 @@ export function CampingsList() {
 
   useEffect(() => {
     actions.getCampings(); // ñlamamos a la accion para obtener los campings
-  }, [actions]);
+  }, []); //actions eliminada ya que generaba bucle infinito 
 
   return (
     <>
