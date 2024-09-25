@@ -56,18 +56,15 @@ export function ProviderCampings() {
                   </div>
                 </div>
                 <div className="ver-camping">
+                  <div class="d-grid gap-2">
+                    <Link to={camping.url_web} target="_blank"
+                    rel="noopener noreferrer">
+                    <button class="btn btn-warning" type="button">Ver Camping</button>
+                    </Link>
+                  </div> 
                   <div class="gap-2 d-md-flex justify-content-md-end">
-                    <a
-                      href={camping.url_web}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="camping-link"
-                    >
-                      Ver Camping
-
-                    </a>
                     <Link to="/formulario">
-                    <button class="btn btn-warning md-2" type="button">Editar</button>
+                      <button class="btn btn-warning" type="button">Editar</button>
                     </Link>
                     <button class="btn btn-warning" type="button">Eliminar</button>
                   </div>

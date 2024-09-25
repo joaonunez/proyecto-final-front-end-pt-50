@@ -1,5 +1,6 @@
-import React from 'react'
+
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export const Formulario = () => {
 
@@ -51,7 +52,7 @@ export const Formulario = () => {
                     </div>
                     <div className="col-md-5">
                         <label htmlFor="region" className="form-label">Región</label>
-                        <select className="form-select" id="region" required value={region} onChange={handleRegionChange}>
+                        <select className="form-control" id="region" required value={region} onChange={handleRegionChange}>
                             <option value="" disabled>Seleccione una región</option>
                             {Object.keys(comunasData).map((reg) => (
                                 <option key={reg} value={reg}>{reg}</option>
@@ -60,7 +61,7 @@ export const Formulario = () => {
                     </div>
                     <div className="col-md-5">
                         <label htmlFor="comuna" className="form-label">Comuna</label>
-                        <select className="form-select" id="comuna" required value={comuna} onChange={(e) => setComuna(e.target.value)}>
+                        <select className="form-control" id="comuna" required value={comuna} onChange={(e) => setComuna(e.target.value)}>
                             <option value="" disabled>Seleccione una comuna</option>
                             {region && comunasData[region].map((com) => (
                                 <option key={com} value={com}>{com}</option>
@@ -106,6 +107,9 @@ export const Formulario = () => {
                     <div class="col-12">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <button class="btn btn-warning me-md-2" type="submit">Crear Camping</button>
+                            <Link to="/provider-dashboard">
+                            <button class="btn btn-warning me-md-2" type="submit">volver</button>
+                            </Link>
                         </div>
                     </div>
                 </form>
