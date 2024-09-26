@@ -6,7 +6,8 @@ const getState = ({ getActions, getStore, setStore }) => {
       error: null,
       campings: [],
       reviews: [],
-      reservations: []
+      reservations: [],
+      reservationsByUser: [],
     },
     actions: {
       registerProvider: async (providerData) => {
@@ -18,7 +19,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             },
             body: JSON.stringify({
               ...providerData,
-              role_id: 2, //para registrar un usuario con el rol de proveedor desde su seccion visual del register user
+              role_id: 2, // Registrar un usuario con el rol de proveedor
             }),
           });
 
@@ -42,7 +43,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             },
             body: JSON.stringify({
               ...userData,
-              role_id: 3, //para registrar un usuario con el rol de cliente desde su seccion visual del register user
+              role_id: 3, // Registrar un usuario con el rol de cliente
             }),
           });
 
@@ -57,7 +58,6 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
-      //metodo post para logearse en la aplicacion
       login: async (email, password) => {
         try {
           const response = await fetch("http://localhost:3001/user/login", {
@@ -94,17 +94,16 @@ const getState = ({ getActions, getStore, setStore }) => {
       },
       logout: () => {
         setStore({ user: null, token: null });
-        localStorage.removeItem("user"); //al cerrar sesion se remueve el usuario del store y del local storage
-        localStorage.removeItem("token"); // lo mismo de arriba en base al token
+        localStorage.removeItem("user"); // Remueve el usuario del store y del local storage
+        localStorage.removeItem("token"); // Remueve el token del store y del local storage
       },
       loadUserFromStorage: () => {
-        const user = JSON.parse(localStorage.getItem("user")); //preguntar al profe si es seguro eso en localstorage
-        const token = localStorage.getItem("token"); //(preguntar)
+        const user = JSON.parse(localStorage.getItem("user"));
+        const token = localStorage.getItem("token");
         if (user && token) {
           setStore({ user, token });
         }
       },
-      //metodo para obtener todos los campings en  la vistaC ampingsList
       getCampings: async () => {
         try {
           const response = await fetch("http://localhost:3001/camping/camping", {
@@ -124,15 +123,12 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("Error en la solicitud de campings:", err);
         }
       },
-      //para obtener todos los campings de los que sea dueño un proveedor mediante su id en su dashboard
       getProviderCampings: async () => {
         const store = getStore();
         try {
           const response = await fetch(`http://localhost:3001/camping/provider/${store.user.id}/campings`, {
             headers: {
-              Authorization: `Bearer ${store.token}`,//esto es para validar y autenticar a los usuarios para ver si el usuario tiene permiso para acceder a ciertos recursos del servidor 
-              //en cada solicitud se debe validad la identdiad y permisos del usuario
-              //se verifificara el token almacenado en el store.
+              Authorization: `Bearer ${store.token}`, // Validación del token
             },
           });
           if (response.ok) {
@@ -142,17 +138,15 @@ const getState = ({ getActions, getStore, setStore }) => {
             setStore({ campings: [], error: "No se encontraron campings para este proveedor." });
           }
         } catch (err) {
-          console.error("Error fetching campings:", err);
+          console.error("Error al obtener campings:", err);
           setStore({ error: "Error al cargar campings. Por favor, intenta nuevamente." });
         }
       },
-      //para obtener unos reviews atraves del useparams en el componente Camping.jsx, para asi poder obntener los reviews de cada camping
       getReviews: async (campingId) => {
-        const store = getStore();
         try {
           const response = await fetch(`http://localhost:3001/review/camping/${campingId}/reviews`, {
             headers: {
-              'Accept': 'application/json',
+              Accept: "application/json",
             },
           });
           if (response.ok) {
@@ -164,30 +158,28 @@ const getState = ({ getActions, getStore, setStore }) => {
         } catch (err) {
           console.error("Error en la solicitud de comentarios del camping:", err);
         }
-
       },
       getSiteByCamping: async (campingId) => {
         try {
           const response = await fetch(`http://localhost:3001/site/camping/${campingId}/sites`, {
             headers: {
-              'Accept': 'application/json',
+              Accept: "application/json",
             },
           });
           if (response.ok) {
             const data = await response.json();
             setStore({ site: data });
           } else {
-            console.error("error al obtener los sitios del camping");
+            console.error("Error al obtener los sitios del camping");
           }
         } catch (err) {
           console.error("Error en la solicitud de sitios del camping:", err);
         }
       },
-      //Traer data de reservas en relación al usuario logeado
       getReservationByUser: async () => {
-        const store = getStore(); 
+        const store = getStore();
         try {
-          const response = await fetch('http://localhost:3001/reservation/reservation', {
+          const response = await fetch("http://localhost:3001/reservation/reservation", {
             headers: {
               Authorization: `Bearer ${store.token}`,
             },
@@ -195,14 +187,13 @@ const getState = ({ getActions, getStore, setStore }) => {
           if (response.ok) {
             const data = await response.json();
             setStore({ reservations: data, error: null });
-          } else { 
-            setStore({ reservations: [], error: "No se encontraron reservaciones para este usuario."});
+          } else {
+            setStore({ reservations: [], error: "No se encontraron reservaciones para este usuario." });
           }
         } catch (error) {
-          console.error("Error fetching reservations:", error);
-          setStore({ error: "Error al cargar las reservaciones. Por favor, intente nuevamente."})        
+          console.error("Error al obtener las reservaciones:", error);
+          setStore({ error: "Error al cargar las reservaciones. Por favor, intenta nuevamente." });
         }
-      }
       },
       updateUser: async (userData) => {
         const store = getStore();
@@ -221,7 +212,6 @@ const getState = ({ getActions, getStore, setStore }) => {
             localStorage.setItem("user", JSON.stringify(updatedUser));
             return true;
           } else if (response.status === 401) {
-            //para intentar refrescar el token
             const tokenRefreshed = await getActions().refreshToken();
             if (tokenRefreshed) {
               return await getActions().updateUser(userData);
@@ -229,15 +219,14 @@ const getState = ({ getActions, getStore, setStore }) => {
             return false;
           } else {
             const errorData = await response.json();
-            console.error("Error updating user:", errorData);
+            console.error("Error al actualizar el usuario:", errorData);
             return false;
           }
         } catch (err) {
-          console.error("Error in updateUser:", err);
+          console.error("Error en updateUser:", err);
           return false;
         }
       },
-      
       updateEmail: async (emailData) => {
         const store = getStore();
         try {
@@ -250,22 +239,20 @@ const getState = ({ getActions, getStore, setStore }) => {
             body: JSON.stringify(emailData),
           });
           if (response.ok) {
-            /* const result = await response.json(); */
             let updatedUser = { ...store.user, email: emailData.email };
             setStore({ user: updatedUser });
             localStorage.setItem("user", JSON.stringify(updatedUser));
             return true;
           } else {
             const errorData = await response.json();
-            console.error("Error updating email:", errorData);
+            console.error("Error al actualizar el correo:", errorData);
             return false;
           }
         } catch (err) {
-          console.error("Error in updateEmail:", err);
+          console.error("Error en updateEmail:", err);
           return false;
         }
       },
-      
       updatePassword: async (passwordData) => {
         const store = getStore();
         try {
@@ -281,11 +268,11 @@ const getState = ({ getActions, getStore, setStore }) => {
             return true;
           } else {
             const errorData = await response.json();
-            console.error("Error updating password:", errorData);
+            console.error("Error al actualizar la contraseña:", errorData);
             return false;
           }
         } catch (err) {
-          console.error("Error in updatePassword:", err);
+          console.error("Error en updatePassword:", err);
           return false;
         }
       },
@@ -307,11 +294,11 @@ const getState = ({ getActions, getStore, setStore }) => {
             return true;
           } else {
             const errorData = await response.json();
-            console.error("Error updating phone:", errorData);
+            console.error("Error al actualizar el teléfono:", errorData);
             return false;
           }
         } catch (err) {
-          console.error("Error in updatePhone:", err);
+          console.error("Error en updatePhone:", err);
           return false;
         }
       },
@@ -322,7 +309,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${store.refreshToken}`, 
+              Authorization: `Bearer ${store.refreshToken}`,
             },
           });
 
@@ -332,7 +319,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             localStorage.setItem("token", result.token);
             return true;
           } else {
-            console.error("Error refreshing token.");
+            console.error("Error al refrescar el token.");
             return false;
           }
         } catch (err) {
@@ -340,20 +327,31 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
-    }
+      getReservationsByUserId: async (userId) => {
+        const store = getStore();
+        try {
+          const response = await fetch(`http://localhost:3001/reservation/user/${userId}/reservations`, {
+            headers: {
+              Authorization: `Bearer ${store.token}`,
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setStore({ reservationsByUser: data, error: null });
+            return true;
+          } else {
+            const errorData = await response.json();
+            setStore({ reservationsByUser: [], error: errorData.error || "Error al obtener reservaciones" });
+            return false;
+          }
+        } catch (error) {
+          console.error("Error al obtener reservaciones por ID de usuario:", error);
+          setStore({ error: "Error al cargar las reservaciones. Por favor, intenta nuevamente." });
+          return false;
+        }
+      },
+    },
   };
-  export default getState;
+};
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default getState;
