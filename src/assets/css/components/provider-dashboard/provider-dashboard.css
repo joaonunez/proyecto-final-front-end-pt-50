@@ -34,7 +34,6 @@
     overflow: hidden;
     width: 600px; /* Ancho de la tarjeta */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    display: flex;
     flex-direction: column;
     justify-content: space-between;
     cursor: pointer;
@@ -85,18 +84,6 @@
     word-wrap: break-word;
 }
 
-.camping-link {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.75rem 1.25rem;
-    background-color: #fbc02d;
-    color: #004d40;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    text-align: center;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
 
 .camping-link:hover {
     background-color: #ffd54f;
@@ -114,3 +101,20 @@
     font-size: 1.3rem;
     color: #004d40;
 }
+
+
+.ver-camping button{
+    color: #004d40;
+    font-weight: bold;
+}
+.align-bottom {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.ver-camping{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+

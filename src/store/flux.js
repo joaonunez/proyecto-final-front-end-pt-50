@@ -6,6 +6,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       error: null,
       campings: [],
       reviews: [],
+      reservations: []
     },
     actions: {
       registerProvider: async (providerData) => {
@@ -151,7 +152,7 @@ const getState = ({ getActions, getStore, setStore }) => {
         try {
           const response = await fetch(`http://localhost:3001/review/camping/${campingId}/reviews`, {
             headers: {
-              Authorization: `Bearer ${store.token}`,//preguntar al profe si es necesario tener esto aqui, ya que los reviews son algo publico que todos pueden ver
+              'Accept': 'application/json',
             },
           });
           if (response.ok) {
@@ -166,11 +167,10 @@ const getState = ({ getActions, getStore, setStore }) => {
 
       },
       getSiteByCamping: async (campingId) => {
-        const store = getStore();
         try {
           const response = await fetch(`http://localhost:3001/site/camping/${campingId}/sites`, {
             headers: {
-              Authorization: `Bearer ${store.token}`,
+              'Accept': 'application/json',
             },
           });
           if (response.ok) {
@@ -182,6 +182,27 @@ const getState = ({ getActions, getStore, setStore }) => {
         } catch (err) {
           console.error("Error en la solicitud de sitios del camping:", err);
         }
+      },
+      //Traer data de reservas en relación al usuario logeado
+      getReservationByUser: async () => {
+        const store = getStore(); 
+        try {
+          const response = await fetch('http://localhost:3001/reservation/reservation', {
+            headers: {
+              Authorization: `Bearer ${store.token}`,
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setStore({ reservations: data, error: null });
+          } else { 
+            setStore({ reservations: [], error: "No se encontraron reservaciones para este usuario."});
+          }
+        } catch (error) {
+          console.error("Error fetching reservations:", error);
+          setStore({ error: "Error al cargar las reservaciones. Por favor, intente nuevamente."})        
+        }
+      }
       },
       updateUser: async (userData) => {
         const store = getStore();
@@ -321,8 +342,6 @@ const getState = ({ getActions, getStore, setStore }) => {
       },
     }
   };
-};
-
   export default getState;
 
 
