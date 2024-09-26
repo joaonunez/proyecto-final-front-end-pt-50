@@ -16,6 +16,9 @@ import { Booking } from "./components/booking/Booking";
 import CampingSite from "./components/site/CampingSite";
 import { Footer } from "./components/footer/Footer";
 import { ProviderDashboard } from "./views/provider-camping/ProviderDashboard";
+import { UserSettings } from "./views/user-config/UserSettings";
+import { Context } from "./store/context";
+import { useContext, useEffect } from "react";
 
 
 function App() {
@@ -39,6 +42,7 @@ function App() {
             <Route path="/booking" element={<Booking />} />
             <Route path="/campingSite" element={<CampingSite />} />
             <Route path="/provider-dashboard" element={<ProviderDashboard />} /> 
+            <Route path="/user-config" element={<UserSettings />} />
           </Routes>
         </div>
         <Footer />

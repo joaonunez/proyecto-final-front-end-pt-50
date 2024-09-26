@@ -1,0 +1,28 @@
+.user-settings-container {
+    background-color: #ffffff;
+    border: 1px solid #e3e3e3;
+    border-radius: 10px;
+    padding: 10px;
+    max-width: 600px;
+    margin: 40px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-settings-tabs .nav-link {
+    background-color: #e9ecef;
+    border: 1px solid #e3e3e3;
+    border-radius: 5px;
+    color: #495057;
+    font-weight: bold;
+}
+
+.user-settings-tabs .nav-link.active {
+    background-color: #0D6EFD;
+    border: 1px solid #0D6EFD;
+    color: #ffffff;
+}
+
+.user-settings-tabs .nav-link:hover {
+    background-color: #0a58ca;
+    color: #ffffff;
+}

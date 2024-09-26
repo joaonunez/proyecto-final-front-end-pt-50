@@ -1,0 +1,65 @@
+.datos-personales-container {
+    background-color: #F8F9FA;
+    border: 1px solid #e3e3e3;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 450px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+}
+
+.datos-personales-container .form-label {
+    color: #0D6EFD;
+    font-weight: bold;
+}
+
+.datos-personales-container .form-control {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.datos-personales-container .form-control:disabled {
+    background-color: #e9ecef;
+    color: #6c757d;
+}
+
+.datos-personales-container .btn-primary {
+    background-color: #0D6EFD;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+.datos-personales-container .btn-primary:hover {
+    background-color: #0a58ca;
+}
+
+.datos-personales-container .btn-success {
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+.datos-personales-container .btn-success:hover {
+    background-color: #218838;
+}
+
+.datos-personales-container .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+.datos-personales-container .btn-secondary:hover {
+    background-color: #5a6268;
+}

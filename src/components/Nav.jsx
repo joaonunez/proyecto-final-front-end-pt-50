@@ -111,7 +111,7 @@ export function Nav() {
                     </li>
                   )}
                   <li>
-                    <Link className="dropdown-item" to="/configuracion">
+                    <Link className="dropdown-item" to="/user-config">
                       Configuración
                     </Link>
                   </li>
