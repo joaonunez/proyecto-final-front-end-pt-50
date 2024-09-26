@@ -16,30 +16,56 @@ export function ViewReserve() {
 
   const { reservationsByUser } = store;
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
+  };
+
   if (isLoading) {
-    return <p>Cargando reservas...</p>;
+    return <p className="loading-text">Cargando reservas...</p>;
   }
 
   if (!reservationsByUser || reservationsByUser.length === 0) {
     return (
-      <div>
+      <div className="no-reservations">
         <p>No tienes reservas aún.</p>
-        <Link to="/campings">Ir a reservar</Link>
+        <Link to="/campings" className="link-to-reserve">Ir a reservar</Link>
       </div>
     );
   }
 
   return (
-    <div>
-      <h2>Mis Reservas</h2>
-      {reservationsByUser.map((reservation) => (
-        <div key={reservation.id}>
-          <p>Reserva ID: {reservation.id}</p>
-          <p>Fecha inicio: {reservation.start_date}</p>
-          <p>Fecha fin: {reservation.end_date}</p>
-          <p>Número de personas: {reservation.number_of_people}</p>
-        </div>
-      ))}
+    <div className="reservations-container">
+      <h2 className="reservations-title">Mis Reservas</h2>
+      <table className="reservations-table">
+        <thead>
+          <tr>
+            <th>ID Reserva</th>
+            <th>Camping</th> 
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Número de Personas</th>
+            <th>Monto Total</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {reservationsByUser.map((reservation) => (
+            <tr key={reservation.id}>
+              <td>{reservation.id}</td>
+              <td>{reservation.camping_name}</td> 
+              <td>{formatDate(reservation.start_date)}</td>
+              <td>{formatDate(reservation.end_date)}</td>
+              <td>{reservation.number_of_people}</td>
+              <td>${reservation.total_amount}</td>
+              <td>
+                <button className="btn modify-btn">Modificar</button>
+                <button className="btn cancel-btn">Cancelar</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

@@ -9,6 +9,8 @@ const getState = ({ getActions, getStore, setStore }) => {
       reviews: [], // lista de reseñas
       reservations: [], // lista de reservaciones generales
       reservationsByUser: [], // lista de reservaciones específicas de un usuario
+      sites: [],
+      selectedSite: null,
     },
     actions: {
       // registrar proveedor
@@ -198,28 +200,6 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("Error en la solicitud de sitios del camping:", err);
         }
       },
-
-      // obtener reservaciones del usuario logueado
-      getReservationByUser: async () => {
-        const store = getStore();
-        try {
-          const response = await fetch("http://localhost:3001/reservation/reservation", {
-            headers: {
-              Authorization: `Bearer ${store.token}`,
-            },
-          });
-          if (response.ok) {
-            const data = await response.json();
-            setStore({ reservations: data, error: null });
-          } else {
-            setStore({ reservations: [], error: "No se encontraron reservaciones para este usuario." });
-          }
-        } catch (error) {
-          console.error("Error al obtener las reservaciones:", error);
-          setStore({ error: "Error al cargar las reservaciones. Por favor, intenta nuevamente." });
-        }
-      },
-
       // actualizar usuario logueado
       updateUser: async (userData) => {
         const store = getStore();
@@ -364,7 +344,6 @@ const getState = ({ getActions, getStore, setStore }) => {
         }
       },
 
-      // obtener reservaciones de un usuario específico
       getReservationsByUserId: async (userId) => {
         const store = getStore();
         try {
@@ -388,6 +367,66 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
+      getSitesByCamping: async (campingId) => {
+        try {
+          const response = await fetch(`http://localhost:3001/site/camping/${campingId}/sites`, {
+            headers: {
+              Accept: "application/json",
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Sitios obtenidos:", data);   
+            setStore({ sites: Array.isArray(data) ? data : [] });
+          } else {
+            console.error("Error al obtener los sitios");
+            setStore({ sites: [] });
+          }
+        } catch (error) {
+          console.error("Error al obtener sitios:", error);
+          setStore({ sites: [] }); 
+        }
+      },
+
+      
+      selectSite: (site) => {
+        setStore({ selectedSite: site });
+        localStorage.setItem("selectedSite", JSON.stringify(site)); 
+      },
+
+      loadSelectedSiteFromStorage: () => {
+        const site = JSON.parse(localStorage.getItem("selectedSite"));
+        if (site) {
+          setStore({ selectedSite: site });
+        }
+      },
+
+      makeReservation: async (reservationData) => {
+        const store = getStore();
+        try {
+          const response = await fetch("http://localhost:3001/reservation/reservation", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`, 
+            },
+            body: JSON.stringify(reservationData),
+          });
+          if (response.ok) {
+            console.log("Reserva realizada exitosamente");
+            return true;
+          } else {
+            console.error("Error al realizar la reserva");
+            return false;
+          }
+        } catch (error) {
+          console.error("Error en la solicitud de reserva:", error);
+          return false;
+        }
+      },
+      
+
+  
     },
   };
 };
