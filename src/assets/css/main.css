@@ -18,6 +18,10 @@
 @import url('components/app-main/app.css');
 @import url('components/provider-dashboard/provider-dashboard.css');
 @import url('components/camping-formulario/Formulario.css');
+@import url('components/config-user/datos-personales.css');
+@import url('components/config-user/seguridad.css');
+@import url('components/config-user/user-settings.css');
+
 
 
 

@@ -1,8 +1,8 @@
 const getState = ({ getActions, getStore, setStore }) => {
   return {
     store: {
-      user: null,
-      token: null,
+      user: JSON.parse(localStorage.getItem("user")) || null,
+      token: localStorage.getItem("token") || null,
       error: null,
       campings: [],
       reviews: [],
@@ -71,11 +71,16 @@ const getState = ({ getActions, getStore, setStore }) => {
           const result = await response.json();
 
           if (response.ok) {
-            // si las credenciales son validas, declaramos el user en el store asi como tambien su token
-            setStore({ user: result.user, token: result.token, error: null });
+            setStore({
+              user: result.user,
+              token: result.token,
+              refreshToken: result.refresh_token,
+              error: null,
+            });
 
-            localStorage.setItem("user", JSON.stringify(result.user)); //se agrega el user al local storage
-            localStorage.setItem("token", result.token); //se agrega el token al local storage
+            localStorage.setItem("user", JSON.stringify(result.user));
+            localStorage.setItem("token", result.token);
+            localStorage.setItem("refresh_token", result.refresh_token);
             return true;
           } else {
             setStore({ error: result.error });
@@ -198,10 +203,145 @@ const getState = ({ getActions, getStore, setStore }) => {
           setStore({ error: "Error al cargar las reservaciones. Por favor, intente nuevamente."})        
         }
       }
+      },
+      updateUser: async (userData) => {
+        const store = getStore();
+        try {
+          const response = await fetch("http://localhost:3001/user/user", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`,
+            },
+            body: JSON.stringify(userData),
+          });
+          if (response.ok) {
+            const updatedUser = await response.json();
+            setStore({ user: updatedUser });
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+            return true;
+          } else if (response.status === 401) {
+            //para intentar refrescar el token
+            const tokenRefreshed = await getActions().refreshToken();
+            if (tokenRefreshed) {
+              return await getActions().updateUser(userData);
+            }
+            return false;
+          } else {
+            const errorData = await response.json();
+            console.error("Error updating user:", errorData);
+            return false;
+          }
+        } catch (err) {
+          console.error("Error in updateUser:", err);
+          return false;
+        }
+      },
+      
+      updateEmail: async (emailData) => {
+        const store = getStore();
+        try {
+          const response = await fetch("http://localhost:3001/user/update_email", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`,
+            },
+            body: JSON.stringify(emailData),
+          });
+          if (response.ok) {
+            /* const result = await response.json(); */
+            let updatedUser = { ...store.user, email: emailData.email };
+            setStore({ user: updatedUser });
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+            return true;
+          } else {
+            const errorData = await response.json();
+            console.error("Error updating email:", errorData);
+            return false;
+          }
+        } catch (err) {
+          console.error("Error in updateEmail:", err);
+          return false;
+        }
+      },
+      
+      updatePassword: async (passwordData) => {
+        const store = getStore();
+        try {
+          const response = await fetch("http://localhost:3001/user/update_password", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`,
+            },
+            body: JSON.stringify(passwordData),
+          });
+          if (response.ok) {
+            return true;
+          } else {
+            const errorData = await response.json();
+            console.error("Error updating password:", errorData);
+            return false;
+          }
+        } catch (err) {
+          console.error("Error in updatePassword:", err);
+          return false;
+        }
+      },
+      updatePhone: async (phoneData) => {
+        const store = getStore();
+        try {
+          const response = await fetch("http://localhost:3001/user/update_phone", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`,
+            },
+            body: JSON.stringify(phoneData),
+          });
+          if (response.ok) {
+            const updatedUser = await response.json();
+            setStore({ user: updatedUser });
+            localStorage.setItem("user", JSON.stringify(updatedUser));
+            return true;
+          } else {
+            const errorData = await response.json();
+            console.error("Error updating phone:", errorData);
+            return false;
+          }
+        } catch (err) {
+          console.error("Error in updatePhone:", err);
+          return false;
+        }
+      },
+      refreshToken: async () => {
+        const store = getStore();
+        try {
+          const response = await fetch("http://localhost:3001/user/refresh", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.refreshToken}`, 
+            },
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            setStore({ token: result.token });
+            localStorage.setItem("token", result.token);
+            return true;
+          } else {
+            console.error("Error refreshing token.");
+            return false;
+          }
+        } catch (err) {
+          console.error("Error en la solicitud de refresco de token:", err);
+          return false;
+        }
+      },
     }
   };
-};
-
   export default getState;
 
 
