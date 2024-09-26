@@ -1,15 +1,17 @@
 const getState = ({ getActions, getStore, setStore }) => {
   return {
     store: {
-      user: JSON.parse(localStorage.getItem("user")) || null,
-      token: localStorage.getItem("token") || null,
+      user: JSON.parse(localStorage.getItem("user")) || null, // almacenamos el usuario logueado si está en localStorage
+      token: localStorage.getItem("token") || null, // guardamos el token de acceso
+      refreshToken: localStorage.getItem("refresh_token") || null, // guardamos el refresh token
       error: null,
-      campings: [],
-      reviews: [],
-      reservations: [],
-      reservationsByUser: [],
+      campings: [], // lista de campings
+      reviews: [], // lista de reseñas
+      reservations: [], // lista de reservaciones generales
+      reservationsByUser: [], // lista de reservaciones específicas de un usuario
     },
     actions: {
+      // registrar proveedor
       registerProvider: async (providerData) => {
         try {
           const response = await fetch("http://localhost:3001/user/user", {
@@ -19,7 +21,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             },
             body: JSON.stringify({
               ...providerData,
-              role_id: 2, // Registrar un usuario con el rol de proveedor
+              role_id: 2, // asigna el rol de proveedor
             }),
           });
 
@@ -34,6 +36,8 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
+
+      // registrar cliente
       registerCustomer: async (userData) => {
         try {
           const response = await fetch("http://localhost:3001/user/user", {
@@ -43,7 +47,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             },
             body: JSON.stringify({
               ...userData,
-              role_id: 3, // Registrar un usuario con el rol de cliente
+              role_id: 3, // asigna el rol de cliente
             }),
           });
 
@@ -58,6 +62,8 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
+
+      // login de usuario
       login: async (email, password) => {
         try {
           const response = await fetch("http://localhost:3001/user/login", {
@@ -71,6 +77,7 @@ const getState = ({ getActions, getStore, setStore }) => {
           const result = await response.json();
 
           if (response.ok) {
+            // actualiza el store y el localStorage con el token y el refresh token
             setStore({
               user: result.user,
               token: result.token,
@@ -92,18 +99,27 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
+
+      // logout del usuario
       logout: () => {
-        setStore({ user: null, token: null });
-        localStorage.removeItem("user"); // Remueve el usuario del store y del local storage
-        localStorage.removeItem("token"); // Remueve el token del store y del local storage
+        setStore({ user: null, token: null, refreshToken: null });
+        // limpiar el localStorage al cerrar sesión
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        localStorage.removeItem("refresh_token");
       },
+
+      // cargar usuario desde localStorage al inicializar la aplicación
       loadUserFromStorage: () => {
         const user = JSON.parse(localStorage.getItem("user"));
         const token = localStorage.getItem("token");
-        if (user && token) {
-          setStore({ user, token });
+        const refreshToken = localStorage.getItem("refresh_token"); // también cargar el refresh token
+        if (user && token && refreshToken) {
+          setStore({ user, token, refreshToken });
         }
       },
+
+      // obtener lista de campings
       getCampings: async () => {
         try {
           const response = await fetch("http://localhost:3001/camping/camping", {
@@ -123,12 +139,14 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("Error en la solicitud de campings:", err);
         }
       },
+
+      // obtener lista de campings de un proveedor
       getProviderCampings: async () => {
         const store = getStore();
         try {
           const response = await fetch(`http://localhost:3001/camping/provider/${store.user.id}/campings`, {
             headers: {
-              Authorization: `Bearer ${store.token}`, // Validación del token
+              Authorization: `Bearer ${store.token}`, // token de acceso para autenticar la solicitud
             },
           });
           if (response.ok) {
@@ -142,6 +160,8 @@ const getState = ({ getActions, getStore, setStore }) => {
           setStore({ error: "Error al cargar campings. Por favor, intenta nuevamente." });
         }
       },
+
+      // obtener reseñas de un camping específico
       getReviews: async (campingId) => {
         try {
           const response = await fetch(`http://localhost:3001/review/camping/${campingId}/reviews`, {
@@ -159,6 +179,8 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("Error en la solicitud de comentarios del camping:", err);
         }
       },
+
+      // obtener sitios de un camping específico
       getSiteByCamping: async (campingId) => {
         try {
           const response = await fetch(`http://localhost:3001/site/camping/${campingId}/sites`, {
@@ -176,6 +198,8 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("Error en la solicitud de sitios del camping:", err);
         }
       },
+
+      // obtener reservaciones del usuario logueado
       getReservationByUser: async () => {
         const store = getStore();
         try {
@@ -195,6 +219,8 @@ const getState = ({ getActions, getStore, setStore }) => {
           setStore({ error: "Error al cargar las reservaciones. Por favor, intenta nuevamente." });
         }
       },
+
+      // actualizar usuario logueado
       updateUser: async (userData) => {
         const store = getStore();
         try {
@@ -202,7 +228,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${store.token}`,
+              Authorization: `Bearer ${store.token}`, // usa el token para autorizar la solicitud
             },
             body: JSON.stringify(userData),
           });
@@ -212,9 +238,10 @@ const getState = ({ getActions, getStore, setStore }) => {
             localStorage.setItem("user", JSON.stringify(updatedUser));
             return true;
           } else if (response.status === 401) {
+            // intenta refrescar el token si el estado es 401
             const tokenRefreshed = await getActions().refreshToken();
             if (tokenRefreshed) {
-              return await getActions().updateUser(userData);
+              return await getActions().updateUser(userData); // reintentar la solicitud con el nuevo token
             }
             return false;
           } else {
@@ -227,6 +254,8 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
+
+      // actualizar correo del usuario
       updateEmail: async (emailData) => {
         const store = getStore();
         try {
@@ -253,6 +282,8 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
+
+      // actualizar contraseña del usuario
       updatePassword: async (passwordData) => {
         const store = getStore();
         try {
@@ -276,6 +307,8 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
+
+      // actualizar teléfono del usuario
       updatePhone: async (phoneData) => {
         const store = getStore();
         try {
@@ -302,6 +335,8 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
+
+      // refrescar token de acceso
       refreshToken: async () => {
         const store = getStore();
         try {
@@ -309,14 +344,15 @@ const getState = ({ getActions, getStore, setStore }) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${store.refreshToken}`,
+              Authorization: `Bearer ${store.refreshToken}`, // usa el refresh token para obtener un nuevo access token
             },
           });
 
           if (response.ok) {
             const result = await response.json();
+            // actualizar el store con el nuevo token de acceso
             setStore({ token: result.token });
-            localStorage.setItem("token", result.token);
+            localStorage.setItem("token", result.token); // guarda el nuevo token en el localStorage
             return true;
           } else {
             console.error("Error al refrescar el token.");
@@ -327,6 +363,8 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
+
+      // obtener reservaciones de un usuario específico
       getReservationsByUserId: async (userId) => {
         const store = getStore();
         try {
