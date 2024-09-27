@@ -16,8 +16,7 @@ import { Booking } from "./components/booking/Booking";
 import CampingSite from "./components/site/CampingSite";
 import { Footer } from "./components/footer/Footer";
 import { ProviderDashboard } from "./views/provider-camping/ProviderDashboard";
-import { Formulario } from "./components/formularios/Formulario";
-import { ReservationCard } from "./components/reservation/Reservation";
+
 import { UserSettings } from "./views/user-config/UserSettings";
 import { Context } from "./store/context";
 import { useContext, useEffect } from "react";
@@ -49,7 +48,6 @@ function App() {
             <Route path="/campingSite" element={<CampingSite />} />
             <Route path="/provider-dashboard" element={<ProviderDashboard />} /> 
             <Route path="/my-reservations" element={< MyReservationsView />} /> 
-            <Route path="/formulario" element={<Formulario />} /> 
             <Route path="/user-config" element={<UserSettings />} />
             <Route path="/edit-forms/:campingId" element={<EditCampingForm />} />
             <Route path="/reservation-request" element={<ReservationViewForm />} />
