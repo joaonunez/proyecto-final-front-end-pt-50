@@ -180,6 +180,27 @@ const getState = ({ getActions, getStore, setStore }) => {
         }
       },
 
+      //Postear comentarios
+      postReviewForCamping: async (postReviewData) => {
+        const store = getStore();
+        try {
+          const response = await fetch('http://localhost:3001/review/review', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`,
+            },
+            body: JSON.stringify(postReviewData)
+          });
+          if (response.ok) {
+            const data = await response.json();
+            return data;
+          }
+        } catch (error) {
+          console.error("Error en la publicación de comentario", error)
+        }
+      },
+
       // obtener sitios de un camping específico
       getSiteByCamping: async (campingId) => {
         try {
