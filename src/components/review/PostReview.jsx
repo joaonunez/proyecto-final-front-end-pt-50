@@ -23,6 +23,7 @@ export function PostReview() {
 
     // Enviar el formulario
     const handleOnSubmit = async (e) => {
+        e.preventDefault();
         await actions.postReviewForCamping(reviewPost); 
     };
 
