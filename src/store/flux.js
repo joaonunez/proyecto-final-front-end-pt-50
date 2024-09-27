@@ -11,6 +11,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       reservationsByUser: [], // lista de reservaciones específicas de un usuario
       sites: [],
       selectedSite: null,
+      services: [],
     },
     actions: {
       // registrar proveedor
@@ -421,6 +422,29 @@ const getState = ({ getActions, getStore, setStore }) => {
           }
         } catch (error) {
           console.error("Error en la solicitud de reserva:", error);
+          return false;
+        }
+      },
+      deleteReservation: async (reservationId, password) => {
+        const store = getStore();
+        try {
+          const response = await fetch(`http://localhost:3001/reservation/reservation/${reservationId}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`, 
+            },
+            body: JSON.stringify({ password }) // para enviar la contraseña ala solicitud
+          });
+      
+          if (response.ok) {
+            return true;
+          } else {
+            console.error("Error al cancelar la reserva");
+            return false;
+          }
+        } catch (err) {
+          console.error("Error en la solicitud de cancelación:", err);
           return false;
         }
       },
