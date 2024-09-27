@@ -7,12 +7,24 @@ export function ProviderCampings() {
 
   useEffect(() => {
     if (store.user) {
-      actions.getProviderCampings(); // llamamos a la accion para obtener los campings
+      actions.getProviderCampings(); // Llamamos a la acción para obtener los campings
     }
-  }, [store.user]); // dependencias: se ejecuta cuando el usuario o las acciones cambian
+  }, [store.user]); // Dependencias: se ejecuta cuando el usuario o las acciones cambian
 
   // Evitar error si campings es undefined
   const campingsList = store.campings || [];
+
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm("¿Estás seguro de que quieres eliminar este camping?");
+    if (confirmed) {
+      try {
+        await actions.deleteCamping(id); // Suponiendo que tienes una acción para eliminar
+        actions.getProviderCampings(); // Actualizar la lista después de eliminar
+      } catch (error) {
+        console.error("Error al eliminar el camping:", error);
+      }
+    }
+  };
 
   return (
     <div className="provider-campings-container">
@@ -56,22 +68,24 @@ export function ProviderCampings() {
                   </div>
                 </div>
                 <div className="ver-camping">
-                  <div class="d-grid gap-2">
-                    <Link to={camping.url_web} target="_blank"
-                    rel="noopener noreferrer">
-                    <button class="btn btn-warning" type="button">Ver Camping</button>
+                  <div className="d-grid gap-2">
+                    <Link to={camping.url_web} target="_blank" rel="noopener noreferrer">
+                      <button className="btn btn-warning" type="button">Ver Camping</button>
                     </Link>
-                  </div> 
-                  <div class="gap-2 d-md-flex justify-content-md-end">
-                    <Link to={"/edit-forms/" + camping.id}>
-                      <button class="btn btn-warning" type="button">Editar</button>
-                    </Link>
-                    <button class="btn btn-warning" type="button">Eliminar</button>
                   </div>
-
+                  <div className="gap-2 d-md-flex justify-content-md-end">
+                    <Link to={"/edit-forms/" + camping.id}>
+                      <button className="btn btn-warning" type="button">Editar</button>
+                    </Link>
+                    <button 
+                      className="btn btn-warning" 
+                      type="button" 
+                      onClick={() => handleDelete(camping.id)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
                 </div>
-
-
               </div>
             </div>
           ))}
