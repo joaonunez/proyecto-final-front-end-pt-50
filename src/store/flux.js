@@ -6,7 +6,8 @@ const getState = ({ getActions, getStore, setStore }) => {
       error: null,
       campings: [],
       reviews: [],
-      reservations: []
+      reservations: [],
+      campingVisitForEdit: null,
     },
     actions: {
       registerProvider: async (providerData) => {
@@ -185,7 +186,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       },
       //Traer data de reservas en relación al usuario logeado
       getReservationByUser: async () => {
-        const store = getStore(); 
+        const store = getStore();
         try {
           const response = await fetch('http://localhost:3001/reservation/reservation', {
             headers: {
@@ -195,14 +196,13 @@ const getState = ({ getActions, getStore, setStore }) => {
           if (response.ok) {
             const data = await response.json();
             setStore({ reservations: data, error: null });
-          } else { 
-            setStore({ reservations: [], error: "No se encontraron reservaciones para este usuario."});
+          } else {
+            setStore({ reservations: [], error: "No se encontraron reservaciones para este usuario." });
           }
         } catch (error) {
           console.error("Error fetching reservations:", error);
-          setStore({ error: "Error al cargar las reservaciones. Por favor, intente nuevamente."})        
+          setStore({ error: "Error al cargar las reservaciones. Por favor, intente nuevamente." })
         }
-      }
       },
       updateUser: async (userData) => {
         const store = getStore();
@@ -237,7 +237,7 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
-      
+
       updateEmail: async (emailData) => {
         const store = getStore();
         try {
@@ -265,7 +265,7 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
-      
+
       updatePassword: async (passwordData) => {
         const store = getStore();
         try {
@@ -322,7 +322,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${store.refreshToken}`, 
+              Authorization: `Bearer ${store.refreshToken}`,
             },
           });
 
@@ -340,9 +340,60 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
-    }
-  };
-  export default getState;
+      setCampingFoundToEdit: async (campingId) => {
+        const store = getStore();
+        try {
+          setStore({ campingVisitForEdit: null })
+          const response = await fetch(`http://localhost:3001/camping/camping/${campingId}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`,
+            },
+          });
+
+          if (response.ok) {
+            const campingData = await response.json();
+            setStore({ campingVisitForEdit: campingData });
+            return campingData;
+          } else {
+            const errorData = await response.json();
+            console.error("Error fetching camping by ID:", errorData);
+            return null;
+          }
+        } catch (err) {
+          console.error("Error in getCampingById:", err);
+          return null;
+        }
+      },
+      editCamping: (data, id) => {
+        fetch(`http://localhost:3001/camping/provider/camping/${id}`, {
+          method: "PUT",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log('Success:', data);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      },
+    },
+
+  }
+}
+
+
+export default getState;
 
 
 

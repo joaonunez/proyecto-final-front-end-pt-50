@@ -9,7 +9,7 @@ export function ProviderCampings() {
     if (store.user) {
       actions.getProviderCampings(); // llamamos a la accion para obtener los campings
     }
-  }, [store.user, actions]); // dependencias: se ejecuta cuando el usuario o las acciones cambian
+  }, [store.user]); // dependencias: se ejecuta cuando el usuario o las acciones cambian
 
   // Evitar error si campings es undefined
   const campingsList = store.campings || [];
@@ -63,7 +63,7 @@ export function ProviderCampings() {
                     </Link>
                   </div> 
                   <div class="gap-2 d-md-flex justify-content-md-end">
-                    <Link to="/formulario">
+                    <Link to={"/edit-forms/" + camping.id}>
                       <button class="btn btn-warning" type="button">Editar</button>
                     </Link>
                     <button class="btn btn-warning" type="button">Eliminar</button>
