@@ -1,36 +1,36 @@
-import React from "react";
-import { Banner } from "../components/home/Banner";
-import "../assets/css/components/home/home.css";
+import React, { useState } from 'react';
+import SearchCamping from '../components/home/SearchCamping';
+import SearchResults from '../components/home/SearchResults';
+import '../assets/css/components/home/home.css';
 
 export function Home() {
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = async (criteria) => {
+    try {
+      // Hacer la búsqueda en la base de datos según los criterios y actualizar los resultados.
+      const response = await fetch('/api/search', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(criteria),
+      });
+      const data = await response.json();
+      setSearchResults(data);
+    } catch (error) {
+      console.error('Error realizando la búsqueda:', error);
+    }
+  };
+
   return (
     <>
       <div className="home-container">
         <div className="content">
-          <div className="search-form">
-            <h2>Encuentra tu próxima aventura</h2>
-            <form className="search-fields">
-              <div className="search-form-group">
-                <label htmlFor="destino">Destino:</label>
-                <input
-                  type="text"
-                  id="destino"
-                  className="search-form-control"
-                  placeholder="Ingresa tu destino"
-                />
-              </div>
-              <div className="search-form-group">
-                <label htmlFor="fecha">Fecha de ida:</label>
-                <input type="date" id="fecha" className="search-form-control" />
-              </div>
-              <button type="submit" className="btn-search">
-                Buscar
-              </button>
-            </form>
-          </div>
+          <SearchCamping onSearch={handleSearch} />
         </div>
       </div>
-      <Banner />
+      <SearchResults results={searchResults} />
     </>
   );
 }
