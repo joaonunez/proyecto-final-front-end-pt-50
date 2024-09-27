@@ -461,6 +461,23 @@ const getState = ({ getActions, getStore, setStore }) => {
             console.error('Error:', error);
           });
       },
+      getSitesByCamping: async (campingId) => {
+        try {
+          const response = await fetch(`http://localhost:3001/site/camping/${campingId}/sites`, {
+            headers: {
+              Accept: "application/json",
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setStore({ sites: data });
+          } else {
+            console.error("Error al obtener los sitios del camping");
+          }
+        } catch (err) {
+          console.error("Error en la solicitud de sitios del camping:", err);
+        }
+      },
     },
   };
 };

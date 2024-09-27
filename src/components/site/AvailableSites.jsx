@@ -11,7 +11,7 @@ const AvailableSites = () => {
   useEffect(() => {
     // Cargar los sitios del camping actual
     actions.getSitesByCamping(id);
-  }, [id]);
+  },);
 
   const handleSiteSelect = (site) => {
     actions.selectSite(site); // Guardar el sitio seleccionado en el store
