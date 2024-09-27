@@ -8,7 +8,6 @@ export function Home() {
 
   const handleSearch = async (criteria) => {
     try {
-      // Hacer la búsqueda en la base de datos según los criterios y actualizar los resultados.
       const response = await fetch('/api/search', {
         method: 'POST',
         headers: {
