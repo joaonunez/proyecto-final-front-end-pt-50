@@ -34,7 +34,6 @@ const ReservationForm = () => {
       if (numNights > 0) {
         let total = numNights * store.selectedSite.price;
 
-        // Calcular costo adicional por servicios seleccionados si existen
         if (store.selectedSite.camping_services) {
           formData.selected_services.forEach((service) => {
             if (store.selectedSite.camping_services[service]) {
@@ -125,38 +124,42 @@ const ReservationForm = () => {
     return "Información no disponible";
   };
 
+  const formatAmount = (amount) => {
+    return amount.toLocaleString("es-ES"); 
+  };
+
   return (
-    <div className="container mt-4">
-      <h2 className="text-center">Realizar Reserva</h2>
-      <form onSubmit={handleSubmit} className="mt-4">
-        <div className="form-group mb-3">
-          <label>Fecha de Inicio</label>
+    <div className="reservation-form-container mt-4">
+      <h2 className="reservation-form-title text-center">Realizar Reserva</h2>
+      <form onSubmit={handleSubmit} className="reservation-form mt-4">
+        <div className="form-group-custom mb-3">
+          <label className="form-label-custom">Fecha de Inicio</label>
           <input
             type="date"
             name="start_date"
-            className="form-control"
+            className="form-input-custom"
             value={formData.start_date}
             onChange={handleChange}
             required
           />
         </div>
-        <div className="form-group mb-3">
-          <label>Fecha de Término</label>
+        <div className="form-group-custom mb-3">
+          <label className="form-label-custom">Fecha de Término</label>
           <input
             type="date"
             name="end_date"
-            className="form-control"
+            className="form-input-custom"
             value={formData.end_date}
             onChange={handleChange}
             required
           />
         </div>
-        <div className="form-group mb-3">
-          <label>Número de Personas</label>
+        <div className="form-group-custom mb-3">
+          <label className="form-label-custom">Número de Personas</label>
           <input
             type="number"
             name="number_of_people"
-            className="form-control"
+            className="form-input-custom"
             value={formData.number_of_people}
             onChange={handleChange}
             min="1"
@@ -165,9 +168,9 @@ const ReservationForm = () => {
           />
         </div>
 
-        <div className="form-group mb-3">
-          <label>Facilidades Gratuitas del Sitio</label>
-          <div className="mb-3">
+        <div className="form-group-custom mb-3">
+          <label className="form-label-custom">Facilidades Gratuitas del Sitio</label>
+          <div className="facilities-custom mb-3">
             <p>
               {store.selectedSite
                 ? formatFacilities(store.selectedSite.facilities)
@@ -176,25 +179,25 @@ const ReservationForm = () => {
           </div>
         </div>
 
-        <div className="form-group mb-3">
-          <label>Servicios Adicionales</label>
-          <div>
+        <div className="form-group-custom mb-3">
+          <label className="form-label-custom">Servicios Adicionales</label>
+          <div className="services-custom">
             {store.selectedSite &&
             store.selectedSite.camping_services &&
             Object.keys(store.selectedSite.camping_services).length > 0 ? (
               Object.keys(store.selectedSite.camping_services).map(
                 (service, index) => (
-                  <div key={index} className="form-check">
+                  <div key={index} className="form-check-custom">
                     <input
                       type="checkbox"
                       name="selected_services"
                       value={service}
                       onChange={handleChange}
-                      className="form-check-input"
+                      className="form-check-input-custom"
                     />
-                    <label className="form-check-label">
+                    <label className="form-check-label-custom">
                       {service} - $
-                      {store.selectedSite.camping_services[service]}
+                      {store.selectedSite.camping_services[service].toLocaleString("es-ES")}
                     </label>
                   </div>
                 )
@@ -205,14 +208,15 @@ const ReservationForm = () => {
           </div>
         </div>
 
-        <div className="form-group mb-3">
-          <label>Monto Total:</label>
-          <p>${totalAmount}</p>
+        <div className="form-group-custom mb-3">
+          <label className="form-label-custom">Monto Total:</label>
+          <p className="total-amount-custom">${formatAmount(totalAmount)}</p>
         </div>
         <input
           type="submit"
-          className="btn btn-primary btn-lg d-block mx-auto mt-4" value={"Confirmar Reserva"}/>
-      
+          className="btn-custom btn-primary btn-lg d-block mx-auto mt-4"
+          value="Confirmar Reserva"
+        />
       </form>
     </div>
   );
