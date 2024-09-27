@@ -21,7 +21,8 @@
 @import url('components/config-user/datos-personales.css');
 @import url('components/config-user/seguridad.css');
 @import url('components/config-user/user-settings.css');
-
+@import url('components/view-reserve/view-reserve-.css');
+@import url('components/reservation-form/reservation-form.css');
 
 
 

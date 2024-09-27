@@ -1,0 +1,88 @@
+/* ReservationForm.css */
+.reservation-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .reservation-form-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .reservation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .form-group-custom {
+    margin-bottom: 15px;
+  }
+  
+  .form-label-custom {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .form-input-custom {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+  
+  .facilities-custom {
+    background-color: #e0f7fa;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+  }
+  
+  .services-custom {
+    background-color: #e8f5e9;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  
+  .form-check-custom {
+    margin-bottom: 10px;
+  }
+  
+  .form-check-input-custom {
+    margin-right: 10px;
+  }
+  
+  .form-check-label-custom {
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  .total-amount-custom {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #009688;
+  }
+  
+  .btn-custom {
+    background-color: #0277bd;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-custom:hover {
+    background-color: #01579b;
+  }
+  

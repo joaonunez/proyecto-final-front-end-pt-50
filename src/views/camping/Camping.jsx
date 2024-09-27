@@ -15,6 +15,7 @@ export function Camping() {
             <CampingCard id={id} />
 
             <CampingSite />
+                
 
             <PostReview />
             <Review />
