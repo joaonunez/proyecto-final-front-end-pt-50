@@ -105,7 +105,7 @@ export function Nav() {
                   )}
                   {store.user.role.id === 3 && ( // Cliente
                     <li>
-                      <Link className="dropdown-item" to="/mis-reservas">
+                      <Link className="dropdown-item" to="/my-reservations">
                         Ver mis Reservas
                       </Link>
                     </li>
