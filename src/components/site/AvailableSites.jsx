@@ -9,7 +9,7 @@ const AvailableSites = ({ onSiteSelect }) => {
   useEffect(() => {
     // Cargar los sitios del camping actual 
     actions.getSitesByCamping(id);
-  }, [id, actions]);
+  }, [id]);
 
   const handleSiteSelect = (site) => {
     actions.selectSite(site); // Guardar el sitio seleccionado en el store
