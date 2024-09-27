@@ -483,22 +483,28 @@ const getState = ({ getActions, getStore, setStore }) => {
       postReviewForCamping: async (postReviewData) => {
         const store = getStore();
         try {
-          const response = await fetch("http://localhost:3001/review/review", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${store.token}`,
-            },
-            body: JSON.stringify(postReviewData),
-          });
-          if (response.ok) {
-            const data = await response.json();
-            return data;
-          }
+            const response = await fetch("http://localhost:3001/review/review", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${store.token}`,
+                },
+                body: JSON.stringify(postReviewData),
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+  
+                console.log("coment publicado listo pana", data);
+                window.location.reload(); // recarga la pagina después de una respuesta 
+                return data;
+            } else {
+                console.error("Error al publicar el comentario: ", response.statusText);
+            }
         } catch (error) {
-          console.error("Error en la publicación de comentario", error);
+            console.error("Error en la publicación de comentario", error);
         }
-      },
+    },    
     },
   };
 };
