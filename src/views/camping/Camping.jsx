@@ -14,7 +14,7 @@ import { Review } from "../../components/review/Review";
             < CampingCard id={id} />
            
             <CampingSite />
-
+                
             <Review />
 
         </>
