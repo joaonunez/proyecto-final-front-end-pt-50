@@ -461,6 +461,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             console.error('Error:', error);
           });
       },
+
       getSitesByCamping: async (campingId) => {
         try {
           const response = await fetch(`http://localhost:3001/site/camping/${campingId}/sites`, {
