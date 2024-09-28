@@ -66,7 +66,7 @@ function App() {
             {/* Solo los proveedores pueden acceder a las siguientes rutas */}
             <Route path="/provider-dashboard" element={
               <ProtectedRoute requiredRole={2}>
-                <ProviderDashboard />
+               
               </ProtectedRoute>
             } />
             <Route path="/edit-forms/:campingId" element={

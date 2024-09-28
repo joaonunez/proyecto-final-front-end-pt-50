@@ -174,6 +174,10 @@ const getState = ({ getActions, getStore, setStore }) => {
           if (response.ok) {
             const data = await response.json();
             setStore({ campings: data, error: null }); // Guardar los campings del proveedor en el store
+          } else if (response.status === 403) {
+            // Si el servidor responde con un error 403, redirigir a la página de inicio
+            console.warn("Acceso no autorizado. Redirigiendo a la página de inicio.");
+            window.location.href = "/"; // Redirigir al inicio
           } else {
             const errorData = await response.json();
             setStore({
@@ -188,6 +192,7 @@ const getState = ({ getActions, getStore, setStore }) => {
           });
         }
       },
+      
       
       getReviews: async (campingId) => {
         try {
