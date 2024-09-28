@@ -16,15 +16,11 @@ import { Booking } from "./components/booking/Booking";
 import CampingSite from "./components/site/CampingSite";
 import { Footer } from "./components/footer/Footer";
 import { ProviderDashboard } from "./views/provider-camping/ProviderDashboard";
-
 import { UserSettings } from "./views/user-config/UserSettings";
-import { Context } from "./store/context";
-import { useContext, useEffect } from "react";
 import { MyReservationsView } from "./views/my-reservation-for-user/MyReservationsView";
 import { ReservationViewForm } from "./views/generate-reservation/ReservationViewForm";
 import { EditCampingForm } from "./views/edit-forms/EditCampingForm";
-
-
+import ProtectedRoute from "./ProtectedRoute"; // Importar ProtectedRoute
 
 function App() {
   return (
@@ -38,20 +34,52 @@ function App() {
             <Route path="/campings" element={<CampingsList />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<Login />} />
+            
+            {/* Rutas protegidas por rol */}
+            <Route path="/login" element={
+              <ProtectedRoute>
+                <Login />
+              </ProtectedRoute>
+            } />
+            <Route path="/register" element={
+              <ProtectedRoute>
+                <Register />
+              </ProtectedRoute>
+            } />
+            
             <Route path="/prereserva" element={<Prereserva />} />
-            <Route path="/register" element={<Register />} />
             <Route path="/provider-login" element={<ProviderLogin />} />
             <Route path="/provider-register" element={<ProviderRegister />} />
-            <Route path="/review" element={<Review />} />
-            <Route path="/booking" element={<Booking />} />
-            <Route path="/campingSite" element={<CampingSite />} />
-            <Route path="/provider-dashboard" element={<ProviderDashboard />} /> 
-            <Route path="/my-reservations" element={< MyReservationsView />} /> 
-            <Route path="/user-config" element={<UserSettings />} />
-            <Route path="/edit-forms/:campingId" element={<EditCampingForm />} />
-            <Route path="/reservation-request" element={<ReservationViewForm />} />
+            
+            {/* Solo los clientes pueden acceder a las siguientes rutas */}
+            <Route path="/my-reservations" element={
+              <ProtectedRoute requiredRole={3}>
+                <MyReservationsView />
+              </ProtectedRoute>
+            } />
+            <Route path="/user-config" element={
+              <ProtectedRoute requiredRole={[3,2]}>
+                <UserSettings />
+              </ProtectedRoute>
+            } />
+            
+            {/* Solo los proveedores pueden acceder a las siguientes rutas */}
+            <Route path="/provider-dashboard" element={
+              <ProtectedRoute requiredRole={2}>
+                <ProviderDashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/edit-forms/:campingId" element={
+              <ProtectedRoute requiredRole={2}>
+                <EditCampingForm />
+              </ProtectedRoute>
+            } />
 
+            <Route path="/reservation-request" element={
+              <ProtectedRoute requiredRole={3}>
+                <ReservationViewForm />
+              </ProtectedRoute>
+            } />
           </Routes>
         </div>
         <Footer />

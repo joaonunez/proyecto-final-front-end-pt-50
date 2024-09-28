@@ -3,7 +3,6 @@ const getState = ({ getActions, getStore, setStore }) => {
     store: {
       user: JSON.parse(localStorage.getItem("user")) || null,
       token: localStorage.getItem("token") || null,
-      refreshToken: localStorage.getItem("refresh_token") || null,
       error: null,
       campings: [],
       reviews: [],
@@ -15,23 +14,25 @@ const getState = ({ getActions, getStore, setStore }) => {
       campingVisitForEdit: null,
     },
     actions: {
+      // Acción para registrar un nuevo proveedor (Provider)
       registerProvider: async (providerData) => {
         try {
-          const response = await fetch("http://localhost:3001/user/user", {
+          const response = await fetch("http://localhost:3001/user/create-one-user", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
               ...providerData,
-              role_id: 2,
+              role_id: 2,  // Asigna el rol de proveedor
             }),
           });
 
           if (response.ok) {
             return true;
           } else {
-            console.error("Error al registrar el proveedor");
+            const errorData = await response.json();
+            console.error("Error al registrar el proveedor:", errorData);
             return false;
           }
         } catch (err) {
@@ -40,23 +41,25 @@ const getState = ({ getActions, getStore, setStore }) => {
         }
       },
 
+      // Acción para registrar un nuevo cliente (Customer)
       registerCustomer: async (userData) => {
         try {
-          const response = await fetch("http://localhost:3001/user/user", {
+          const response = await fetch("http://localhost:3001/user/create-one-user", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
               ...userData,
-              role_id: 3,
+              role_id: 3,  // Asigna el rol de cliente
             }),
           });
 
           if (response.ok) {
             return true;
           } else {
-            console.error("Error al registrar el usuario");
+            const errorData = await response.json();
+            console.error("Error al registrar el cliente:", errorData);
             return false;
           }
         } catch (err) {
@@ -64,30 +67,33 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
-
+      //para logearse en el sistema
       login: async (email, password) => {
         try {
-          const response = await fetch("http://localhost:3001/user/login", {
+          const response = await fetch("http://localhost:3001/user/login-user", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({ email, password }),
+            credentials: "include", // incluir las credenciales
           });
 
           const result = await response.json();
 
-          if (response.ok) {
+          console.log("Resultado del login:", result); // Imprimir el resultado completo
+
+          if (response.ok && result.token) { // Asegurarse de que el token esté presente
             setStore({
               user: result.user,
               token: result.token,
-              refreshToken: result.refresh_token,
               error: null,
             });
 
             localStorage.setItem("user", JSON.stringify(result.user));
-            localStorage.setItem("token", result.token);
-            localStorage.setItem("refresh_token", result.refresh_token);
+            localStorage.setItem("token", result.token); // Guarda el token en localStorage
+            console.log("Token guardado en localStorage:", result.token);
+
             return true;
           } else {
             setStore({ error: result.error });
@@ -100,73 +106,89 @@ const getState = ({ getActions, getStore, setStore }) => {
         }
       },
 
+      //para cerrar cesion
       logout: () => {
-        setStore({ user: null, token: null, refreshToken: null });
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        localStorage.removeItem("refresh_token");
+        fetch("http://localhost:3001/user/logout-user", {
+          method: "POST",
+          credentials: "include", // <- incluye las credenciales para eliminar la cookie
+        })
+          .then(() => {
+            setStore({ user: null, token: null });
+            localStorage.removeItem("user");
+            localStorage.removeItem("token"); // Remueve el token del localStorage (si lo usas)
+          })
+          .catch((err) => console.error("Error al cerrar sesión:", err));
       },
 
+      // cargar usuario desde el almacenamiento local
       loadUserFromStorage: () => {
         const user = JSON.parse(localStorage.getItem("user"));
         const token = localStorage.getItem("token");
-        const refreshToken = localStorage.getItem("refresh_token");
-        if (user && token && refreshToken) {
-          setStore({ user, token, refreshToken });
+
+        console.log("Verificando datos en localStorage:");
+        console.log("Usuario encontrado:", user);
+        console.log("Token encontrado:", token);
+
+        if (user && token) {
+          setStore({ user, token });
+          console.log("Store actualizado con usuario y token:", { user, token });
+        } else {
+          // Si no hay usuario o token, limpiar el store
+          setStore({ user: null, token: null });
+          console.log("No se encontraron datos en localStorage, store limpiado.");
         }
       },
 
       getCampings: async () => {
         try {
-          const response = await fetch(
-            "http://localhost:3001/camping/camping",
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-
+          const response = await fetch("http://localhost:3001/camping/camping", {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
           if (response.ok) {
             const data = await response.json();
             setStore({ campings: data });
           } else {
-            console.error("Error al obtener campings.");
+            console.error("Error al obtener campings públicos.");
           }
         } catch (err) {
-          console.error("Error en la solicitud de campings:", err);
+          console.error("Error en la solicitud de campings públicos:", err);
         }
       },
+      
 
       getProviderCampings: async () => {
         const store = getStore();
         try {
           const response = await fetch(
-            `http://localhost:3001/camping/provider/${store.user.id}/campings`,
+            `http://localhost:3001/camping/provider/${store.user.id}/campings`, // Ruta para obtener los campings del proveedor
             {
               headers: {
-                Authorization: `Bearer ${store.token}`,
+                Authorization: `Bearer ${store.token}`, // Enviar el token del usuario en la cabecera
               },
+              credentials: "include", // Enviar cookies de autenticación si se necesitan
             }
           );
           if (response.ok) {
             const data = await response.json();
-            setStore({ campings: data, error: null });
+            setStore({ campings: data, error: null }); // Guardar los campings del proveedor en el store
           } else {
+            const errorData = await response.json();
             setStore({
               campings: [],
-              error: "No se encontraron campings para este proveedor.",
+              error: errorData.error || "No se encontraron campings para este proveedor.",
             });
           }
         } catch (err) {
-          console.error("Error al obtener campings:", err);
+          console.error("Error al obtener campings del proveedor:", err);
           setStore({
-            error: "Error al cargar campings. Por favor, intenta nuevamente.",
+            error: "Error al cargar campings del proveedor. Por favor, intenta nuevamente.",
           });
         }
       },
-
+      
       getReviews: async (campingId) => {
         try {
           const response = await fetch(
@@ -219,8 +241,9 @@ const getState = ({ getActions, getStore, setStore }) => {
             `http://localhost:3001/reservation/user/${userId}/reservations`,
             {
               headers: {
-                Authorization: `Bearer ${store.token}`,
+                Authorization: `Bearer ${store.token}`, // <-- Envío del token en la cabecera
               },
+              credentials: "include", // <-- Incluye cookies si se usa JWT en cookies
             }
           );
           if (response.ok) {
@@ -236,13 +259,9 @@ const getState = ({ getActions, getStore, setStore }) => {
             return false;
           }
         } catch (error) {
-          console.error(
-            "Error al obtener reservaciones por ID de usuario:",
-            error
-          );
+          console.error("Error al obtener reservaciones por ID de usuario:", error);
           setStore({
-            error:
-              "Error al cargar las reservaciones. Por favor, intenta nuevamente.",
+            error: "Error al cargar las reservaciones. Por favor, intenta nuevamente.",
           });
           return false;
         }
@@ -262,6 +281,10 @@ const getState = ({ getActions, getStore, setStore }) => {
 
       makeReservation: async (reservationData) => {
         const store = getStore();
+        if (!store.token) {
+          console.error("No hay token de autenticación disponible.");
+          return false;
+        }
         try {
           const response = await fetch(
             "http://localhost:3001/reservation/reservation",
@@ -269,16 +292,16 @@ const getState = ({ getActions, getStore, setStore }) => {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${store.token}`,
               },
               body: JSON.stringify(reservationData),
+              credentials: 'include' // Asegura que se envíen las cookies de autenticación
             }
           );
           if (response.ok) {
             console.log("Reserva realizada exitosamente");
             return true;
           } else {
-            console.error("Error al realizar la reserva");
+            console.error("Error al realizar la reserva", await response.text());
             return false;
           }
         } catch (error) {
@@ -291,7 +314,7 @@ const getState = ({ getActions, getStore, setStore }) => {
         const store = getStore();
         try {
           const response = await fetch(
-            `http://localhost:3001/reservation/reservation/${reservationId}`,
+            `http://localhost:3001/reservation/delete-reservation/${reservationId}`, // Cambié la ruta para hacerla más adecuada
             {
               method: "DELETE",
               headers: {
@@ -299,6 +322,7 @@ const getState = ({ getActions, getStore, setStore }) => {
                 Authorization: `Bearer ${store.token}`,
               },
               body: JSON.stringify({ password }),
+              credentials: "include", // Agregado para enviar cookies
             }
           );
 
@@ -314,31 +338,27 @@ const getState = ({ getActions, getStore, setStore }) => {
         }
       },
 
+
+      // Acción para actualizar la información del usuario
       updateUser: async (userData) => {
         const store = getStore();
         try {
-          const response = await fetch("http://localhost:3001/user/user", {
+          const response = await fetch("http://localhost:3001/user/update-user-info", {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${store.token}`,
             },
             body: JSON.stringify(userData),
+            credentials: 'include', // Incluir credenciales para cookies
           });
           if (response.ok) {
             const updatedUser = await response.json();
             setStore({ user: updatedUser });
             localStorage.setItem("user", JSON.stringify(updatedUser));
             return true;
-          } else if (response.status === 401) {
-            const tokenRefreshed = await getActions().refreshToken();
-            if (tokenRefreshed) {
-              return await getActions().updateUser(userData);
-            }
-            return false;
           } else {
-            const errorData = await response.json();
-            console.error("Error al actualizar el usuario:", errorData);
+            console.error("Error al actualizar el usuario");
             return false;
           }
         } catch (err) {
@@ -347,20 +367,19 @@ const getState = ({ getActions, getStore, setStore }) => {
         }
       },
 
+
       updateEmail: async (emailData) => {
         const store = getStore();
         try {
-          const response = await fetch(
-            "http://localhost:3001/user/update_email",
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${store.token}`,
-              },
-              body: JSON.stringify(emailData),
-            }
-          );
+          const response = await fetch("http://localhost:3001/user/update-user-email", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`,
+            },
+            body: JSON.stringify(emailData),
+            credentials: 'include', // Incluir credenciales para cookies
+          });
           if (response.ok) {
             let updatedUser = { ...store.user, email: emailData.email };
             setStore({ user: updatedUser });
@@ -372,7 +391,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             return false;
           }
         } catch (err) {
-          console.error("Error en updateEmail:", err);
+          console.error("Error en updateUserEmail:", err);
           return false;
         }
       },
@@ -380,17 +399,15 @@ const getState = ({ getActions, getStore, setStore }) => {
       updatePassword: async (passwordData) => {
         const store = getStore();
         try {
-          const response = await fetch(
-            "http://localhost:3001/user/update_password",
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${store.token}`,
-              },
-              body: JSON.stringify(passwordData),
-            }
-          );
+          const response = await fetch("http://localhost:3001/user/update-user-password", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`,
+            },
+            body: JSON.stringify(passwordData),
+            credentials: 'include', // Incluir credenciales para cookies
+          });
           if (response.ok) {
             return true;
           } else {
@@ -399,25 +416,24 @@ const getState = ({ getActions, getStore, setStore }) => {
             return false;
           }
         } catch (err) {
-          console.error("Error en updatePassword:", err);
+          console.error("Error en updateUserPassword:", err);
           return false;
         }
       },
 
+
       updatePhone: async (phoneData) => {
         const store = getStore();
         try {
-          const response = await fetch(
-            "http://localhost:3001/user/update_phone",
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${store.token}`,
-              },
-              body: JSON.stringify(phoneData),
-            }
-          );
+          const response = await fetch("http://localhost:3001/user/update-user-phone", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`,
+            },
+            body: JSON.stringify(phoneData),
+            credentials: 'include', // Incluir credenciales para cookies
+          });
           if (response.ok) {
             const updatedUser = await response.json();
             setStore({ user: updatedUser });
@@ -429,10 +445,12 @@ const getState = ({ getActions, getStore, setStore }) => {
             return false;
           }
         } catch (err) {
-          console.error("Error en updatePhone:", err);
+          console.error("Error en updateUserPhone:", err);
           return false;
         }
       },
+
+
 
       refreshToken: async () => {
         const store = getStore();
@@ -441,8 +459,8 @@ const getState = ({ getActions, getStore, setStore }) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${store.refreshToken}`,
             },
+            credentials: 'include' // <- Asegura que las cookies de actualización se envíen con la solicitud
           });
 
           if (response.ok) {
@@ -459,6 +477,7 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
+
 
       setCampingFoundToEdit: async (campingId) => {
         const store = getStore();
@@ -576,6 +595,7 @@ const getState = ({ getActions, getStore, setStore }) => {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
+              credentials: "include", // Agregar para enviar las cookies de autenticación
             }
           );
 
@@ -594,6 +614,7 @@ const getState = ({ getActions, getStore, setStore }) => {
           return null;
         }
       },
+
     },
   };
 };
