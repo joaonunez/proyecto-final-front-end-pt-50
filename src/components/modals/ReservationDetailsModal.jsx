@@ -23,57 +23,59 @@ export function ReservationDetails({ reservationId, actions }) {
 
   return (
     <>
-      <button className="btn btn-primary mt-2" onClick={toggleCollapse}>
+      <button className="reservation-details-toggle-btn" onClick={toggleCollapse}>
         {isOpen ? 'Ocultar Detalles' : 'Ver Detalles'}
       </button>
       <Collapse in={isOpen}>
-        <div className="reservation-details mt-3 p-3 border rounded bg-light">
+        <div className="reservation-details-container">
           {details ? (
             <>
-              <h5><strong>Detalles de la Reserva</strong></h5>
-              <p><strong>ID Reserva:</strong> {details.id}</p>
-              <p><strong>Cliente:</strong> {details.user?.first_name} {details.user?.last_name}</p>
-              <p><strong>Camping:</strong> {details.site?.camping_name || details.camping?.name}</p>
-              <p><strong>Dirección:</strong> {details.site?.camping?.address || details.camping?.address}</p>
-              <p><strong>Fecha Inicio:</strong> {details.start_date}</p>
-              <p><strong>Fecha Fin:</strong> {details.end_date}</p>
-              <p><strong>Número de Personas:</strong> {details.number_of_people}</p>
-              <p><strong>Servicios Seleccionados:</strong></p>
+              <h5 className="reservation-details-title"><strong>Detalles de la Reserva</strong></h5>
+              <p className="reservation-details-item"><strong>ID Reserva:</strong> {details.id}</p>
+              <p className="reservation-details-item"><strong>Cliente:</strong> {details.user?.first_name} {details.user?.last_name}</p>
+              <p className="reservation-details-item"><strong>Camping:</strong> {details.site?.camping_name || details.camping?.name}</p>
+              <p className="reservation-details-item"><strong>Dirección:</strong> {details.site?.camping?.address || details.camping?.address}</p>
+              <p className="reservation-details-item"><strong>Fecha Inicio:</strong> {details.start_date}</p>
+              <p className="reservation-details-item"><strong>Fecha Fin:</strong> {details.end_date}</p>
+              <p className="reservation-details-item"><strong>Número de Personas:</strong> {details.number_of_people}</p>
+              <p className="reservation-details-item"><strong>Servicios Seleccionados:</strong></p>
               {details.selected_services?.length > 0 ? (
-                <ul>
+                <ul className="reservation-details-list">
                   {details.selected_services.map((service, index) => (
-                    <li key={index}>{service.name} - ${service.price}</li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No hay servicios seleccionados.</p>
-              )}
-              <p><strong>Monto Total:</strong> ${details.total_amount}</p>
-              <p><strong>Descripción del Camping:</strong> {details.camping?.description || 'No disponible'}</p>
-              <p><strong>Servicios del Camping:</strong> {JSON.stringify(details.camping?.services || details.site?.camping_services || {})}</p>
-              <p><strong>Imágenes del Camping:</strong></p>
-              {(details.camping?.images || details.site?.camping?.images)?.length > 0 ? (
-                <ul>
-                  {(details.camping?.images || details.site?.camping?.images).map((image, index) => (
-                    <li key={index}>
-                      <img src={image} alt={`Camping Image ${index}`} style={{ maxWidth: "100%" }} />
+                    <li key={index} className="reservation-details-list-item">
+                      {service.name} - ${service.price}
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p>No hay imágenes disponibles.</p>
+                <p className="reservation-details-item">No hay servicios seleccionados.</p>
               )}
-              <p><strong>Información del Proveedor:</strong></p>
-              <ul>
-                <li><strong>Nombre:</strong> {details.camping?.provider?.first_name} {details.camping?.provider?.last_name || 'No disponible'}</li>
-                <li><strong>RUT:</strong> {details.camping?.provider?.rut || 'No disponible'}</li>
-                <li><strong>Email:</strong> {details.camping?.provider?.email || 'No disponible'}</li>
-                <li><strong>Teléfono:</strong> {details.camping?.provider?.phone || 'No disponible'}</li>
-                <li><strong>Rol:</strong> {details.camping?.provider?.role?.name || 'No disponible'}</li>
+              <p className="reservation-details-item"><strong>Monto Total:</strong> ${details.total_amount}</p>
+              <p className="reservation-details-item"><strong>Descripción del Camping:</strong> {details.camping?.description || 'No disponible'}</p>
+              <p className="reservation-details-item"><strong>Servicios del Camping:</strong> {JSON.stringify(details.camping?.services || details.site?.camping_services || {})}</p>
+              <p className="reservation-details-item"><strong>Imágenes del Camping:</strong></p>
+              {(details.camping?.images || details.site?.camping?.images)?.length > 0 ? (
+                <ul className="reservation-details-image-list">
+                  {(details.camping?.images || details.site?.camping?.images).map((image, index) => (
+                    <li key={index} className="reservation-details-image-item">
+                      <img src={image} alt={`Camping Image ${index}`} className="reservation-details-image" />
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="reservation-details-item">No hay imágenes disponibles.</p>
+              )}
+              <p className="reservation-details-item"><strong>Información del Proveedor:</strong></p>
+              <ul className="reservation-details-provider-info">
+                <li className="reservation-details-provider-item"><strong>Nombre:</strong> {details.camping?.provider?.first_name} {details.camping?.provider?.last_name || 'No disponible'}</li>
+                <li className="reservation-details-provider-item"><strong>RUT:</strong> {details.camping?.provider?.rut || 'No disponible'}</li>
+                <li className="reservation-details-provider-item"><strong>Email:</strong> {details.camping?.provider?.email || 'No disponible'}</li>
+                <li className="reservation-details-provider-item"><strong>Teléfono:</strong> {details.camping?.provider?.phone || 'No disponible'}</li>
+                <li className="reservation-details-provider-item"><strong>Rol:</strong> {details.camping?.provider?.role?.name || 'No disponible'}</li>
               </ul>
             </>
           ) : (
-            <p>Cargando detalles de la reserva...</p>
+            <p className="reservation-details-loading">Cargando detalles de la reserva...</p>
           )}
         </div>
       </Collapse>
