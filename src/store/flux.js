@@ -118,12 +118,15 @@ const getState = ({ getActions, getStore, setStore }) => {
 
       getCampings: async () => {
         try {
-          const response = await fetch("http://localhost:3001/camping/camping", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          const response = await fetch(
+            "http://localhost:3001/camping/camping",
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
 
           if (response.ok) {
             const data = await response.json();
@@ -139,30 +142,41 @@ const getState = ({ getActions, getStore, setStore }) => {
       getProviderCampings: async () => {
         const store = getStore();
         try {
-          const response = await fetch(`http://localhost:3001/camping/provider/${store.user.id}/campings`, {
-            headers: {
-              Authorization: `Bearer ${store.token}`,
-            },
-          });
+          const response = await fetch(
+            `http://localhost:3001/camping/provider/${store.user.id}/campings`,
+            {
+              headers: {
+                Authorization: `Bearer ${store.token}`,
+              },
+            }
+          );
           if (response.ok) {
             const data = await response.json();
             setStore({ campings: data, error: null });
           } else {
-            setStore({ campings: [], error: "No se encontraron campings para este proveedor." });
+            setStore({
+              campings: [],
+              error: "No se encontraron campings para este proveedor.",
+            });
           }
         } catch (err) {
           console.error("Error al obtener campings:", err);
-          setStore({ error: "Error al cargar campings. Por favor, intenta nuevamente." });
+          setStore({
+            error: "Error al cargar campings. Por favor, intenta nuevamente.",
+          });
         }
       },
 
       getReviews: async (campingId) => {
         try {
-          const response = await fetch(`http://localhost:3001/review/camping/${campingId}/reviews`, {
-            headers: {
-              Accept: "application/json",
-            },
-          });
+          const response = await fetch(
+            `http://localhost:3001/review/camping/${campingId}/reviews`,
+            {
+              headers: {
+                Accept: "application/json",
+              },
+            }
+          );
           if (response.ok) {
             const data = await response.json();
             setStore({ reviews: data });
@@ -170,17 +184,23 @@ const getState = ({ getActions, getStore, setStore }) => {
             console.error("Error al obtener los comentarios del camping.");
           }
         } catch (err) {
-          console.error("Error en la solicitud de comentarios del camping:", err);
+          console.error(
+            "Error en la solicitud de comentarios del camping:",
+            err
+          );
         }
       },
 
       getSiteByCamping: async (campingId) => {
         try {
-          const response = await fetch(`http://localhost:3001/site/camping/${campingId}/sites`, {
-            headers: {
-              Accept: "application/json",
-            },
-          });
+          const response = await fetch(
+            `http://localhost:3001/site/camping/${campingId}/sites`,
+            {
+              headers: {
+                Accept: "application/json",
+              },
+            }
+          );
           if (response.ok) {
             const data = await response.json();
             setStore({ sites: data });
@@ -195,23 +215,35 @@ const getState = ({ getActions, getStore, setStore }) => {
       getReservationsByUserId: async (userId) => {
         const store = getStore();
         try {
-          const response = await fetch(`http://localhost:3001/reservation/user/${userId}/reservations`, {
-            headers: {
-              Authorization: `Bearer ${store.token}`,
-            },
-          });
+          const response = await fetch(
+            `http://localhost:3001/reservation/user/${userId}/reservations`,
+            {
+              headers: {
+                Authorization: `Bearer ${store.token}`,
+              },
+            }
+          );
           if (response.ok) {
             const data = await response.json();
             setStore({ reservationsByUser: data, error: null });
             return true;
           } else {
             const errorData = await response.json();
-            setStore({ reservationsByUser: [], error: errorData.error || "Error al obtener reservaciones" });
+            setStore({
+              reservationsByUser: [],
+              error: errorData.error || "Error al obtener reservaciones",
+            });
             return false;
           }
         } catch (error) {
-          console.error("Error al obtener reservaciones por ID de usuario:", error);
-          setStore({ error: "Error al cargar las reservaciones. Por favor, intenta nuevamente." });
+          console.error(
+            "Error al obtener reservaciones por ID de usuario:",
+            error
+          );
+          setStore({
+            error:
+              "Error al cargar las reservaciones. Por favor, intenta nuevamente.",
+          });
           return false;
         }
       },
@@ -231,14 +263,17 @@ const getState = ({ getActions, getStore, setStore }) => {
       makeReservation: async (reservationData) => {
         const store = getStore();
         try {
-          const response = await fetch("http://localhost:3001/reservation/reservation", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${store.token}`,
-            },
-            body: JSON.stringify(reservationData),
-          });
+          const response = await fetch(
+            "http://localhost:3001/reservation/reservation",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${store.token}`,
+              },
+              body: JSON.stringify(reservationData),
+            }
+          );
           if (response.ok) {
             console.log("Reserva realizada exitosamente");
             return true;
@@ -255,14 +290,17 @@ const getState = ({ getActions, getStore, setStore }) => {
       deleteReservation: async (reservationId, password) => {
         const store = getStore();
         try {
-          const response = await fetch(`http://localhost:3001/reservation/reservation/${reservationId}`, {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${store.token}`,
-            },
-            body: JSON.stringify({ password }),
-          });
+          const response = await fetch(
+            `http://localhost:3001/reservation/reservation/${reservationId}`,
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${store.token}`,
+              },
+              body: JSON.stringify({ password }),
+            }
+          );
 
           if (response.ok) {
             return true;
@@ -312,14 +350,17 @@ const getState = ({ getActions, getStore, setStore }) => {
       updateEmail: async (emailData) => {
         const store = getStore();
         try {
-          const response = await fetch("http://localhost:3001/user/update_email", {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${store.token}`,
-            },
-            body: JSON.stringify(emailData),
-          });
+          const response = await fetch(
+            "http://localhost:3001/user/update_email",
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${store.token}`,
+              },
+              body: JSON.stringify(emailData),
+            }
+          );
           if (response.ok) {
             let updatedUser = { ...store.user, email: emailData.email };
             setStore({ user: updatedUser });
@@ -339,14 +380,17 @@ const getState = ({ getActions, getStore, setStore }) => {
       updatePassword: async (passwordData) => {
         const store = getStore();
         try {
-          const response = await fetch("http://localhost:3001/user/update_password", {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${store.token}`,
-            },
-            body: JSON.stringify(passwordData),
-          });
+          const response = await fetch(
+            "http://localhost:3001/user/update_password",
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${store.token}`,
+              },
+              body: JSON.stringify(passwordData),
+            }
+          );
           if (response.ok) {
             return true;
           } else {
@@ -363,14 +407,17 @@ const getState = ({ getActions, getStore, setStore }) => {
       updatePhone: async (phoneData) => {
         const store = getStore();
         try {
-          const response = await fetch("http://localhost:3001/user/update_phone", {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${store.token}`,
-            },
-            body: JSON.stringify(phoneData),
-          });
+          const response = await fetch(
+            "http://localhost:3001/user/update_phone",
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${store.token}`,
+              },
+              body: JSON.stringify(phoneData),
+            }
+          );
           if (response.ok) {
             const updatedUser = await response.json();
             setStore({ user: updatedUser });
@@ -417,13 +464,16 @@ const getState = ({ getActions, getStore, setStore }) => {
         const store = getStore();
         try {
           setStore({ campingVisitForEdit: null });
-          const response = await fetch(`http://localhost:3001/camping/camping/${campingId}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${store.token}`,
-            },
-          });
+          const response = await fetch(
+            `http://localhost:3001/camping/camping/${campingId}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${store.token}`,
+              },
+            }
+          );
 
           if (response.ok) {
             const campingData = await response.json();
@@ -464,11 +514,14 @@ const getState = ({ getActions, getStore, setStore }) => {
 
       getSitesByCamping: async (campingId) => {
         try {
-          const response = await fetch(`http://localhost:3001/site/camping/${campingId}/sites`, {
-            headers: {
-              Accept: "application/json",
-            },
-          });
+          const response = await fetch(
+            `http://localhost:3001/site/camping/${campingId}/sites`,
+            {
+              headers: {
+                Accept: "application/json",
+              },
+            }
+          );
           if (response.ok) {
             const data = await response.json();
             setStore({ sites: data });
@@ -483,28 +536,64 @@ const getState = ({ getActions, getStore, setStore }) => {
       postReviewForCamping: async (postReviewData) => {
         const store = getStore();
         try {
-            const response = await fetch("http://localhost:3001/review/review", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${store.token}`,
-                },
-                body: JSON.stringify(postReviewData),
-            });
-    
-            if (response.ok) {
-                const data = await response.json();
-  
-                console.log("coment publicado listo pana", data);
-                window.location.reload(); // recarga la pagina después de una respuesta 
-                return data;
-            } else {
-                console.error("Error al publicar el comentario: ", response.statusText);
-            }
+          const response = await fetch("http://localhost:3001/review/review", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`,
+            },
+            body: JSON.stringify(postReviewData),
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+
+            console.log("coment publicado listo pana", data);
+            window.location.reload(); // recarga la pagina después de una respuesta
+            return data;
+          } else {
+            console.error(
+              "Error al publicar el comentario: ",
+              response.statusText
+            );
+          }
         } catch (error) {
-            console.error("Error en la publicación de comentario", error);
+          console.error("Error en la publicación de comentario", error);
         }
-    },    
+      },
+      getReservationDetails: async (reservationId) => {
+        try {
+          const token = localStorage.getItem("token");
+          if (!token) {
+            console.error("No hay token en el localStorage");
+            return null;
+          }
+
+          const response = await fetch(
+            `http://localhost:3001/reservation/reservation/${reservationId}/view-all-details`,
+            {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error(
+              `Error en la respuesta: ${response.status} - ${errorText}`
+            );
+            return null;
+          }
+
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.error("Error fetching reservation details", error);
+          return null;
+        }
+      },
     },
   };
 };
