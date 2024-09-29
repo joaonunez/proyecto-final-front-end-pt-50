@@ -21,6 +21,7 @@ export function ProviderNav() {
     <nav className="navbar navbar-expand-lg navigation fixed-top provider-nav">
       <div className="container-fluid">
         <h2 className="navbar-brand">Panel del Proveedor</h2>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -32,6 +33,7 @@ export function ProviderNav() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
+
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
@@ -72,6 +74,14 @@ export function ProviderNav() {
               <span className="navbar-text me-3">
                 {`Bienvenido, ${store.user.first_name}`}
               </span>
+
+              {/* Botón para Registrar Camping */}
+              <button
+                className="btn btn-primary me-3"
+                onClick={() => navigate("/create-new-camping")}
+              >
+                Registrar Camping
+              </button>
 
               <div className="btn-group">
                 <button

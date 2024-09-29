@@ -26,6 +26,7 @@ import { ViewReservationsViewProvider } from "./views/generate-reservation/ViewR
 import { Context } from "./store/context";
 import { ProviderNav } from "./components/provider-components/ProviderNav";
 import { ProviderManagement } from "./views/provider-camping/ProviderManagement}";
+import { CreateCampingView } from "./views/provider-camping/CreateCampingView";
 
 function App() {
   const { store } = useContext(Context);
@@ -130,6 +131,14 @@ function App() {
               element={
                 <ProtectedRoute requiredRole={2}>
                   <ProviderManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/create-new-camping"
+              element={
+                <ProtectedRoute requiredRole={2}>
+                  <CreateCampingView />
                 </ProtectedRoute>
               }
             />
