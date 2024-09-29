@@ -12,6 +12,8 @@ const getState = ({ getActions, getStore, setStore }) => {
       selectedSite: null,
       services: [],
       campingVisitForEdit: null,
+      averageRating: null,
+      lenOfReviews: null,
     },
     actions: {
       // Acción para registrar un nuevo proveedor (Provider)
@@ -157,7 +159,28 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("Error en la solicitud de campings públicos:", err);
         }
       },
-      
+
+      getCampingById: async (campingId) => {
+        try {
+            const response = await fetch(`http://localhost:3001/camping/camping/${campingId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+            if (response.ok) {
+                const campingData = await response.json();
+                setStore({
+                    selectedCamping: campingData,  // Guardar el camping seleccionado en el store
+                });
+            } else {
+                console.error("Error al obtener los detalles del camping.");
+            }
+        } catch (err) {
+            console.error("Error en la solicitud de detalles del camping:", err);
+        }
+    },
+
 
       getProviderCampings: async () => {
         const store = getStore();
@@ -192,12 +215,12 @@ const getState = ({ getActions, getStore, setStore }) => {
           });
         }
       },
-      
-      
+
+
       getReviews: async (campingId) => {
         try {
           const response = await fetch(
-            `http://localhost:3001/review/camping/${campingId}/reviews`,
+            `http://localhost:3001/review/get-comments-on-camping/${campingId}/get-review`,
             {
               headers: {
                 Accept: "application/json",
@@ -620,7 +643,30 @@ const getState = ({ getActions, getStore, setStore }) => {
         }
       },
 
+      getReviewsAndAverage: async (campingId) => {
+        try {
+          const response = await fetch(`http://localhost:3001/review/get-camping-rating/${campingId}/from-reviews`, {
+            method: "GET",
+            headers: {
+            "Content-Type": "application/json",
+          },
+          });
+        if (response.ok) {
+          const data = await response.json();
+          setStore({
+            reviews: data.reviews,           // Guardar las reseñas en el store
+            averageRating: data.average_rating,  // Guardar el promedio en el store
+            lenOfReviews: data.lenOfReviews,
+          });
+        } else {
+          console.error("Error al obtener las reseñas y el promedio.");
+        }
+      } catch(err) {
+        console.error("Error en la solicitud de reseñas y promedio:", err);
+      }
     },
+
+  },
   };
 };
 
