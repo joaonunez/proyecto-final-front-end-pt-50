@@ -12,30 +12,33 @@ export const Review = () => {
 
   return (
     <>
-      {store.reviews.map(review => (
-        <div className='review'key={review.id}>
-          <div className="container mt-3">
-            <div className="row">
-              <div className="col-md-4">
-                <div className="card-comment">
-                  <div className="card-body">
-                    <h5 className="card-title">{review.user.first_name} {review.user.last_name}</h5>
-                    <div className="rating">
-                      {`Calificación: ${review.rating}`}
+      {Array.isArray(store.reviews) && store.reviews.length > 0 ? (
+        store.reviews.map(review => (
+          <div className='review' key={review.id}>
+            <div className="container mt-3">
+              <div className="row">
+                <div className="col-md-4">
+                  <div className="card-comment">
+                    <div className="card-body">
+                      <h5 className="card-title">{review.user.first_name} {review.user.last_name}</h5>
+                      <div className="rating">
+                        {`Calificación: ${review.rating}`}
+                      </div>
+                      <p className="card-text">{review.comment}</p>
+                      <small className="text-muted">{new Date(review.date).toLocaleString()}</small>
                     </div>
-                    <p className="card-text">{review.comment}</p>
-                    <small className="text-muted">{new Date(review.date).toLocaleString()}</small>
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <p>No hay comentarios disponibles.</p>
+      )}
     </>
   );
-};
+}  
 
 
 

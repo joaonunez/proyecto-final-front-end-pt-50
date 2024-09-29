@@ -505,6 +505,8 @@ const getState = ({ getActions, getStore, setStore }) => {
             console.error("Error en la publicación de comentario", error);
         }
     },    
+
+    // Traer un camping por su id
     },
   };
 };
