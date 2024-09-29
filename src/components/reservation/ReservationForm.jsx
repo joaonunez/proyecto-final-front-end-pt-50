@@ -25,6 +25,11 @@ const ReservationForm = () => {
       }));
     }
   }, [store.selectedSite]);
+  useEffect(() => {
+    console.log("Contenido del store:", store);
+    console.log("Token actual:", store.token);
+    console.log("Usuario actual:", store.user);
+  }, [store]);
 
   const calculateTotalAmount = () => {
     if (formData.start_date && formData.end_date && store.selectedSite) {

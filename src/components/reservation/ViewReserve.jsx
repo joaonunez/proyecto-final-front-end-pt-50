@@ -2,10 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/context";
 import { Link } from "react-router-dom";
 import Swal from 'sweetalert2';
+import { ReservationDetails } from "../modals/ReservationDetailsModal";
 
 export function ViewReserve() {
   const { store, actions } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
+  const [expandedRow, setExpandedRow] = useState(null); // Para controlar la fila expandida
 
   useEffect(() => {
     const fetchReservations = async () => {
@@ -35,16 +37,11 @@ export function ViewReserve() {
     });
 
     if (result.isConfirmed) {
-      // Solicitar contraseña después de la confirmación
       const { value: password } = await Swal.fire({
         title: 'Confirma tu identidad',
         input: 'password',
         inputLabel: 'Ingresa tu contraseña para confirmar la cancelación',
         inputPlaceholder: 'Contraseña',
-        inputAttributes: {
-          autocapitalize: 'off',
-          autocorrect: 'off'
-        },
         showCancelButton: true,
         confirmButtonText: 'Confirmar',
         cancelButtonText: 'Cancelar',
@@ -72,6 +69,14 @@ export function ViewReserve() {
           );
         }
       }
+    }
+  };
+
+  const handleExpandRow = (reservationId) => {
+    if (expandedRow === reservationId) {
+      setExpandedRow(null); // Contrae la fila si se hace clic nuevamente
+    } else {
+      setExpandedRow(reservationId); // Expande la fila seleccionada
     }
   };
 
@@ -105,23 +110,38 @@ export function ViewReserve() {
         </thead>
         <tbody>
           {reservationsByUser.map((reservation) => (
-            <tr key={reservation.id}>
-              <td>{reservation.id}</td>
-              <td>{reservation.camping_name}</td>
-              <td>{formatDate(reservation.start_date)}</td>
-              <td>{formatDate(reservation.end_date)}</td>
-              <td>{reservation.number_of_people}</td>
-              <td>${reservation.total_amount}</td>
-              <td>
-                <button className="btn modify-btn">Modificar</button>
-                <button 
-                  className="btn cancel-btn"
-                  onClick={() => handleCancel(reservation.id)}
-                >
-                  Cancelar
-                </button>
-              </td>
-            </tr>
+            <React.Fragment key={reservation.id}>
+              <tr>
+                <td>{reservation.id}</td>
+                <td>{reservation.camping_name}</td>
+                <td>{formatDate(reservation.start_date)}</td>
+                <td>{formatDate(reservation.end_date)}</td>
+                <td>{reservation.number_of_people}</td>
+                <td>${reservation.total_amount}</td>
+                <td>
+                  <button className="btn modify-btn">Modificar</button>
+                  <button 
+                    className="btn cancel-btn"
+                    onClick={() => handleCancel(reservation.id)}
+                  >
+                    Cancelar
+                  </button>
+                  <button 
+                    className="btn btn-primary"
+                    onClick={() => handleExpandRow(reservation.id)}
+                  >
+                    {expandedRow === reservation.id ? 'Ocultar Detalles' : 'Ver Detalles'}
+                  </button>
+                </td>
+              </tr>
+              {expandedRow === reservation.id && (
+                <tr>
+                  <td colSpan="7">
+                    <ReservationDetails reservationId={reservation.id} actions={actions} />
+                  </td>
+                </tr>
+              )}
+            </React.Fragment>
           ))}
         </tbody>
       </table>
