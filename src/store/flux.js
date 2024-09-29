@@ -618,6 +618,40 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
+      updateSiteStatus: async (siteId, newStatus) => {
+        const store = getStore();  // Obtener el estado actual
+        try {
+          const response = await fetch(`http://localhost:3001/site/update-site/${siteId}/changue-status`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`,  // Incluye el token de autenticación
+            },
+            body: JSON.stringify({ status: newStatus }),  // Cuerpo de la solicitud con el nuevo estado
+          });
+      
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Estado del sitio actualizado con éxito:", data);
+      
+            // Actualiza la lista de sitios en el store si es necesario
+            const updatedSites = store.sites.map((site) =>
+              site.id === siteId ? { ...site, status: newStatus } : site
+            );
+            setStore({ sites: updatedSites });
+      
+            return data;
+          } else {
+            const errorData = await response.json();
+            console.error("Error al actualizar el estado del sitio:", errorData);
+            return null;
+          }
+        } catch (err) {
+          console.error("Error en la solicitud de actualización del estado del sitio:", err);
+          return null;
+        }
+      },
+      
 
 
     },
