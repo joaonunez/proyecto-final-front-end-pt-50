@@ -8,6 +8,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       reviews: [],
       reservations: [],
       reservationsByUser: [],
+      reservationsByProvider: [], //  para almacenar reservas en los campings del proveedor
       sites: [],
       selectedSite: null,
       services: [],
@@ -261,40 +262,6 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("Error en la solicitud de sitios del camping:", err);
         }
       },
-
-      getReservationsByUserId: async (userId) => {
-        const store = getStore();
-        try {
-          const response = await fetch(
-            `http://localhost:3001/reservation/user/${userId}/reservations`,
-            {
-              headers: {
-                Authorization: `Bearer ${store.token}`, // <-- Envío del token en la cabecera
-              },
-              credentials: "include", // <-- Incluye cookies si se usa JWT en cookies
-            }
-          );
-          if (response.ok) {
-            const data = await response.json();
-            setStore({ reservationsByUser: data, error: null });
-            return true;
-          } else {
-            const errorData = await response.json();
-            setStore({
-              reservationsByUser: [],
-              error: errorData.error || "Error al obtener reservaciones",
-            });
-            return false;
-          }
-        } catch (error) {
-          console.error("Error al obtener reservaciones por ID de usuario:", error);
-          setStore({
-            error: "Error al cargar las reservaciones. Por favor, intenta nuevamente.",
-          });
-          return false;
-        }
-      },
-
       selectSite: (site) => {
         setStore({ selectedSite: site });
         localStorage.setItem("selectedSite", JSON.stringify(site));
@@ -608,37 +575,102 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("Error en la publicación de comentario", error);
         }
       },
-      getReservationDetails: async (reservationId) => {
-        try {
-          const token = localStorage.getItem("token");
-          if (!token) {
-            console.error("No hay token en el localStorage");
-            return null;
-          }
 
+      getReservationsByProviderInCampings: async (providerId) => {
+        const store = getStore();
+        try {
+            const response = await fetch(
+                `http://localhost:3001/reservation/reservation-in-camping/${providerId}/reservations`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${store.token}`,
+                    },
+                    credentials: "include",
+                }
+            );
+    
+            if (response.ok) {
+                const data = await response.json();
+                setStore({ reservationsByProvider: data, error: null });
+            } else {
+                const errorData = await response.json();
+                setStore({
+                    reservationsByProvider: [],
+                    error: errorData.error || "No se encontraron reservas para este proveedor.",
+                });
+            }
+        } catch (err) {
+            console.error("Error al obtener reservas del proveedor:", err);
+            setStore({
+                error: "Error al cargar reservas del proveedor. Por favor, intenta nuevamente.",
+            });
+        }
+    },
+    
+      // flux.js
+      getReservationsByUserId: async (userId) => {
+        const store = getStore();
+        try {
           const response = await fetch(
-            `http://localhost:3001/reservation/reservation/${reservationId}/view-all-details`,
+            `http://localhost:3001/reservation/view-reservations-customer/${userId}/all-details`,
             {
-              method: "GET",
               headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${store.token}`, // Enviar el token en la cabecera
               },
-              credentials: "include", // Agregar para enviar las cookies de autenticación
+              credentials: "include", // Enviar cookies de autenticación si se necesitan
             }
           );
 
-          if (!response.ok) {
-            const errorText = await response.text();
-            console.error(
-              `Error en la respuesta: ${response.status} - ${errorText}`
+          if (response.ok) {
+            const data = await response.json();
+            setStore({ reservationsByUser: data, error: null });
+            return true;
+          } else {
+            const errorData = await response.json();
+            setStore({
+              reservationsByUser: [],
+              error: errorData.error || "Error al obtener reservaciones",
+            });
+            return false;
+          }
+        } catch (error) {
+          console.error("Error al obtener reservaciones por ID de usuario:", error);
+          setStore({
+            error: "Error al cargar las reservaciones. Por favor, intenta nuevamente.",
+          });
+          return false;
+        }
+      },
+      updateSiteStatus: async (siteId, newStatus) => {
+        const store = getStore();  // Obtener el estado actual
+        try {
+          const response = await fetch(`http://localhost:3001/site/update-site/${siteId}/changue-status`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${store.token}`,  // Incluye el token de autenticación
+            },
+            body: JSON.stringify({ status: newStatus }),  // Cuerpo de la solicitud con el nuevo estado
+          });
+      
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Estado del sitio actualizado con éxito:", data);
+      
+            // Actualiza la lista de sitios en el store si es necesario
+            const updatedSites = store.sites.map((site) =>
+              site.id === siteId ? { ...site, status: newStatus } : site
             );
+            setStore({ sites: updatedSites });
+      
+            return data;
+          } else {
+            const errorData = await response.json();
+            console.error("Error al actualizar el estado del sitio:", errorData);
             return null;
           }
-
-          const data = await response.json();
-          return data;
-        } catch (error) {
-          console.error("Error fetching reservation details", error);
+        } catch (err) {
+          console.error("Error en la solicitud de actualización del estado del sitio:", err);
           return null;
         }
       },
