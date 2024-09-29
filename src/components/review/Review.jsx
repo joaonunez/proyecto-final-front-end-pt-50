@@ -11,9 +11,10 @@ export const Review = () => {
   }, [id]);
 
   return (
-    <>
-      {store.reviews.map(review => (
-        <div className='review'key={review.id}>
+  <>
+    {Array.isArray(store.reviews) && store.reviews.length > 0 ? (
+      store.reviews.map(review => (
+        <div className='review' key={review.id}>
           <div className="container mt-3">
             <div className="row">
               <div className="col-md-4">
@@ -28,14 +29,17 @@ export const Review = () => {
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
-      ))}
-    </>
-  );
-};
+      ))
+    ) : (
+      <p>No hay comentarios disponibles.</p>
+    )}
+  </>
+);
+}
+
 
 
 
