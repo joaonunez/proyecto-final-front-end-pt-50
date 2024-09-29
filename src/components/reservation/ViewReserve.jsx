@@ -1,18 +1,21 @@
+// ViewReserve.jsx
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/context";
 import { Link } from "react-router-dom";
 import Swal from 'sweetalert2';
-import { ReservationDetails } from "../modals/ReservationDetailsModal";
 
 export function ViewReserve() {
   const { store, actions } = useContext(Context);
   const [isLoading, setIsLoading] = useState(true);
-  const [expandedRow, setExpandedRow] = useState(null); // Para controlar la fila expandida
+  const [expandedRow, setExpandedRow] = useState(null);
 
   useEffect(() => {
     const fetchReservations = async () => {
-      await actions.getReservationsByUserId(store.user.id);
+      const success = await actions.getReservationsByUserId(store.user.id);
       setIsLoading(false);
+      if (!success) {
+        Swal.fire("Error", store.error || "No se pudieron cargar las reservas.", "error");
+      }
     };
     fetchReservations();
   }, []);
@@ -74,9 +77,9 @@ export function ViewReserve() {
 
   const handleExpandRow = (reservationId) => {
     if (expandedRow === reservationId) {
-      setExpandedRow(null); // Contrae la fila si se hace clic nuevamente
+      setExpandedRow(null);
     } else {
-      setExpandedRow(reservationId); // Expande la fila seleccionada
+      setExpandedRow(reservationId);
     }
   };
 
@@ -109,40 +112,77 @@ export function ViewReserve() {
           </tr>
         </thead>
         <tbody>
-          {reservationsByUser.map((reservation) => (
-            <React.Fragment key={reservation.id}>
-              <tr>
-                <td>{reservation.id}</td>
-                <td>{reservation.camping_name}</td>
-                <td>{formatDate(reservation.start_date)}</td>
-                <td>{formatDate(reservation.end_date)}</td>
-                <td>{reservation.number_of_people}</td>
-                <td>${reservation.total_amount}</td>
-                <td>
-                  <button className="btn modify-btn">Modificar</button>
-                  <button 
-                    className="btn cancel-btn"
-                    onClick={() => handleCancel(reservation.id)}
-                  >
-                    Cancelar
-                  </button>
-                  <button 
-                    className="btn btn-primary"
-                    onClick={() => handleExpandRow(reservation.id)}
-                  >
-                    {expandedRow === reservation.id ? 'Ocultar Detalles' : 'Ver Detalles'}
-                  </button>
-                </td>
-              </tr>
-              {expandedRow === reservation.id && (
+          {
+            reservationsByUser.map((reservation) => (
+              <React.Fragment key={reservation.id}>
                 <tr>
-                  <td colSpan="7">
-                    <ReservationDetails reservationId={reservation.id} actions={actions} />
+                  <td>{reservation.id}</td>
+                  <td>{reservation.camping?.name || reservation.site?.camping_name}</td>
+                  <td>{formatDate(reservation.start_date)}</td>
+                  <td>{formatDate(reservation.end_date)}</td>
+                  <td>{reservation.number_of_people}</td>
+                  <td>${reservation.total_amount}</td>
+                  <td>
+                    <button className="btn modify-btn">Modificar</button>
+                    <button
+                      className="btn cancel-btn"
+                      onClick={() => handleCancel(reservation.id)}
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleExpandRow(reservation.id)}
+                    >
+                      {expandedRow === reservation.id ? 'Ocultar Detalles' : 'Ver Detalles'}
+                    </button>
                   </td>
                 </tr>
-              )}
-            </React.Fragment>
-          ))}
+                {expandedRow === reservation.id && (
+                  <tr>
+                    <td colSpan="7">
+                      <div className="reservation-details-container">
+                        <h5 className="reservation-details-title"><strong>Detalles de la Reserva</strong></h5>
+                        <p><strong>Cliente:</strong> {reservation.user.first_name} {reservation.user.last_name}</p>
+                        <p><strong>Camping:</strong> {reservation.camping?.name}</p>
+                        <p><strong>Dirección:</strong> {reservation.camping?.address}</p>
+                        <p><strong>Fecha Inicio:</strong> {reservation.start_date}</p>
+                        <p><strong>Fecha Fin:</strong> {reservation.end_date}</p>
+                        <p><strong>Número de Personas:</strong> {reservation.number_of_people}</p>
+                        <p><strong>Servicios Seleccionados:</strong></p>
+                        {reservation.selected_services?.length > 0 ? (
+                          <ul>
+                            {reservation.selected_services.map((service, index) => (
+                              <li key={index}>
+                                {service.name} - ${service.price}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p>No hay servicios seleccionados.</p>
+                        )}
+                        <p><strong>Monto Total:</strong> ${reservation.total_amount}</p>
+                        <p><strong>Descripción del Camping:</strong> {reservation.camping?.description || 'No disponible'}</p>
+                        <p><strong>Servicios del Camping:</strong> {Array.isArray(reservation.camping?.services) ? reservation.camping.services.join(', ') : 'No disponible'}</p>
+                        <p><strong>Imágenes del Camping:</strong></p>
+                        {Array.isArray(reservation.camping?.images) && reservation.camping.images.length > 0 ? (
+                          <ul>
+                            {reservation.camping.images.map((image, index) => (
+                              <li key={index}>
+                                <img src={image} alt={`Camping Image ${index}`} className="reservation-image" />
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          <p>No hay imágenes disponibles.</p>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            ))
+          }
         </tbody>
       </table>
     </div>

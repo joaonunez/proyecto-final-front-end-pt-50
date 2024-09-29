@@ -21,6 +21,7 @@ import { MyReservationsView } from "./views/my-reservation-for-user/MyReservatio
 import { ReservationViewForm } from "./views/generate-reservation/ReservationViewForm";
 import { EditCampingForm } from "./views/edit-forms/EditCampingForm";
 import ProtectedRoute from "./ProtectedRoute"; // Importar ProtectedRoute
+import { ViewReservationsViewProvider } from "./views/generate-reservation/ViewReservationsViewProvider";
 
 function App() {
   return (
@@ -66,7 +67,7 @@ function App() {
             {/* Solo los proveedores pueden acceder a las siguientes rutas */}
             <Route path="/provider-dashboard" element={
               <ProtectedRoute requiredRole={2}>
-               
+                <ProviderDashboard/>
               </ProtectedRoute>
             } />
             <Route path="/edit-forms/:campingId" element={
@@ -80,6 +81,7 @@ function App() {
                 <ReservationViewForm />
               </ProtectedRoute>
             } />
+            <Route path="/admin-reserves" element={<ViewReservationsViewProvider/>}/>
           </Routes>
         </div>
         <Footer />
