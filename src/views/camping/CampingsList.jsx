@@ -33,7 +33,8 @@ export function CampingsList() {
             <p className="camping-description-info ">{camping.description} </p>
           </div>
           <div className="rating-camping-info col-2">
-            <button className="btn btn-warning rating-button-link">8</button>
+          <button className="btn btn-warning rating-button-link" style={{ fontSize: "2rem" }}> 8</button>
+
             <div className="icon-comment-container">
               <FaComments className="facomments" />
               <span>Comments</span>

@@ -56,7 +56,7 @@ export function FormEditCamping  ({id})  {
         setFormData((prevData) => ({ ...prevData, [inputId]: value }));
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
     };
 
@@ -120,7 +120,7 @@ export function FormEditCamping  ({id})  {
                 </div>
                 <div className="col-md-5">
                     <label htmlFor="logo" className="form-label">Logo</label>
-                    <input type="file" className="form-control" id="logo" required />
+                    <input type="file" className="form-control" id="logo" />
                 </div>
                 <div className="col-md-5">
                     <label htmlFor="descripcion" className="form-label">Descripción</label>
@@ -128,7 +128,7 @@ export function FormEditCamping  ({id})  {
                 </div>
                 <div className="col-md-5">
                     <label htmlFor="galeriaFotos" className="form-label">Galería de Fotos</label>
-                    <input type="file" className="form-control" id="galeriaFotos" multiple required />
+                    <input type="file" className="form-control" id="galeriaFotos" />
                 </div>
                 <div className="col-md-5">
                     <label htmlFor="googleMaps" className="form-label">Google Maps</label>
@@ -136,7 +136,7 @@ export function FormEditCamping  ({id})  {
                 </div>
                 <div className="col-12">
                     <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button className="btn btn-warning me-md-2" type="submit">Save Camping</button>
+                        <button className="btn btn-warning me-md-2" type="submit"onClick={handleSubmit}>Save Camping</button>
                         <Link to="/provider-dashboard/">
                             <button className="btn btn-warning me-md-2" type="button">Volver</button>
                         </Link>

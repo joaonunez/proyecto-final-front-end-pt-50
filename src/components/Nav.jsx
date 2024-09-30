@@ -23,7 +23,9 @@ export function Nav() {
   return (
     <nav className="navbar navbar-expand-lg navigation fixed-top">
       <div className="container-fluid">
-        <img src={logo} alt="Logo Camping" className="logo-nav" />
+        <Link to="/">
+          <img src={logo} alt="Logo Camping" className="logo-nav" />
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -40,9 +42,8 @@ export function Nav() {
             <li className="nav-item">
               <Link
                 to="/"
-                className={`nav-link ${
-                  location.pathname === "/" ? "active" : ""
-                }`}
+                className={`nav-link ${location.pathname === "/" ? "active" : ""
+                  }`}
                 aria-current="page"
               >
                 Inicio <MdForest />
@@ -51,9 +52,8 @@ export function Nav() {
             <li className="nav-item">
               <Link
                 to="/campings"
-                className={`nav-link ${
-                  location.pathname === "/campings" ? "active" : ""
-                }`}
+                className={`nav-link ${location.pathname === "/campings" ? "active" : ""
+                  }`}
               >
                 Campings <GiCampingTent />
               </Link>
@@ -61,9 +61,8 @@ export function Nav() {
             <li className="nav-item">
               <Link
                 to="/about-us"
-                className={`nav-link ${
-                  location.pathname === "/about-us" ? "active" : ""
-                }`}
+                className={`nav-link ${location.pathname === "/about-us" ? "active" : ""
+                  }`}
               >
                 Nosotros <FaPeopleRoof />
               </Link>
@@ -71,9 +70,8 @@ export function Nav() {
             <li className="nav-item">
               <Link
                 to="/contact"
-                className={`nav-link ${
-                  location.pathname === "/contact" ? "active" : ""
-                }`}
+                className={`nav-link ${location.pathname === "/contact" ? "active" : ""
+                  }`}
               >
                 Contacto <MdContacts />
               </Link>

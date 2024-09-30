@@ -19,7 +19,7 @@ export function CampingCard({ id }) {
     return (
         <>
             {camping && (
-                <div className="container-fluid camping-card mt-5" style={{ width: "83rem" }}>
+                <div className="container-fluid camping-card mt-5" style={{ width: "83rem", height :"32rem" }}>
                     <div className="camping-logo col-3">
                         <img
                             className="camping-logo-image"
@@ -27,11 +27,12 @@ export function CampingCard({ id }) {
                             alt="Camping logo"
                         />
                     </div>
-                    <div className="camping-card-info col-9">
+                    <div className="camping-card-info col-12">
                         <div className="camping-header">
                             <h1 className="camping-name">{camping.name}</h1>
+                            
                             <div className="rating-info">
-                                <button className="btn btn-warning button-rating">
+                                <button className="btn btn-warning button-rating mt-5" style={{ fontSize: "2rem" }}>
                                     {store.averageRating || "N/A"}
                                 </button>
                                 <div className="container-comments-space">
