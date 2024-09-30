@@ -450,15 +450,15 @@ const getState = ({ getActions, getStore, setStore }) => {
         })
           .then((response) => {
             if (!response.ok) {
-              throw new Error('Network response was not ok');
+              throw new Error("Network response was not ok");
             }
             return response.json();
           })
           .then((data) => {
-            console.log('Success:', data);
+            console.log("Success:", data);
           })
           .catch((error) => {
-            console.error('Error:', error);
+            console.error("Error:", error);
           });
       },
 
@@ -479,6 +479,32 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("Error en la solicitud de sitios del camping:", err);
         }
       },
+
+      postReviewForCamping: async (postReviewData) => {
+        const store = getStore();
+        try {
+            const response = await fetch("http://localhost:3001/review/review", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${store.token}`,
+                },
+                body: JSON.stringify(postReviewData),
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+  
+                console.log("coment publicado listo pana", data);
+                window.location.reload(); // recarga la pagina después de una respuesta 
+                return data;
+            } else {
+                console.error("Error al publicar el comentario: ", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error en la publicación de comentario", error);
+        }
+    },    
     },
   };
 };
