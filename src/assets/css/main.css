@@ -1,3 +1,62 @@
-@import url('components/nav.css');
-@import url('components/banner.css');
-@import url('components/login.css');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+@import url('components/home/nav.css');
+@import url('components/home/banner.css');
+@import url('components/login/customer-login.css');
+@import url('components/register/customer-register.css');
+@import url('components/Camping-css/camping-card.css');
+@import url('components/Camping-css/campings.css');
+@import url('components/prereserva.css');
+@import url('components/login/provider-login.css');
+@import url('components/register/provider-register.css');
+@import url('components/about-us/about-us.css');
+@import url('components/contact/contact.css');
+@import url('components/background-app/background.css');
+@import url('components/home/home.css');
+@import url('components/review-app/review.css');
+@import url('components/booking.css/booking.css');
+@import url('components/footer/footer.css'); 
+@import url('components/app-main/app.css');
+@import url('components/provider-dashboard/provider-dashboard.css');
+@import url('components/camping-formulario/Formulario.css');
+@import url('components/config-user/datos-personales.css');
+@import url('components/config-user/seguridad.css');
+@import url('components/config-user/user-settings.css');
+@import url('components/view-reserve/view-reserve-.css');
+@import url('components/reservation-form/reservation-form.css');
+@import url('components/view-reserve/view-details-reserve.css');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

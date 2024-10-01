@@ -1,29 +1,51 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useContext } from 'react';
+import { Context } from '../../store/context';
+import { useParams } from 'react-router-dom';
 
-const AvailableSites = () => {
+const AvailableSites = ({ onSiteSelect }) => {
+  const { store, actions } = useContext(Context);
+  const { id } = useParams();
+
+  useEffect(() => {
+    // Cargar los sitios del camping actual 
+    actions.getSitesByCamping(id);
+  }, [id]);
+
+  const handleSiteSelect = (site) => {
+    actions.selectSite(site); // Guardar el sitio seleccionado en el store
+    if (onSiteSelect) {
+      onSiteSelect(site.id); // Llama a la función pasada como prop
+    }
+  };
+
   return (
-    <div className="container mt-4">
+    <div className="container mt-4 col-12">
       <h2 className="text-center">Sitios Disponibles</h2>
-
-      {/* Botones de los sitios */}
       <div className="d-flex flex-wrap justify-content-center mb-4">
-        <button className="btn m-2" style={{ backgroundColor: '#9E9E9E' }}>Sitio 1</button>
-        <button className="btn m-2" style={{ backgroundColor: '#9E9E9E' }}>Sitio 2</button>
-        <button className="btn m-2" style={{ backgroundColor: '#9E9E9E' }}>Sitio 3</button>
-        <button className="btn m-2" style={{ backgroundColor: '#8BC34A' }}>Sitio 5</button>
-        <button className="btn m-2" style={{ backgroundColor: '#9E9E9E' }}>Sitio 20</button>
+        {store.sites.map((site) => (
+          <button
+            key={site.id}
+            className="btn m-2"
+            style={{
+              backgroundColor: site.status === 'available' ? '#8BC34A' : '#9E9E9E',
+              color: 'white',
+            }}
+            onClick={() => handleSiteSelect(site)}
+          >
+            {site.name}
+          </button>
+        ))}
       </div>
-
-      {/* Imagen del mapa del camping */}
-      <div className="d-flex justify-content-center">
-        <img 
-          src="https://sendasconguillio.cl/wp-content/uploads/2023/11/Camping-Nirres-baja.jpg"
-          alt="Mapa de camping" 
-          className="img-fluid rounded" 
-          style={{ maxWidth: '100%', maxHeight: '600px' }} 
-        />
-      </div>
+      {store.selectedSite && (
+        <div className="SiteDetails d-flex flex-column align-items-center">
+          <img
+            src={store.selectedSite.url_map_site || "https://sendasconguillio.cl/wp-content/uploads/2023/11/Sector-Cabanas-baja.jpg"}
+            alt="Mapa del sitio"
+            className="img-fluid rounded mb-4"
+            style={{ maxWidth: "100%", maxHeight: "400px" }}
+          />
+        </div>
+      )}
     </div>
   );
 };

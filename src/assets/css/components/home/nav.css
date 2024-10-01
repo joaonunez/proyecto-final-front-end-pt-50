@@ -1,0 +1,121 @@
+.navbar {
+    background-color: #004d40;  
+    padding: 1rem;
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: .5rem 1rem;
+}
+
+.logo-nav {
+    width: 150px;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.navbar-nav .nav-link {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-left: 1rem;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+    color: #ffd54f;
+}
+
+.navbar-nav .nav-link.active {
+    color: #ffd54f; 
+    border-bottom: 2px solid #ffd54f; 
+}
+
+.btn-login-nav {
+    background-color: #fbc02d;
+    color: #004d40;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.btn-to-login-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.btn-login-nav:hover {
+    background-color: #ffd54f;
+    color: #004d40;
+}
+
+.btn-camping-nav {
+    background-color: #fbc02d;
+    color: #004d40;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.btn-to-camping-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.btn-camping-nav:hover {
+    background-color: #ffd54f;
+    color: #004d40;
+}
+
+.btn-settings-nav {
+    background-color: #fbc02d;
+    color: #004d40;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.btn-settings-nav:hover {
+    background-color: #ffd54f;
+    color: #4d0027;
+}
+
+/* Dropdown menu */
+.dropdown-menu-end {
+    background-color: #f1f8e9;
+}
+
+.dropdown-item {
+    color: #4d001f;
+    font-size: 1.2rem;
+}
+
+.dropdown-item:hover {
+    background-color: #ffd54f;
+    color: #4d0015;
+}
+
+.nav-item .active {
+    border-bottom: 2px solid #ffd54f !important;
+    color: #ffd54f;
+}
+
+.navbar-text {
+    font-size: 1.3rem;
+    color: white;
+}

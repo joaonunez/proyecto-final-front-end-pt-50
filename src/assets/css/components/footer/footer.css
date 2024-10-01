@@ -1,0 +1,93 @@
+.footer-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background-color: #000;
+}
+
+.logofooter {
+    width: 200px;
+    height: 144px;
+    align-self: center;
+    margin-bottom: 20px;
+}
+
+.footer p, .footer a {
+    color: #fff;
+    opacity: 0.8;
+    font-size: 14px;
+}
+
+.footer-menu li a {
+    color: #ffff;
+    opacity: 0.8;
+    font-size: 14px;
+}
+
+.footer-menu li a:hover {
+    color: rgb(234, 227, 17);
+}
+
+.footer-socials li a {
+    color: #aef6ea !important;
+    font-size: 20px;
+    padding-left: 10px;
+    opacity: 0.8;
+    transition: color 0.3s ease;
+}
+
+.footer-icons, .footer-widget {
+    margin-bottom: 20px;
+}
+
+.redes .footer-socials {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.footer-widget h4 {
+    color: white;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.redes li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.redes li a:hover {
+    color: rgb(235, 209, 14);
+}
+
+.recent-blog a {
+    line-height: 1.5;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.derechos {
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #444;
+}
+
+.derechos p {
+    color: #d7d70a;
+    font-size: 14px;
+}

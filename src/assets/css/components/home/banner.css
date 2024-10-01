@@ -1,0 +1,42 @@
+.banner-section {
+    padding: 2rem;
+    text-align: center;
+    background-color: rgba(15, 15, 15, 0.475);
+    border-radius: 8px;
+    margin-top: 2rem; 
+    margin-bottom: 2rem;
+    position: relative; 
+    z-index: 2;
+}
+
+.banner-title {
+    font-size: 2rem;
+    color: #f4d10d;
+    margin-bottom: 1rem;
+}
+
+.container-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.image-container {
+    flex: 1;
+    margin: 0.5rem;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: black;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.image-banner {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+.image-banner:hover {
+    transform: scale(1.05);
+}
