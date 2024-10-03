@@ -1,29 +1,9 @@
-
-import { useState, useEffect, useContext} from 'react';
-import { Link} from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { Context } from '../../store/context';
 
 
-
-export function FormEditCamping  ({id})  {
-    const { store: { campingVisitForEdit }, actions } = useContext(Context);
-    const [formData, setFormData] = useState({
-        campingName: campingVisitForEdit?.name,
-        razonSocial: campingVisitForEdit?.razon_social,
-        rut: campingVisitForEdit?.camping_rut,
-        email: campingVisitForEdit?.email,
-        telefono: campingVisitForEdit?.phone,
-        direccion: campingVisitForEdit?.address,
-        precio: campingVisitForEdit?.precio,
-        paginaWeb: campingVisitForEdit?.url_web,
-        descripcion: campingVisitForEdit?.description,
-        googleMaps: campingVisitForEdit?.url_google_maps,
-    });
-    useEffect(() => {
-        actions.setCampingFoundToEdit(id)
-    }, []);
-
-    const comunasData = {
+ const comunasData = {
         "Arica y Parinacota": ["Arica", "Putre"],
         "Tarapacá": ["Iquique", "Alto Hospicio", "Pica", "Huara"],
         "Antofagasta": ["Antofagasta", "Calama", "Tocopilla", "Mejillones"],
@@ -42,24 +22,71 @@ export function FormEditCamping  ({id})  {
         "Magallanes y de la Antártica Chilena": ["Punta Arenas", "Puerto Natales"],
     };
 
-    const [region, setRegion] = useState('');
-    const [comuna, setComuna] = useState('');
 
+    export function FormEditCamping({ id }) {
+        const { store: { campingVisitForEdit }, actions } = useContext(Context);
+        const [formData, setFormData] = useState({
+            campingName: '',
+            razonSocial: '',
+            rut: '',
+            email: '',
+            telefono: '',
+            direccion: '',
+            precio: '',
+            paginaWeb: '',
+            descripcion: '',
+            googleMaps: '',
+        });
+        
+        useEffect(() => {
+            if (campingVisitForEdit) {
+                setFormData({
+                    campingName: campingVisitForEdit.name,
+                    razonSocial: campingVisitForEdit.razon_social,
+                    rut: campingVisitForEdit.camping_rut,
+                    email: campingVisitForEdit.email,
+                    telefono: campingVisitForEdit.phone,
+                    direccion: campingVisitForEdit.address,
+                    precio: campingVisitForEdit.precio,
+                    paginaWeb: campingVisitForEdit.url_web,
+                    descripcion: campingVisitForEdit.description,
+                    googleMaps: campingVisitForEdit.url_google_maps,
+                });
+            }
+            actions.setCampingFoundToEdit(id);
+        }, []);
+    
+        const [region, setRegion] = useState('');
+        const [comuna, setComuna] = useState('');
+    
+        const handleRegionChange = (e) => {
+            setRegion(e.target.value);
+            setComuna('');
+        };
+    
+        const handleChange = (e) => {
+            const { id: inputId, value } = e.target;
+            setFormData((prevData) => ({ ...prevData, [inputId]: value }));
+        };
+    
+        const handleSubmit = (e) => {
+            e.preventDefault();
 
-    const handleRegionChange = (e) => {
-        setRegion(e.target.value);
-        setComuna('');
-    };
-
-    const handleChange = (e) => {
-        const { id: inputId, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [inputId]: value }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    };
-
+            const data = {
+                campingName: formData.campingName,
+                razonSocial: formData.razonSocial,
+                rut: formData.rut,
+                email: formData.email,
+                telefono: formData.telefono,
+                direccion: formData.direccion,
+                precio: formData.precio,
+                paginaWeb: formData.paginaWeb,
+                descripcion: formData.descripcion,
+                googleMaps: formData.googleMaps,
+            };
+            actions.setCampingFoundToEdit(data, id);
+        };
+    
     return (
 
         <>
@@ -136,7 +163,7 @@ export function FormEditCamping  ({id})  {
                 </div>
                 <div className="col-12">
                     <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button className="btn btn-warning me-md-2" type="submit"onClick={handleSubmit}>Save Camping</button>
+                        <button className="btn btn-warning me-md-2" type="submit">Save Camping</button>
                         <Link to="/provider-dashboard/">
                             <button className="btn btn-warning me-md-2" type="button">Volver</button>
                         </Link>
