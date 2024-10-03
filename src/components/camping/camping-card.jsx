@@ -19,27 +19,53 @@ export function CampingCard({ id }) {
     return (
         <>
             {camping && (
-                <div className="container-fluid camping-card mt-5" style={{ width: "83rem", height :"32rem" }}>
-                    <div className="camping-logo col-3">
-                        <img
-                            className="camping-logo-image"
-                            src={camping.main_image}
-                            alt="Camping logo"
-                        />
+                <div className="container-fluid camping-card mt-5 d-flex" style={{ width: "83rem", height: "32rem" }}>
+                    <div className="container-logo-provider">
+
+                        <div className="camping-logo col-3">
+                            <img
+                                className="camping-logo-image"
+                                src={camping.main_image}
+                                alt="Camping logo"
+                            />
+                        </div>
+                        <div className="camping-provider-info">
+                            <h2>Datos Proveedor</h2>
+                            <ul className="list-data">
+                                <li>{camping.provider.first_name} {camping.provider.last_name}</li>
+                                <li>{camping.provider.email}</li>
+                                <li>{camping.provider.phone}</li>
+                            </ul>
+
+                        </div>
+
+                        <div className="rating-info">
+                            <button className="btn btn-warning button-rating mt-5" style={{ fontSize: "2rem" }}>
+                                {store.averageRating || "N/A"}
+                            </button>
+                            <div className="container-comments-space">
+                                <FaComments className="comment-icon-camping" />
+                                <span>Comments:{camping.lenOfReviews}</span>
+                            </div>
+                        </div>
                     </div>
                     <div className="camping-card-info col-12">
                         <div className="camping-header">
                             <h1 className="camping-name">{camping.name}</h1>
-                            
-                            <div className="rating-info">
-                                <button className="btn btn-warning button-rating mt-5" style={{ fontSize: "2rem" }}>
-                                    {store.averageRating || "N/A"}
-                                </button>
-                                <div className="container-comments-space">
-                                    <FaComments className="comment-icon-camping" />
-                                    <span>Comments:{store.lenOfReviews}</span>
-                                </div>
+                            <div className="data-camping-info">
+                                <h2>Camping Info</h2>
+                                <ul className="list-data">
+                                    <li>Dirección Camping: {camping.address}, {camping.comuna}, {camping.region}</li>
+                                    <li>Razón social: {camping.razon_social}</li>
+                                    <li>Reglas: {camping.rules}</li>
+
+                                </ul>
+
+
+
+
                             </div>
+
                         </div>
                         <p className="description-camping">{camping.description}</p>
                         <div className="icons-container">
