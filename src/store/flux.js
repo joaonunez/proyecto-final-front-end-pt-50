@@ -8,7 +8,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       reviews: [],
       reservations: [],
       reservationsByUser: [],
-      reservationsByProvider: [], 
+      reservationsByProvider: [],
       sites: [],
       selectedSite: null,
       services: [],
@@ -21,6 +21,62 @@ const getState = ({ getActions, getStore, setStore }) => {
       mainImageRequested: null,
     },
     actions: {
+      createCamping: async (formData) => {
+        const store = getStore();
+        const token = store.token;
+
+        if (!token) {
+          console.error("No se ha encontrado token para la autenticación.");
+          return false;
+        }
+
+        // Estructura de datos en formato JSON
+        const data = {
+          provider_id: store.user.id,
+          name: formData.campingName,
+          camping_rut: formData.rut,
+          razon_social: formData.razonSocial,
+          comuna: formData.comuna,
+          region: formData.region,
+          phone: formData.telefono,
+          address: formData.direccion,
+          url_web: formData.paginaWeb,
+          url_google_maps: formData.googleMaps,
+          description: formData.descripcion,
+          rules: formData.rules,
+          main_image: formData.main_image,
+          images: formData.images,
+          services: formData.services,
+        };
+
+        try {
+          const response = await fetch(
+            "http://localhost:3001/camping/create-camping-by-admin",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(data),
+            }
+          );
+
+          if (response.ok) {
+            const newCamping = await response.json();
+            console.log("Nuevo camping creado:", newCamping);
+            return true;
+          } else {
+            const errorData = await response.json();
+            console.error("Error al crear el camping:", errorData);
+            return false;
+          }
+        } catch (err) {
+          console.error("Error en la solicitud de creación del camping:", err);
+          return false;
+        }
+      },
+
       // Acción para registrar un nuevo proveedor (Provider)
       registerProvider: async (providerData) => {
         try {
@@ -518,10 +574,10 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("No token found");
           return null;
         }
-      
+
         try {
           setStore({ campingVisitForEdit: null });
-      
+
           const response = await fetch(
             `http://localhost:3001/camping/provider/${providerId}/camping/${campingId}`,
             {
@@ -533,35 +589,34 @@ const getState = ({ getActions, getStore, setStore }) => {
               credentials: "include",
             }
           );
-      
+
           const campingData = response.ok ? await response.json() : null;
-      
+
           if (!campingData) {
-            console.error(`Error fetching camping data (ID: ${campingId}):`, await response.json());
+            console.error(
+              `Error fetching camping data (ID: ${campingId}):`,
+              await response.json()
+            );
             return;
           }
-      
+
           console.log("Camping data from backend:", campingData);
           console.log("Camping services from backend:", campingData.services);
-      
-          
+
           setStore({
             campingVisitForEdit: campingData,
             rulesRequesteds: campingData.rules || [],
             imagesRequesteds: campingData.images || [],
-            servicesRequesteds: campingData.services || [], 
+            servicesRequesteds: campingData.services || [],
             mainImageRequested: campingData.main_image || "",
           });
-      
+
           return campingData;
         } catch (err) {
           console.error("Error in fetchCampingDataForEdit:", err);
           return null;
         }
       },
-      
-      
-      
 
       editCamping: (data, campingId, providerId) => {
         fetch(
@@ -711,7 +766,7 @@ const getState = ({ getActions, getStore, setStore }) => {
           return false;
         }
       },
-      
+
       updateSiteStatus: async (siteId, newStatus) => {
         const store = getStore(); // Obtener el estado actual
         try {
