@@ -8,14 +8,13 @@ const getState = ({ getActions, getStore, setStore }) => {
       reviews: [],
       reservations: [],
       reservationsByUser: [],
-      reservationsByProvider: [], //  para almacenar reservas en los campings del proveedor
+      reservationsByProvider: [], 
       sites: [],
       selectedSite: null,
       services: [],
       campingVisitForEdit: null,
       averageRating: null,
       lenOfReviews: null,
-      // Nuevas variables para almacenar rules, images y services
       rulesRequesteds: [],
       imagesRequesteds: [],
       servicesRequesteds: [],
@@ -538,19 +537,20 @@ const getState = ({ getActions, getStore, setStore }) => {
           const campingData = response.ok ? await response.json() : null;
       
           if (!campingData) {
-            console.error(
-              `Error fetching camping data (ID: ${campingId}):`,
-              await response.json()
-            );
+            console.error(`Error fetching camping data (ID: ${campingId}):`, await response.json());
+            return;
           }
       
-          // Guardar los datos, asegurándose de incluir main_image
+          console.log("Camping data from backend:", campingData);
+          console.log("Camping services from backend:", campingData.services);
+      
+          
           setStore({
             campingVisitForEdit: campingData,
             rulesRequesteds: campingData.rules || [],
             imagesRequesteds: campingData.images || [],
-            servicesRequesteds: campingData.services || [],
-            mainImageRequested: campingData.main_image || "", // Aquí se guarda correctamente la main_image
+            servicesRequesteds: campingData.services || [], 
+            mainImageRequested: campingData.main_image || "",
           });
       
           return campingData;
@@ -559,6 +559,8 @@ const getState = ({ getActions, getStore, setStore }) => {
           return null;
         }
       },
+      
+      
       
 
       editCamping: (data, campingId, providerId) => {
