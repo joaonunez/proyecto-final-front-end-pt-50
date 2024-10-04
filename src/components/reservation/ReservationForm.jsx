@@ -14,6 +14,7 @@ const ReservationForm = () => {
     selected_services: [],
   });
   const [totalAmount, setTotalAmount] = useState(0);
+  const [minEndDate, setMinEndDate] = useState(""); // Para controlar la fecha mínima de la salida
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,7 +26,7 @@ const ReservationForm = () => {
       }));
     }
   }, [store.selectedSite]);
-  
+
   useEffect(() => {
     console.log("Contenido del store:", store);
     console.log("Token actual:", store.token);
@@ -33,32 +34,33 @@ const ReservationForm = () => {
   }, [store]);
 
   const calculateTotalAmount = () => {
+    let total = 0;
+
+    // Si las fechas están seleccionadas, calcular el costo de las noches
     if (formData.start_date && formData.end_date && store.selectedSite) {
       const startDate = new Date(formData.start_date);
       const endDate = new Date(formData.end_date);
       const numNights = (endDate - startDate) / (1000 * 3600 * 24);
       if (numNights > 0) {
-        let total = numNights * store.selectedSite.price;
-
-        // Sumar el precio de los servicios seleccionados
-        formData.selected_services.forEach((selectedServiceName) => {
-          const service = store.selectedSite.camping_services.find(
-            (s) => s.name === selectedServiceName
-          );
-          if (service) {
-            total += parseInt(service.price); // Asegurarse de que el precio sea un número
-          }
-        });
-
-        setTotalAmount(total);
-        setFormData((prevData) => ({
-          ...prevData,
-          total_amount: total,
-        }));
-      } else {
-        setTotalAmount(0);
+        total += numNights * store.selectedSite.price;
       }
     }
+
+    // Sumar el precio de los servicios seleccionados
+    formData.selected_services.forEach((selectedServiceName) => {
+      const service = store.selectedSite.camping_services.find(
+        (s) => s.name === selectedServiceName
+      );
+      if (service) {
+        total += parseInt(service.price); // Asegurarse de que el precio sea un número
+      }
+    });
+
+    setTotalAmount(total);
+    setFormData((prevData) => ({
+      ...prevData,
+      total_amount: total,
+    }));
   };
 
   useEffect(() => {
@@ -90,6 +92,26 @@ const ReservationForm = () => {
         ...formData,
         [name]: value,
       });
+
+      // Si se cambia la fecha de inicio
+      if (name === "start_date") {
+        const startDateValue = new Date(value);
+        if (startDateValue) {
+          const minEndDateValue = new Date(startDateValue);
+          minEndDateValue.setDate(minEndDateValue.getDate() + 1); // Deshabilita las fechas anteriores a la de inicio
+          setMinEndDate(minEndDateValue.toISOString().split("T")[0]);
+
+          // Si ya hay una fecha de término seleccionada, reiniciar el valor de end_date y total_amount
+          if (formData.end_date) {
+            setFormData((prevData) => ({
+              ...prevData,
+              end_date: "", // Reiniciar la fecha de término
+              total_amount: 0, // Reiniciar el monto total
+            }));
+            setTotalAmount(0); // Reiniciar también el estado de totalAmount
+          }
+        }
+      }
     }
   };
 
@@ -142,6 +164,9 @@ const ReservationForm = () => {
     return amount.toLocaleString("es-ES");
   };
 
+  // Obtener la fecha actual
+  const today = new Date().toISOString().split("T")[0];
+
   return (
     <div className="reservation-form-container mt-4">
       <h2 className="reservation-form-title text-center">Realizar Reserva</h2>
@@ -154,6 +179,7 @@ const ReservationForm = () => {
             className="form-input-custom"
             value={formData.start_date}
             onChange={handleChange}
+            min={today} // No permite seleccionar fechas anteriores a la actual
             required
           />
         </div>
@@ -165,6 +191,7 @@ const ReservationForm = () => {
             className="form-input-custom"
             value={formData.end_date}
             onChange={handleChange}
+            min={minEndDate} // Deshabilita la selección de fechas anteriores a la de inicio
             required
           />
         </div>
