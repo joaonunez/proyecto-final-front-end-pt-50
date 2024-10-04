@@ -1,178 +1,536 @@
-import { useState, useEffect, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { Context } from '../../store/context';
+import React, { useState, useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import { Context } from "../../store/context";
+import { FaTrash } from "react-icons/fa";
 
+export function FormEditCamping({ campingId, providerId }) {
+  const {
+    store: {
+      campingVisitForEdit,
+      rulesRequesteds,
+      imagesRequesteds,
+      servicesRequesteds,
+      mainImageRequested,
+    },
+    actions,
+  } = useContext(Context);
 
- const comunasData = {
-        "Arica y Parinacota": ["Arica", "Putre"],
-        "Tarapacá": ["Iquique", "Alto Hospicio", "Pica", "Huara"],
-        "Antofagasta": ["Antofagasta", "Calama", "Tocopilla", "Mejillones"],
-        "Atacama": ["Copiapó", "Chañaral", "Vallenar", "Tierra Amarilla"],
-        "Coquimbo": ["La Serena", "Coquimbo", "Vicuña", "Illapel"],
-        "Valparaíso": ["Valparaíso", "Viña del Mar", "Quilpué", "San Antonio"],
-        "Metropolitana": ["Alhué", "Buin", "Calera de Tango", "Cerrillos", "Cerro Navia", "Colina", "Conchalí", " Curacaví", "El Monte", "Estación Central", "Huechuraba", "Independencia", "Isla de Maipo", "La Cisterna", "La Florida", "La Granja", "La Pintana", "La Reina", "Lampa", "Lo Espejo", "Lo Prado", "Macul", "Maipú", "María Pinto", "Melipilla", "Ñuñoa", "Padre Hurtado", "Paine", "Pedro Aguirre Cerda", "Peñaflor", "Peñalolén", "Pirque", "Providencia", "Puente Alto", "Quilicura", "Quinta Normal", "Recoleta", "Renca", "San Bernardo", "San Joaquín", "San José de Maipo", "San Miguel", "San Pedro", "San Ramón", "Santiago", "Talagante", "Til Til"],
-        "Libertador General Bernardo O'Higgins": ["Rancagua", "Machalí", "Pichidegua"],
-        "Maule": ["Talca", "Curicó", "Linares", "Maule"],
-        "Ñuble": ["Chillán", "San Carlos", "Pemuco"],
-        "Biobío": ["Concepción", "Talcahuano", "Los Ángeles"],
-        "La Araucanía": ["Temuco", "Pucón", "Villarrica"],
-        "Los Ríos": ["Valdivia", "La Unión", "Lago Ranco"],
-        "Los Lagos": ["Puerto Montt", "Puerto Varas", "Osorno"],
-        "Aysén": ["Coyhaique", "Puerto Aysén"],
-        "Magallanes y de la Antártica Chilena": ["Punta Arenas", "Puerto Natales"],
+  const comunasData = {
+    "Arica y Parinacota": ["Arica", "Putre"],
+    Tarapacá: ["Iquique", "Alto Hospicio", "Pica", "Huara"],
+    Antofagasta: ["Antofagasta", "Calama", "Tocopilla", "Mejillones"],
+    Atacama: ["Copiapó", "Chañaral", "Vallenar", "Tierra Amarilla"],
+    Coquimbo: ["La Serena", "Coquimbo", "Vicuña", "Illapel"],
+    Valparaíso: ["Valparaíso", "Viña del Mar", "Quilpué", "San Antonio"],
+    Metropolitana: ["Santiago", "Maipú", "Las Condes", "La Florida"],
+    "Libertador General Bernardo O'Higgins": [
+      "Rancagua",
+      "Machalí",
+      "Pichidegua",
+    ],
+    Maule: ["Talca", "Curicó", "Linares", "Maule"],
+    Ñuble: ["Chillán", "San Carlos", "Pemuco"],
+    Biobío: ["Concepción", "Talcahuano", "Los Ángeles"],
+    "La Araucanía": ["Temuco", "Pucón", "Villarrica"],
+    "Los Ríos": ["Valdivia", "La Unión", "Lago Ranco"],
+    "Los Lagos": ["Puerto Montt", "Puerto Varas", "Osorno"],
+    Aysén: ["Coyhaique", "Puerto Aysén"],
+    "Magallanes y de la Antártica Chilena": ["Punta Arenas", "Puerto Natales"],
+  };
+
+  // Estado del formulario
+  const [formData, setFormData] = useState({
+    campingName: "",
+    razonSocial: "",
+    rut: "",
+    telefono: "",
+    direccion: "",
+    paginaWeb: "",
+    descripcion: "",
+    googleMaps: "",
+    landscape: "",
+    type: "",
+    comuna: "",
+    region: "",
+    rules: [],
+    images: [],
+    services: [],
+    main_image: "", // campo para la main image
+  });
+
+  const [newRule, setNewRule] = useState("");
+  const [newImage, setNewImage] = useState("");
+  const [newService, setNewService] = useState({ name: "", price: "" });
+
+  useEffect(() => {
+    if (campingVisitForEdit && campingVisitForEdit.id === parseInt(campingId)) {
+      // Convertimos la cadena de imágenes separadas por comas en un array
+      const imagesData = Array.isArray(imagesRequesteds)
+        ? imagesRequesteds
+        : imagesRequesteds.split(","); 
+
+      setFormData({
+        campingName: campingVisitForEdit.name || "",
+        razonSocial: campingVisitForEdit.razon_social || "",
+        rut: campingVisitForEdit.camping_rut || "",
+        telefono: campingVisitForEdit.phone || "",
+        direccion: campingVisitForEdit.address || "",
+        paginaWeb: campingVisitForEdit.url_web || "",
+        descripcion: campingVisitForEdit.description || "",
+        googleMaps: campingVisitForEdit.url_google_maps || "",
+        landscape: campingVisitForEdit.landscape || "",
+        type: campingVisitForEdit.type || "",
+        comuna: campingVisitForEdit.comuna || "",
+        region: campingVisitForEdit.region || "",
+        rules: rulesRequesteds || [],
+        images: imagesData || [], // Manejar imágenes como array
+        services: servicesRequesteds || [],
+        main_image: mainImageRequested || "",
+      });
+    } else {
+      actions.setCampingFoundToEdit(campingId, providerId);
+    }
+  }, [
+    campingVisitForEdit,
+    campingId,
+    providerId,
+    rulesRequesteds,
+    imagesRequesteds,
+    servicesRequesteds,
+    mainImageRequested,
+  ]);
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [id]: value,
+    }));
+  };
+
+  const handleRegionChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      region: e.target.value,
+      comuna: "", // Reiniciar comuna cuando se selecciona una nueva región
+    }));
+  };
+
+  // Manejo de agregar y eliminar reglas
+  const addRule = () => {
+    if (newRule.trim()) {
+      setFormData((prevState) => ({
+        ...prevState,
+        rules: [...prevState.rules, newRule],
+      }));
+      setNewRule("");
+    }
+  };
+
+  const deleteRule = (index) => {
+    const updatedRules = formData.rules.filter((_, i) => i !== index);
+    setFormData((prevState) => ({
+      ...prevState,
+      rules: updatedRules,
+    }));
+  };
+
+  // Manejo de agregar y eliminar imágenes
+  const addImage = () => {
+    if (newImage.trim()) {
+      setFormData((prevState) => ({
+        ...prevState,
+        images: [...prevState.images, newImage], // Agregamos la nueva URL al array de imágenes
+      }));
+      setNewImage(""); // Limpiamos el campo
+    }
+  };
+
+  const deleteImage = (index) => {
+    const updatedImages = formData.images.filter((_, i) => i !== index);
+    setFormData((prevState) => ({
+      ...prevState,
+      images: updatedImages, // Actualizamos el array eliminando la imagen
+    }));
+  };
+
+  // Manejo de agregar y eliminar servicios
+  const addService = () => {
+    if (newService.name.trim() && newService.price.trim()) {
+      setFormData((prevState) => ({
+        ...prevState,
+        services: [...prevState.services, newService],
+      }));
+      setNewService({ name: "", price: "" });
+    }
+  };
+
+  const deleteService = (index) => {
+    const updatedServices = formData.services.filter((_, i) => i !== index);
+    setFormData((prevState) => ({
+      ...prevState,
+      services: updatedServices,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      ...formData,
+      rules: formData.rules,
+      images: formData.images,
+      services: formData.services,
+      main_image: formData.main_image, // Agregamos el campo de main_image al enviar los datos
     };
+    actions.editCamping(data, campingId, providerId);
+  };
 
-
-    export function FormEditCamping({ id }) {
-        const { store: { campingVisitForEdit }, actions } = useContext(Context);
-        const [formData, setFormData] = useState({
-            campingName: '',
-            razonSocial: '',
-            rut: '',
-            email: '',
-            telefono: '',
-            direccion: '',
-            precio: '',
-            paginaWeb: '',
-            descripcion: '',
-            googleMaps: '',
-        });
-        
-        useEffect(() => {
-            if (campingVisitForEdit) {
-                setFormData({
-                    campingName: campingVisitForEdit.name,
-                    razonSocial: campingVisitForEdit.razon_social,
-                    rut: campingVisitForEdit.camping_rut,
-                    email: campingVisitForEdit.email,
-                    telefono: campingVisitForEdit.phone,
-                    direccion: campingVisitForEdit.address,
-                    precio: campingVisitForEdit.precio,
-                    paginaWeb: campingVisitForEdit.url_web,
-                    descripcion: campingVisitForEdit.description,
-                    googleMaps: campingVisitForEdit.url_google_maps,
-                });
-            }
-            actions.setCampingFoundToEdit(id);
-        }, []);
-    
-        const [region, setRegion] = useState('');
-        const [comuna, setComuna] = useState('');
-    
-        const handleRegionChange = (e) => {
-            setRegion(e.target.value);
-            setComuna('');
-        };
-    
-        const handleChange = (e) => {
-            const { id: inputId, value } = e.target;
-            setFormData((prevData) => ({ ...prevData, [inputId]: value }));
-        };
-    
-        const handleSubmit = (e) => {
-            e.preventDefault();
-
-            const data = {
-                campingName: formData.campingName,
-                razonSocial: formData.razonSocial,
-                rut: formData.rut,
-                email: formData.email,
-                telefono: formData.telefono,
-                direccion: formData.direccion,
-                precio: formData.precio,
-                paginaWeb: formData.paginaWeb,
-                descripcion: formData.descripcion,
-                googleMaps: formData.googleMaps,
-            };
-            actions.setCampingFoundToEdit(data, id);
-        };
-    
-    return (
-
-        <>
-        <div className='Fcamping'>
-            <div className="titulo">
-                <h3>Datos del Camping</h3>
-            </div>
-            <form className="row g-4 mt-5" onSubmit={handleSubmit}>
-                <div className="col-md-5">
-                    <label htmlFor="campingName" className="form-label">Nombre del Camping</label>
-                    <input type="text" className="form-control" id="campingName" required value={formData.campingName} onChange={handleChange} />
-                </div>
-                <div className="col-md-5">
-                    <label htmlFor="razonSocial" className="form-label">Razón Social</label>
-                    <input type="text" className="form-control" id="razonSocial" required value={formData.razonSocial} onChange={handleChange} />
-                </div>
-                <div className="col-md-5">
-                    <label htmlFor="rut" className="form-label">Rut</label>
-                    <input type="text" className="form-control" id="rut" required value={formData.rut} onChange={handleChange} />
-                </div>
-                <div className="col-md-5">
-                    <label htmlFor="region" className="form-label">Región</label>
-                    <select className="form-control" id="region" required value={region} onChange={handleRegionChange}>
-                        <option value="" disabled>Seleccione una región</option>
-                        {Object.keys(comunasData).map((reg) => (
-                            <option key={reg} value={reg}>{reg}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="col-md-5">
-                    <label htmlFor="comuna" className="form-label">Comuna</label>
-                    <select className="form-control" id="comuna" required value={comuna} onChange={(e) => setComuna(e.target.value)}>
-                        <option value="" disabled>Seleccione una comuna</option>
-                        {region && comunasData[region].map((com) => (
-                            <option key={com} value={com}>{com}</option>
-                        ))}
-                    </select>
-                </div>
-                <div className="col-md-5">
-                    <label htmlFor="email" className="form-label">Email</label>
-                    <input type="email" className="form-control" id="email" required value={formData.email} onChange={handleChange} />
-                </div>
-                <div className="col-md-5">
-                    <label htmlFor="telefono" className="form-label">Teléfono</label>
-                    <input type="tel" className="form-control" id="telefono" required value={formData.telefono} onChange={handleChange} />
-                </div>
-                <div className="col-md-5">
-                    <label htmlFor="direccion" className="form-label">Dirección</label>
-                    <input type="text" className="form-control" id="direccion" required value={formData.direccion} onChange={handleChange} />
-                </div>
-                <div className="col-md-5">
-                    <label htmlFor="precio" className="form-label">Precio</label>
-                    <input type="number" className="form-control" id="precio" required value={formData.precio} onChange={handleChange} />
-                </div>
-                <div className="col-md-5">
-                    <label htmlFor="paginaWeb" className="form-label">Página Web</label>
-                    <input type="url" className="form-control" id="paginaWeb" required value={formData.paginaWeb} onChange={handleChange} />
-                </div>
-                <div className="col-md-5">
-                    <label htmlFor="logo" className="form-label">Logo</label>
-                    <input type="file" className="form-control" id="logo" />
-                </div>
-                <div className="col-md-5">
-                    <label htmlFor="descripcion" className="form-label">Descripción</label>
-                    <textarea className="form-control" id="descripcion" required value={formData.descripcion} onChange={handleChange}></textarea>
-                </div>
-                <div className="col-md-5">
-                    <label htmlFor="galeriaFotos" className="form-label">Galería de Fotos</label>
-                    <input type="file" className="form-control" id="galeriaFotos" />
-                </div>
-                <div className="col-md-5">
-                    <label htmlFor="googleMaps" className="form-label">Google Maps</label>
-                    <input type="url" className="form-control" id="googleMaps" required value={formData.googleMaps} onChange={handleChange} />
-                </div>
-                <div className="col-12">
-                    <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <button className="btn btn-warning me-md-2" type="submit">Save Camping</button>
-                        <Link to="/provider-dashboard/">
-                            <button className="btn btn-warning me-md-2" type="button">Volver</button>
-                        </Link>
-                    </div>
-                </div>
-            </form>
+  return (
+    <div className="edit-camping-form">
+      <h3 className="edit-camping-title">Datos del Camping</h3>
+      <form
+        className="row g-4 mt-5 edit-camping-form-container"
+        onSubmit={handleSubmit}
+      >
+        <div className="col-md-5">
+          <label
+            htmlFor="campingName"
+            className="form-label edit-camping-label"
+          >
+            Nombre del Camping
+          </label>
+          <input
+            type="text"
+            className="form-control edit-camping-input"
+            id="campingName"
+            value={formData.campingName}
+            onChange={handleChange}
+            required
+          />
         </div>
-    </>
-);
+        <div className="col-md-5">
+          <label
+            htmlFor="razonSocial"
+            className="form-label edit-camping-label"
+          >
+            Razón Social
+          </label>
+          <input
+            type="text"
+            className="form-control edit-camping-input"
+            id="razonSocial"
+            value={formData.razonSocial}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="col-md-5">
+          <label htmlFor="rut" className="form-label edit-camping-label">
+            Rut
+          </label>
+          <input
+            type="text"
+            className="form-control edit-camping-input"
+            id="rut"
+            value={formData.rut}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="col-md-5">
+          <label htmlFor="telefono" className="form-label edit-camping-label">
+            Teléfono
+          </label>
+          <input
+            type="tel"
+            className="form-control edit-camping-input"
+            id="telefono"
+            value={formData.telefono}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="col-md-5">
+          <label htmlFor="direccion" className="form-label edit-camping-label">
+            Dirección
+          </label>
+          <input
+            type="text"
+            className="form-control edit-camping-input"
+            id="direccion"
+            value={formData.direccion}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="col-md-5">
+          <label htmlFor="paginaWeb" className="form-label edit-camping-label">
+            Página Web
+          </label>
+          <input
+            type="url"
+            className="form-control edit-camping-input"
+            id="paginaWeb"
+            value={formData.paginaWeb}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="col-md-5">
+          <label
+            htmlFor="descripcion"
+            className="form-label edit-camping-label"
+          >
+            Descripción
+          </label>
+          <textarea
+            className="form-control edit-camping-input"
+            id="descripcion"
+            value={formData.descripcion}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="col-md-5">
+          <label htmlFor="googleMaps" className="form-label edit-camping-label">
+            Google Maps
+          </label>
+          <input
+            type="url"
+            className="form-control edit-camping-input"
+            id="googleMaps"
+            value={formData.googleMaps}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="col-md-5">
+          <label htmlFor="landscape" className="form-label edit-camping-label">
+            Paisaje
+          </label>
+          <input
+            type="text"
+            className="form-control edit-camping-input"
+            id="landscape"
+            value={formData.landscape}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="col-md-5">
+          <label htmlFor="type" className="form-label edit-camping-label">
+            Tipo
+          </label>
+          <input
+            type="text"
+            className="form-control edit-camping-input"
+            id="type"
+            value={formData.type}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="col-md-5">
+          <label htmlFor="region" className="form-label edit-camping-label">
+            Región
+          </label>
+          <select
+            className="form-control edit-camping-input"
+            id="region"
+            value={formData.region}
+            onChange={handleRegionChange}
+            required
+          >
+            <option value="" disabled>
+              Seleccione una región
+            </option>
+            {Object.keys(comunasData).map((region) => (
+              <option key={region} value={region}>
+                {region}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-md-5">
+          <label htmlFor="comuna" className="form-label edit-camping-label">
+            Comuna
+          </label>
+          <select
+            className="form-control edit-camping-input"
+            id="comuna"
+            value={formData.comuna}
+            onChange={(e) =>
+              setFormData({ ...formData, comuna: e.target.value })
+            }
+            required
+          >
+            <option value="" disabled>
+              Seleccione una comuna
+            </option>
+            {formData.region &&
+              comunasData[formData.region].map((comuna) => (
+                <option key={comuna} value={comuna}>
+                  {comuna}
+                </option>
+              ))}
+          </select>
+        </div>
+
+        {/* Sección de Reglas */}
+        <div className="col-md-12">
+          <label className="form-label edit-camping-label">
+            Agregar Reglas
+          </label>
+          <div className="input-group">
+            <input
+              type="text"
+              className="form-control edit-camping-input"
+              value={newRule}
+              onChange={(e) => setNewRule(e.target.value)}
+              placeholder="Ingresa una nueva regla"
+            />
+            <button
+              type="button"
+              className="btn btn-success edit-camping-btn"
+              onClick={addRule}
+            >
+              Agregar
+            </button>
+          </div>
+          <ul className="list-group mt-3">
+            {formData.rules.map((rule, index) => (
+              <li key={index} className="list-group-item edit-camping-item">
+                {rule}
+                <button
+                  type="button"
+                  className="btn btn-danger float-end edit-camping-btn-trash"
+                  onClick={() => deleteRule(index)}
+                >
+                  <FaTrash />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Sección de Imágenes */}
+        <div className="col-md-12">
+          <label className="form-label edit-camping-label">
+            Agregar URLs de Imágenes
+          </label>
+          <div className="input-group">
+            <input
+              type="url"
+              className="form-control edit-camping-input"
+              value={newImage}
+              onChange={(e) => setNewImage(e.target.value)}
+              placeholder="Ingresa la URL de la imagen"
+            />
+            <button
+              type="button"
+              className="btn btn-success edit-camping-btn"
+              onClick={addImage}
+            >
+              Agregar
+            </button>
+          </div>
+          <ul className="list-group mt-3">
+            {formData.images.map((image, index) => (
+              <li key={index} className="list-group-item edit-camping-item">
+                {image}
+                <button
+                  type="button"
+                  className="btn btn-danger float-end edit-camping-btn-trash"
+                  onClick={() => deleteImage(index)}
+                >
+                  <FaTrash />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Sección de Main Image */}
+        <div className="col-md-5">
+          <label htmlFor="main_image" className="form-label edit-camping-label">
+            URL de la Imagen Principal
+          </label>
+          <input
+            type="url"
+            className="form-control edit-camping-input"
+            id="main_image"
+            value={formData.main_image}
+            onChange={handleChange}
+            placeholder="Ingresa la URL de la imagen principal"
+          />
+        </div>
+
+        {/* Sección de Servicios */}
+        <div className="col-md-12">
+          <label className="form-label edit-camping-label">
+            Agregar Servicios
+          </label>
+          <div className="input-group">
+            <input
+              type="text"
+              className="form-control edit-camping-input"
+              placeholder="Nombre del servicio"
+              value={newService.name}
+              onChange={(e) =>
+                setNewService({ ...newService, name: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              className="form-control edit-camping-input"
+              placeholder="Precio del servicio"
+              value={newService.price}
+              onChange={(e) =>
+                setNewService({ ...newService, price: e.target.value })
+              }
+            />
+            <button
+              type="button"
+              className="btn btn-success edit-camping-btn"
+              onClick={addService}
+            >
+              Agregar
+            </button>
+          </div>
+          <ul className="list-group mt-3">
+            {formData.services.map((service, index) => (
+              <li key={index} className="list-group-item edit-camping-item">
+                {service.name}: ${service.price}
+                <button
+                  type="button"
+                  className="btn btn-danger float-end edit-camping-btn-trash"
+                  onClick={() => deleteService(index)}
+                >
+                  <FaTrash />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Botones */}
+        <div className="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
+          <button
+            className="btn btn-warning edit-camping-btn-save"
+            type="submit"
+          >
+            Guardar Camping
+          </button>
+          <Link to="/provider-dashboard">
+            <button
+              className="btn btn-warning edit-camping-btn-back"
+              type="button"
+            >
+              Volver
+            </button>
+          </Link>
+        </div>
+      </form>
+    </div>
+  );
 }
 
 export default FormEditCamping;

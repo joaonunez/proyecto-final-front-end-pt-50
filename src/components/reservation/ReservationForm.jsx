@@ -11,7 +11,7 @@ const ReservationForm = () => {
     end_date: "",
     number_of_people: 1,
     total_amount: 0,
-    selected_services: [], 
+    selected_services: [],
   });
   const [totalAmount, setTotalAmount] = useState(0);
   const navigate = useNavigate();
@@ -25,6 +25,7 @@ const ReservationForm = () => {
       }));
     }
   }, [store.selectedSite]);
+  
   useEffect(() => {
     console.log("Contenido del store:", store);
     console.log("Token actual:", store.token);
@@ -39,13 +40,15 @@ const ReservationForm = () => {
       if (numNights > 0) {
         let total = numNights * store.selectedSite.price;
 
-        if (store.selectedSite.camping_services) {
-          formData.selected_services.forEach((service) => {
-            if (store.selectedSite.camping_services[service]) {
-              total += store.selectedSite.camping_services[service];
-            }
-          });
-        }
+        // Sumar el precio de los servicios seleccionados
+        formData.selected_services.forEach((selectedServiceName) => {
+          const service = store.selectedSite.camping_services.find(
+            (s) => s.name === selectedServiceName
+          );
+          if (service) {
+            total += parseInt(service.price); // Asegurarse de que el precio sea un número
+          }
+        });
 
         setTotalAmount(total);
         setFormData((prevData) => ({
@@ -93,6 +96,12 @@ const ReservationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validación de fechas
+    if (new Date(formData.start_date) >= new Date(formData.end_date)) {
+      alert("La fecha de inicio debe ser anterior a la fecha de término.");
+      return;
+    }
+
     console.log("Datos enviados para la reserva:", formData);
     if (
       !formData.site_id ||
@@ -130,7 +139,7 @@ const ReservationForm = () => {
   };
 
   const formatAmount = (amount) => {
-    return amount.toLocaleString("es-ES"); 
+    return amount.toLocaleString("es-ES");
   };
 
   return (
@@ -174,7 +183,9 @@ const ReservationForm = () => {
         </div>
 
         <div className="form-group-custom mb-3">
-          <label className="form-label-custom">Facilidades Gratuitas del Sitio</label>
+          <label className="form-label-custom">
+            Facilidades Gratuitas del Sitio
+          </label>
           <div className="facilities-custom mb-3">
             <p>
               {store.selectedSite
@@ -189,24 +200,22 @@ const ReservationForm = () => {
           <div className="services-custom">
             {store.selectedSite &&
             store.selectedSite.camping_services &&
-            Object.keys(store.selectedSite.camping_services).length > 0 ? (
-              Object.keys(store.selectedSite.camping_services).map(
-                (service, index) => (
-                  <div key={index} className="form-check-custom">
-                    <input
-                      type="checkbox"
-                      name="selected_services"
-                      value={service}
-                      onChange={handleChange}
-                      className="form-check-input-custom"
-                    />
-                    <label className="form-check-label-custom">
-                      {service} - $
-                      {store.selectedSite.camping_services[service].toLocaleString("es-ES")}
-                    </label>
-                  </div>
-                )
-              )
+            store.selectedSite.camping_services.length > 0 ? (
+              store.selectedSite.camping_services.map((service, index) => (
+                <div key={index} className="form-check-custom">
+                  <input
+                    type="checkbox"
+                    name="selected_services"
+                    value={service.name} // Aquí se usa el nombre como el valor
+                    onChange={handleChange}
+                    className="form-check-input-custom"
+                  />
+                  <label className="form-check-label-custom">
+                    {service.name} - $
+                    {parseInt(service.price).toLocaleString("es-ES")}
+                  </label>
+                </div>
+              ))
             ) : (
               <p>No hay servicios adicionales disponibles.</p>
             )}
