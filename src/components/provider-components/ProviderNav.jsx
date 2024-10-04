@@ -77,7 +77,7 @@ export function ProviderNav() {
 
               {/* Botón para Registrar Camping */}
               <button
-                className="btn btn-primary me-3"
+                className="btn btn-warning me-3"
                 onClick={() => navigate("/create-new-camping")}
               >
                 Registrar Camping
