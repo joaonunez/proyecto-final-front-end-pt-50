@@ -28,10 +28,11 @@ export function PostReview() {
     };
 
     return (
-        <div className="container-form-postReview">
+        <div className="comentarios">
+<div className="container-form-postReview">
             <h2 className="username-id-creating-review">Crea tu Comentario</h2>
             <form onSubmit={handleOnSubmit}>
-                <div className="review-form">
+                <div className="review-form" style={{ maxWidth: "83rem"}}>
                     <label>Nombre de Usuario</label>
                     <input
                         type="text"
@@ -42,7 +43,7 @@ export function PostReview() {
                         required
                     />
                 </div>
-                <div className="review-form">
+                <div className="review-form" style={{ maxWidth: "83rem"}}>
                     <label>Nombre de Camping</label>
                     <input
                         type="text"
@@ -53,7 +54,7 @@ export function PostReview() {
                         required
                     />
                 </div>
-                <div className="review-form">
+                <div className="review-form" style={{ maxWidth: "83rem"}}>
                     <label>Comentario:</label>
                     <textarea
                         value={reviewPost.comment}
@@ -71,18 +72,26 @@ export function PostReview() {
                         value={reviewPost.rating}
                         name="rating"
                         onChange={handleOnChange}
-                        className="rating-for-camping-reviewed"
+                        className="rating-for-camping-reviewed mt-2"
                         min={1}
                         max={10}
                         required
                     />
                 </div>
                 <div className="review-form">
-                    <button className="button-for-submit-review" type="submit">
+                    <button className="button-for-submit-review btn btn-warning" type="submit">
                         Añadir Comentario
                     </button>
                 </div>
             </form>
+        </div>      
+
+
+
+
+
         </div>
+      
+ 
     );
 }

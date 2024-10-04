@@ -70,7 +70,7 @@ export function ProviderCampingStatus() {
                 <td>{camping.region}</td>
                 <td>
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-warning"
                     onClick={() => handleExpandCamping(camping.id)}
                   >
                     {expandedCamping === camping.id ? "Ocultar Sitios" : "Ver Sitios"}
