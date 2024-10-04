@@ -152,7 +152,7 @@ export function CreateCampingForm() {
         </div>
         <div className="col-12">
           <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button className="btn btn-primary me-md-2" type="submit">Registrar Camping</button>
+            <button className="btn btn-warning me-md-2" type="submit">Registrar Camping</button>
           </div>
         </div>
       </form>
