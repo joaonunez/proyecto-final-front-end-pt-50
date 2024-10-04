@@ -55,7 +55,7 @@ export function FormEditCamping({ campingId, providerId }) {
     rules: [],
     images: [],
     services: [],
-    main_image: "", // campo para la main image
+    main_image: "",
   });
 
   const [newRule, setNewRule] = useState("");
@@ -64,11 +64,15 @@ export function FormEditCamping({ campingId, providerId }) {
 
   useEffect(() => {
     if (campingVisitForEdit && campingVisitForEdit.id === parseInt(campingId)) {
-      // Convertimos la cadena de imágenes separadas por comas en un array
       const imagesData = Array.isArray(imagesRequesteds)
         ? imagesRequesteds
-        : imagesRequesteds.split(","); 
+        : imagesRequesteds.split(",");
 
+      const servicesData = Array.isArray(servicesRequesteds)
+        ? servicesRequesteds
+        : [];
+
+      console.log("Services loaded into formData:", servicesData); 
       setFormData({
         campingName: campingVisitForEdit.name || "",
         razonSocial: campingVisitForEdit.razon_social || "",
@@ -83,8 +87,8 @@ export function FormEditCamping({ campingId, providerId }) {
         comuna: campingVisitForEdit.comuna || "",
         region: campingVisitForEdit.region || "",
         rules: rulesRequesteds || [],
-        images: imagesData || [], // Manejar imágenes como array
-        services: servicesRequesteds || [],
+        images: imagesData,
+        services: servicesData, 
         main_image: mainImageRequested || "",
       });
     } else {
@@ -112,11 +116,11 @@ export function FormEditCamping({ campingId, providerId }) {
     setFormData((prevState) => ({
       ...prevState,
       region: e.target.value,
-      comuna: "", // Reiniciar comuna cuando se selecciona una nueva región
+      comuna: "",
     }));
   };
 
-  // Manejo de agregar y eliminar reglas
+  // Add and remove rules
   const addRule = () => {
     if (newRule.trim()) {
       setFormData((prevState) => ({
@@ -135,14 +139,14 @@ export function FormEditCamping({ campingId, providerId }) {
     }));
   };
 
-  // Manejo de agregar y eliminar imágenes
+  // Add and remove images
   const addImage = () => {
     if (newImage.trim()) {
       setFormData((prevState) => ({
         ...prevState,
-        images: [...prevState.images, newImage], // Agregamos la nueva URL al array de imágenes
+        images: [...prevState.images, newImage],
       }));
-      setNewImage(""); // Limpiamos el campo
+      setNewImage("");
     }
   };
 
@@ -150,16 +154,15 @@ export function FormEditCamping({ campingId, providerId }) {
     const updatedImages = formData.images.filter((_, i) => i !== index);
     setFormData((prevState) => ({
       ...prevState,
-      images: updatedImages, // Actualizamos el array eliminando la imagen
+      images: updatedImages,
     }));
   };
 
-  // Manejo de agregar y eliminar servicios
   const addService = () => {
     if (newService.name.trim() && newService.price.trim()) {
       setFormData((prevState) => ({
         ...prevState,
-        services: [...prevState.services, newService],
+        services: [...prevState.services, newService], 
       }));
       setNewService({ name: "", price: "" });
     }
@@ -169,7 +172,7 @@ export function FormEditCamping({ campingId, providerId }) {
     const updatedServices = formData.services.filter((_, i) => i !== index);
     setFormData((prevState) => ({
       ...prevState,
-      services: updatedServices,
+      services: updatedServices, 
     }));
   };
 
@@ -180,7 +183,7 @@ export function FormEditCamping({ campingId, providerId }) {
       rules: formData.rules,
       images: formData.images,
       services: formData.services,
-      main_image: formData.main_image, // Agregamos el campo de main_image al enviar los datos
+      main_image: formData.main_image,
     };
     actions.editCamping(data, campingId, providerId);
   };
