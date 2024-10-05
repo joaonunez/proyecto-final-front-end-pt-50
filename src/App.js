@@ -21,19 +21,19 @@ import { UserSettings } from "./views/user-config/UserSettings";
 import { MyReservationsView } from "./views/my-reservation-for-user/MyReservationsView";
 import { ReservationViewForm } from "./views/generate-reservation/ReservationViewForm";
 import { EditCampingForm } from "./views/edit-forms/EditCampingForm";
-import ProtectedRoute from "./ProtectedRoute"; // Importar ProtectedRoute
+import ProtectedRoute from "./ProtectedRoute";
 import { ViewReservationsViewProvider } from "./views/generate-reservation/ViewReservationsViewProvider";
 import { Context } from "./store/context";
 import { ProviderNav } from "./components/provider-components/ProviderNav";
-import { ProviderManagement } from "./views/provider-camping/ProviderManagement}";
+
 import { CreateCampingView } from "./views/provider-camping/CreateCampingView";
+import { ProviderManagement } from "./views/provider-camping/ProviderManagement}";
 
 function App() {
   const { store } = useContext(Context);
   return (
     <div className="main-container">
       <Router>
-        {/* Condición para mostrar el Nav correcto según el rol */}
         {store.user?.role?.id === 2 ? <ProviderNav /> : <Nav />}
         <div className="content-container">
           <Routes>
@@ -43,7 +43,6 @@ function App() {
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
 
-            {/* Rutas protegidas por rol */}
             <Route
               path="/login"
               element={
@@ -65,7 +64,6 @@ function App() {
             <Route path="/provider-login" element={<ProviderLogin />} />
             <Route path="/provider-register" element={<ProviderRegister />} />
 
-            {/* Solo los clientes pueden acceder a las siguientes rutas */}
             <Route
               path="/my-reservations"
               element={
@@ -90,7 +88,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            {/* Solo los proveedores pueden acceder a las siguientes rutas */}
             <Route
               path="/provider-dashboard"
               element={

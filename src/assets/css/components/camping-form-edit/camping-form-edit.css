@@ -1,0 +1,49 @@
+.edit-camping-form {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.edit-camping-title {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.edit-camping-label {
+    font-weight: bold;
+    color: #333;
+}
+
+.edit-camping-input {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.edit-camping-btn {
+    margin-left: 10px;
+}
+
+.edit-camping-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+    padding: 10px;
+}
+
+.edit-camping-btn-trash {
+    border: none;
+    background: transparent;
+    color: red;
+    font-size: 18px;
+}
+
+.edit-camping-btn-save, .edit-camping-btn-back {
+    margin-top: 20px;
+}
