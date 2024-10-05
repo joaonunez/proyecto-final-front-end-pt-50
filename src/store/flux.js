@@ -688,7 +688,7 @@ const getState = ({ getActions, getStore, setStore }) => {
           setStore({
             reviews: data.reviews,           // Guardar las reseñas en el store
             averageRating: data.average_rating,  // Guardar el promedio en el store
-            lenOfReviews: data.lenOfReviews,
+            lenOfReviews: data.total_reviews,
           });
         } else {
           console.error("Error al obtener las reseñas y el promedio.");

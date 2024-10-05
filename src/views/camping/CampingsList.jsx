@@ -11,6 +11,7 @@ export function CampingsList() {
 
   useEffect(() => {
     actions.getCampings(); // ñlamamos a la accion para obtener los campings
+    actions.getReviewsAndAverage();
   }, []); //actions eliminada ya que generaba bucle infinito 
 
   return (
@@ -33,11 +34,11 @@ export function CampingsList() {
             <p className="camping-description-info ">{camping.description} </p>
           </div>
           <div className="rating-camping-info col-2">
-          <button className="btn btn-warning rating-button-link" style={{ fontSize: "2rem" }}> 8</button>
+          <button className="btn btn-warning rating-button-link" style={{ fontSize: "2rem" }}>{store.averageRating[camping.id] || "N/A"}</button>
 
             <div className="icon-comment-container">
               <FaComments className="facomments" />
-              <span>Comments</span>
+              <span>Comments: {store.lengOfReview[camping.id]}</span>
             </div>
           </div>
 
