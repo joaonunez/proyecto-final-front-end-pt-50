@@ -19,6 +19,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       imagesRequesteds: [],
       servicesRequesteds: [],
       mainImageRequested: null,
+      selectedCamping: []
     },
     actions: {
       createCamping: async (formData) => {
@@ -230,9 +231,20 @@ const getState = ({ getActions, getStore, setStore }) => {
           );
           if (response.ok) {
             const data = await response.json();
-            setStore({ campings: data });
+            
+            if (Array.isArray(data)) {
+              setStore({
+                campings: data.map(camping => ({
+                  ...camping,
+                  averageRating: camping.average_rating || 0,
+                  totalReviews: camping.total_reviews || 0
+                }))
+              });
+            } else {
+              console.error("La respuesta no tiene el formato esperado (lista de campings).");
+            }
           } else {
-            console.error("Error al obtener campings públicos.");
+            console.error("Error al obtener campings públicos. Código de estado: " + response.status);
           }
         } catch (err) {
           console.error("Error en la solicitud de campings públicos:", err);

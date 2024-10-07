@@ -32,9 +32,9 @@ export function CampingCard({ id }) {
                         <div className="camping-provider-info">
                             <h2>Datos Proveedor</h2>
                             <ul className="list-data">
-                                <li>{camping.provider.first_name} {camping.provider.last_name}</li>
-                                <li>{camping.provider.email}</li>
-                                <li>{camping.provider.phone}</li>
+                                <li>{camping.provider?.first_name} {camping.provider?.last_name}</li>
+                                <li>{camping.provider?.email}</li>
+                                <li>{camping.provider?.phone}</li>
                             </ul>
 
                         </div>
@@ -45,7 +45,7 @@ export function CampingCard({ id }) {
                             </button>
                             <div className="container-comments-space">
                                 <FaComments className="comment-icon-camping" />
-                                <span>Comments:{camping.lenOfReviews}</span>
+                                <span>Comments:{store.lenOfReviews}</span>
                             </div>
                         </div>
                     </div>
@@ -58,6 +58,7 @@ export function CampingCard({ id }) {
                                     <li>Dirección Camping: {camping.address}, {camping.comuna}, {camping.region}</li>
                                     <li>Razón social: {camping.razon_social}</li>
                                     <li>Reglas: {camping.rules}</li>
+                                    <li>Paisaje: {camping.landscape}</li>
 
                                 </ul>
 

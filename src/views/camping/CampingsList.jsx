@@ -6,13 +6,14 @@ import { FaWifi, FaShower } from "react-icons/fa";
 import { GiCampingTent } from "react-icons/gi";
 import { Context } from "../../store/context"; 
 
-export function CampingsList() {
+export function CampingsList({ campings }) {
   const { store, actions } = useContext(Context);
 
   useEffect(() => {
     actions.getCampings(); // ñlamamos a la accion para obtener los campings
-    actions.getReviewsAndAverage();
+    
   }, []); //actions eliminada ya que generaba bucle infinito 
+
 
   return (
     <>
@@ -34,11 +35,11 @@ export function CampingsList() {
             <p className="camping-description-info ">{camping.description} </p>
           </div>
           <div className="rating-camping-info col-2">
-          <button className="btn btn-warning rating-button-link" style={{ fontSize: "2rem" }}>{store.averageRating[camping.id] || "N/A"}</button>
+          <button className="btn btn-warning rating-button-link" style={{ fontSize: "2rem" }}>{camping.average_rating}</button>
 
             <div className="icon-comment-container">
-              <FaComments className="facomments" />
-              <span>Comments: {store.lengOfReview[camping.id]}</span>
+              
+              <span>Comments:{camping.total_reviews}</span>
             </div>
           </div>
 
