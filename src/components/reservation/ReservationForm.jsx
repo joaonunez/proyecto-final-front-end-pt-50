@@ -15,8 +15,10 @@ const ReservationForm = () => {
   });
   const [totalAmount, setTotalAmount] = useState(0);
   const [minEndDate, setMinEndDate] = useState(""); // Para controlar la fecha mínima de la salida
+  const [unavailableDates, setUnavailableDates] = useState([]); // Para fechas no disponibles
   const navigate = useNavigate();
 
+  // Cargar las fechas no disponibles cuando se seleccione un sitio
   useEffect(() => {
     if (store.selectedSite) {
       setFormData((prevData) => ({
@@ -24,14 +26,44 @@ const ReservationForm = () => {
         site_id: store.selectedSite.id,
         number_of_people: store.selectedSite.max_of_people,
       }));
+
+      // Llamar a la acción para obtener las fechas no disponibles
+      actions.getUnavailableDates(store.selectedSite.id);
     }
   }, [store.selectedSite]);
 
+  // Actualizar las fechas no disponibles desde el store
   useEffect(() => {
-    console.log("Contenido del store:", store);
-    console.log("Token actual:", store.token);
-    console.log("Usuario actual:", store.user);
-  }, [store]);
+    if (store.unavailableDates) {
+      console.log("Fechas no disponibles actualizadas en el store:", store.unavailableDates);
+      setUnavailableDates(store.unavailableDates);
+    }
+  }, [store.unavailableDates]);
+
+  // Verifica si una fecha está en el rango de fechas no disponibles
+  const isDateUnavailable = (date) => {
+    return unavailableDates.some(
+      (range) =>
+        new Date(date) >= new Date(range.start_date) &&
+        new Date(date) <= new Date(range.end_date)
+    );
+  };
+
+  // Función para obtener las fechas deshabilitadas
+  const getDisabledDates = () => {
+    const disabledDates = unavailableDates.map((range) => {
+      const startDate = new Date(range.start_date);
+      const endDate = new Date(range.end_date);
+      const dates = [];
+
+      for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+        dates.push(new Date(d).toISOString().split("T")[0]);
+      }
+      return dates;
+    }).flat();
+
+    return disabledDates;
+  };
 
   const calculateTotalAmount = () => {
     let total = 0;
@@ -124,6 +156,11 @@ const ReservationForm = () => {
       return;
     }
 
+    if (isDateUnavailable(formData.start_date) || isDateUnavailable(formData.end_date)) {
+      alert("La fecha seleccionada ya está ocupada.");
+      return;
+    }
+
     console.log("Datos enviados para la reserva:", formData);
     if (
       !formData.site_id ||
@@ -167,6 +204,8 @@ const ReservationForm = () => {
   // Obtener la fecha actual
   const today = new Date().toISOString().split("T")[0];
 
+  const disabledDates = getDisabledDates();
+
   return (
     <div className="reservation-form-container mt-4">
       <h2 className="reservation-form-title text-center">Realizar Reserva</h2>
@@ -181,7 +220,11 @@ const ReservationForm = () => {
             onChange={handleChange}
             min={today} // No permite seleccionar fechas anteriores a la actual
             required
+            // Aquí no lo deshabilitamos, sino que agregamos una validación
           />
+          {isDateUnavailable(formData.start_date) && (
+            <p className="error-message">Fecha no disponible.</p>
+          )}
         </div>
         <div className="form-group-custom mb-3">
           <label className="form-label-custom">Fecha de Término</label>
@@ -194,6 +237,9 @@ const ReservationForm = () => {
             min={minEndDate} // Deshabilita la selección de fechas anteriores a la de inicio
             required
           />
+          {isDateUnavailable(formData.end_date) && (
+            <p className="error-message">Fecha no disponible.</p>
+          )}
         </div>
         <div className="form-group-custom mb-3">
           <label className="form-label-custom">Número de Personas</label>

@@ -2,16 +2,24 @@ import React from "react";
 import { Context } from "../../store/context";
 import { useState, useEffect, useContext } from "react";
 
+
 export function PostReview() {
     const { store, actions } = useContext(Context);
-    
-    
+
     const [reviewPost, setReviewPost] = useState({
-        user_id: '',
-        camping_id: '',
+        user_id: store.user?.id || '',
+        camping_id: store.selectedCamping?.id ||'',
         comment: '',
         rating: ''
     });
+
+    useEffect(() => {
+        setReviewPost({
+            ...reviewPost,
+            user_id: store.user?.id || '',
+            camping_id: store.selectedCamping?.id || ''
+        });
+    }, [store.user, store.selectedCamping]);
 
     
     const handleOnChange = (e) => {
@@ -32,28 +40,7 @@ export function PostReview() {
 <div className="container-form-postReview">
             <h2 className="username-id-creating-review">Crea tu Comentario</h2>
             <form onSubmit={handleOnSubmit}>
-                <div className="review-form" style={{ maxWidth: "83rem"}}>
-                    <label>Nombre de Usuario</label>
-                    <input
-                        type="text"
-                        value={reviewPost.user_id}
-                        name="user_id"
-                        onChange={handleOnChange}
-                        className="form-control"
-                        required
-                    />
-                </div>
-                <div className="review-form" style={{ maxWidth: "83rem"}}>
-                    <label>Nombre de Camping</label>
-                    <input
-                        type="text"
-                        value={reviewPost.camping_id}
-                        name="camping_id"
-                        onChange={handleOnChange}
-                        className="form-control"
-                        required
-                    />
-                </div>
+                
                 <div className="review-form" style={{ maxWidth: "83rem"}}>
                     <label>Comentario:</label>
                     <textarea

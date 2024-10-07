@@ -19,6 +19,8 @@ const getState = ({ getActions, getStore, setStore }) => {
       imagesRequesteds: [],
       servicesRequesteds: [],
       mainImageRequested: null,
+      selectedCamping: [],
+      unavailableDates:[],
     },
     actions: {
       createCamping: async (formData) => {
@@ -232,7 +234,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             const data = await response.json();
             setStore({ campings: data });
           } else {
-            console.error("Error al obtener campings públicos.");
+            console.error("Error al obtener campings públicos. Código de estado: " + response.status);
           }
         } catch (err) {
           console.error("Error en la solicitud de campings públicos:", err);
@@ -826,7 +828,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             setStore({
               reviews: data.reviews, // Guardar las reseñas en el store
               averageRating: data.average_rating, // Guardar el promedio en el store
-              lenOfReviews: data.lenOfReviews,
+              lenOfReviews: data.total_reviews,
             });
           } else {
             console.error("Error al obtener las reseñas y el promedio.");
@@ -835,6 +837,27 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("Error en la solicitud de reseñas y promedio:", err);
         }
       },
+      getUnavailableDates: async (site_id) => {
+        try {
+          const response = await fetch(`http://localhost:3001/reservation/get-unavailable-dates/${site_id}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Fechas no disponibles recibidas del servidor:", data.unavailable_dates);
+            setStore({ unavailableDates: data.unavailable_dates });
+          } else {
+            console.error("Error al obtener las fechas no disponibles.");
+          }
+        } catch (error) {
+          console.error("Error en la solicitud de fechas no disponibles:", error);
+        }
+      },
+
     },
   };
 };
