@@ -19,6 +19,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       imagesRequesteds: [],
       servicesRequesteds: [],
       mainImageRequested: null,
+      unavailableDates:[]
     },
     actions: {
       createCamping: async (formData) => {
@@ -835,6 +836,27 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("Error en la solicitud de reseñas y promedio:", err);
         }
       },
+      getUnavailableDates: async (site_id) => {
+        try {
+          const response = await fetch(`http://localhost:3001/reservation/get-unavailable-dates/${site_id}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Fechas no disponibles recibidas del servidor:", data.unavailable_dates);
+            setStore({ unavailableDates: data.unavailable_dates });
+          } else {
+            console.error("Error al obtener las fechas no disponibles.");
+          }
+        } catch (error) {
+          console.error("Error en la solicitud de fechas no disponibles:", error);
+        }
+      },
+
     },
   };
 };
