@@ -11,7 +11,7 @@
 }
 
 .seguridad-container .form-label {
-    color: #0D6EFD;
+    color: #218838;
     font-weight: bold;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .seguridad-container .btn-success {
-    background-color: #28a745;
+    background-color:#0a58ca;
     border: none;
     border-radius: 5px;
     padding: 10px 20px;

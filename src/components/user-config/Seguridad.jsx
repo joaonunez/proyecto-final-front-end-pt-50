@@ -86,15 +86,15 @@ function Seguridad() {
           </Form.Group>
         )}
         {!editingEmail ? (
-          <Button variant="primary" onClick={() => setEditingEmail(true)}>
+          <Button variant="warning" onClick={() => setEditingEmail(true)}>
             Editar Email
           </Button>
         ) : (
           <>
-            <Button variant="success" onClick={handleUpdateEmail}>
+            <Button variant="warning" onClick={handleUpdateEmail}>
               Guardar Email
             </Button>{" "}
-            <Button variant="secondary" onClick={() => { setEditingEmail(false); setCurrentPasswordEmail(""); }}>
+            <Button variant="warning" onClick={() => { setEditingEmail(false); setCurrentPasswordEmail(""); }}>
               Cancelar
             </Button>
           </>
@@ -102,7 +102,7 @@ function Seguridad() {
 
         <hr />
 
-        <Form.Group controlId="phone">
+        <Form.Group controlId="warning">
           <Form.Label>Teléfono</Form.Label>
           <Form.Control
             type="text"
@@ -115,22 +115,22 @@ function Seguridad() {
           <Form.Group controlId="currentPasswordPhone">
             <Form.Label>Contraseña Actual</Form.Label>
             <Form.Control
-              type="password"
+              type="warning"
               value={currentPasswordPhone}
               onChange={(e) => setCurrentPasswordPhone(e.target.value)}
             />
           </Form.Group>
         )}
         {!editingPhone ? (
-          <Button variant="primary" onClick={() => setEditingPhone(true)}>
+          <Button variant="warning" onClick={() => setEditingPhone(true)}>
             Editar Teléfono
           </Button>
         ) : (
           <>
-            <Button variant="success" onClick={handleUpdatePhone}>
+            <Button variant="warning" onClick={handleUpdatePhone}>
               Guardar Teléfono
             </Button>{" "}
-            <Button variant="secondary" onClick={() => { setEditingPhone(false); setCurrentPasswordPhone(""); }}>
+            <Button variant="warning" onClick={() => { setEditingPhone(false); setCurrentPasswordPhone(""); }}>
               Cancelar
             </Button>
           </>
@@ -162,15 +162,15 @@ function Seguridad() {
           </>
         )}
         {!editingPassword ? (
-          <Button variant="primary" onClick={() => setEditingPassword(true)}>
+          <Button variant="warning" onClick={() => setEditingPassword(true)}>
             Cambiar Contraseña
           </Button>
         ) : (
           <>
-            <Button variant="success" onClick={handleUpdatePassword}>
+            <Button variant="warning" onClick={handleUpdatePassword}>
               Guardar Contraseña
             </Button>{" "}
-            <Button variant="secondary" onClick={() => { setEditingPassword(false); setCurrentPasswordPassword(""); setNewPassword(""); }}>
+            <Button variant="warning" onClick={() => { setEditingPassword(false); setCurrentPasswordPassword(""); setNewPassword(""); }}>
               Cancelar
             </Button>
           </>

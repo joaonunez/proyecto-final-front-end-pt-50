@@ -40,7 +40,7 @@ const CardSite = ({ siteData }) => {
   if (!siteData) return <div>Selecciona un sitio para ver los detalles</div>;
 
   return (
-    <div className="card border-success mb-2 mt-auto" style={{ width: "20rem", height: "34rem" }}>
+    <div className="card border-success mb-2 mt-auto" style={{ width: "20rem", height: "34rem",}}>
     <div className="card-header bg-transparent border-success" style={{ padding: "5px", height: "50px" }}>
       <h3 className="d-flex justify-content-center" style={{ fontSize: "1.5rem", margin: 0 }}>
         SITIO {siteData.name}
@@ -58,13 +58,13 @@ const CardSite = ({ siteData }) => {
       <p style={{ margin: "0" }}><strong>Facilidades:</strong> {formatFacilities(siteData.facilities)}</p>
       <p style={{ margin: "0" }}><strong>Dimensiones:</strong> {formatDimensions(siteData.dimensions)}</p>
     </div>
-    <div className="card-footer bg-transparent border-success" style={{ height: "5rem", overflow: "hidden" }}>
+    <div className="card-footer bg-transparent border-success" style={{ height: "5rem", overflow: "hidden", }}>
       <p className="card-text" style={{ margin: 0 }}>
         {siteData.review || "Reseña no disponible."}
       </p>
     </div>
     <div className="card-footer text-body-secondary d-flex justify-content-end">
-      <button className="btn btn-success" onClick={handleReservationClick}>
+      <button className="btn btn-warning" onClick={handleReservationClick}>
         Reservar este Sitio
       </button>
     </div>

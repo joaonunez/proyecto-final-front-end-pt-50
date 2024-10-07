@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../store/context";
 import { Link } from "react-router-dom";
+import { GoTrash } from "react-icons/go";
+import { CiEdit } from "react-icons/ci";
+import { BsTicketDetailed } from "react-icons/bs";
 import Swal from "sweetalert2";
 
 export function ViewReserve() {
@@ -127,16 +130,17 @@ export function ViewReserve() {
                 <td>{formatDate(reservation.end_date)}</td>
                 <td>{reservation.number_of_people}</td>
                 <td>${reservation.total_amount}</td>
-                <td>
-                  <button className="btn modify-btn">Modificar</button>
+                <td className="td d-flex">
+                  <button className="btn modify-btn"> <CiEdit /></button>
                   <button
                     className="btn cancel-btn"
                     onClick={() => handleCancel(reservation.id)}
                   >
-                    Cancelar
+                    <GoTrash />
+
                   </button>
                   <button
-                    className="btn btn-primary"
+                    className="btn btn-success"
                     onClick={() => handleExpandRow(reservation.id)}
                   >
                     {expandedRow === reservation.id
@@ -203,17 +207,17 @@ export function ViewReserve() {
                       </p>
                       {Array.isArray(reservation.camping?.images) &&
                       reservation.camping.images.length > 0 ? (
-                        <ul>
+                        <div className="row">
                           {reservation.camping.images.map((image, index) => (
-                            <li key={index}>
+                            <div className="col-4" key={index}>
                               <img
                                 src={image}
                                 alt={`Camping Image ${index}`}
-                                className="reservation-image"
+                                className="reservation-image img-thumbnail"
                               />
-                            </li>
+                            </div>
                           ))}
-                        </ul>
+                        </div>
                       ) : (
                         <p>No hay imágenes disponibles.</p>
                       )}
