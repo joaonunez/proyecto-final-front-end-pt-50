@@ -8,6 +8,7 @@ import { Context } from "../../store/context";
 
 export function CampingsList({ campings }) {
   const { store, actions } = useContext(Context);
+  
 
   useEffect(() => {
     actions.getCampings(); // ñlamamos a la accion para obtener los campings
