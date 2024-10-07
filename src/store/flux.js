@@ -19,6 +19,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       imagesRequesteds: [],
       servicesRequesteds: [],
       mainImageRequested: null,
+      selectedCamping: [],
       unavailableDates:[]
     },
     actions: {
@@ -233,7 +234,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             const data = await response.json();
             setStore({ campings: data });
           } else {
-            console.error("Error al obtener campings públicos.");
+            console.error("Error al obtener campings públicos. Código de estado: " + response.status);
           }
         } catch (err) {
           console.error("Error en la solicitud de campings públicos:", err);
@@ -827,7 +828,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             setStore({
               reviews: data.reviews, // Guardar las reseñas en el store
               averageRating: data.average_rating, // Guardar el promedio en el store
-              lenOfReviews: data.lenOfReviews,
+              lenOfReviews: data.total_reviews,
             });
           } else {
             console.error("Error al obtener las reseñas y el promedio.");
