@@ -20,7 +20,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       servicesRequesteds: [],
       mainImageRequested: null,
       selectedCamping: [],
-      unavailableDates:[]
+      unavailableDates:[],
     },
     actions: {
       createCamping: async (formData) => {
