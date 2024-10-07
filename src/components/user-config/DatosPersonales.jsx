@@ -70,15 +70,15 @@ function DatosPersonales() {
         )}
 
         {!editing ? (
-          <Button variant="primary" onClick={handleEditClick}>
+          <Button variant="warning" onClick={handleEditClick}>
             Editar <FaEdit />
           </Button>
         ) : (
           <>
-            <Button variant="success" onClick={handleSave}>
+            <Button variant="warning" onClick={handleSave}>
               Guardar
             </Button>{" "}
-            <Button variant="secondary" onClick={handleCancel}>
+            <Button variant="warning" onClick={handleCancel}>
               Cancelar
             </Button>
           </>

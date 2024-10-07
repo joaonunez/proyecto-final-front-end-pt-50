@@ -3,6 +3,7 @@
     height: 240px;
     margin: 0 auto;
     border: 2px solid green;
+    border-radius: 3px;
     margin-top: 5%;
     display: flex;
     flex-wrap: wrap;

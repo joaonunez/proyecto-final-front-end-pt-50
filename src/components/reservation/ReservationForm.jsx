@@ -301,7 +301,7 @@ const ReservationForm = () => {
         </div>
         <input
           type="submit"
-          className="btn-custom btn-primary btn-lg d-block mx-auto mt-4"
+          className="btn btn-warning btn-lg d-block mx-auto mt-4"
           value="Confirmar Reserva"
         />
       </form>

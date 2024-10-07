@@ -17,12 +17,12 @@
 }
 
 .user-settings-tabs .nav-link.active {
-    background-color: #0D6EFD;
+    background-color:  #218838;
     border: 1px solid #0D6EFD;
     color: #ffffff;
 }
 
 .user-settings-tabs .nav-link:hover {
-    background-color: #0a58ca;
+    background-color:#6c757d;
     color: #ffffff;
 }
