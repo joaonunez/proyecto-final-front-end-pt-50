@@ -27,7 +27,7 @@ export function ViewReserve() {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString();
+    return date.toISOString().split('T')[0];
   };
 
   const handleCancel = async (reservationId) => {
