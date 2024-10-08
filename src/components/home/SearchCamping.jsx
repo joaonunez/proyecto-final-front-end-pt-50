@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../../assets/css/components/home/search.css";
 
 const SearchCamping = ({ onSearch }) => {
   const [destination, setDestination] = useState("");
@@ -22,13 +23,13 @@ const SearchCamping = ({ onSearch }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(searchData),
-        credentials: "include", // Agregado para enviar credenciales si es necesario
+        credentials: "include", // Credenciales
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log("Resultado de la búsqueda:", data);
-        onSearch(data); // Llama a la función onSearch con los resultados
+        onSearch(data);
       } else {
         console.error("Error en la búsqueda de campings. Código de estado: " + response.status);
       }
@@ -38,33 +39,37 @@ const SearchCamping = ({ onSearch }) => {
   };
 
   return (
-    <div className="search-camping-container"> {/* Contenedor para encapsular el formulario */}
-      <form onSubmit={handleSubmit} className="search-camping-form"> {/* Añadido una clase CSS */}
+    <div className="search-camping-container">
+      <form onSubmit={handleSubmit} className="search-camping-form">
         <input
           type="text"
           placeholder="Destino"
+          className="search-input"
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
         />
         <input
           type="date"
-          placeholder="Check-in"
+          placeholder="Fecha llegada"
+          className="search-input"
           value={checkIn}
           onChange={(e) => setCheckIn(e.target.value)}
         />
         <input
           type="date"
-          placeholder="Check-out"
+          placeholder="Fecha salida"
+          className="search-input"
           value={checkOut}
           onChange={(e) => setCheckOut(e.target.value)}
         />
         <input
           type="number"
-          placeholder="Número de personas"
+          placeholder="Personas"
+          className="search-input"
           value={numberOfPeople}
           onChange={(e) => setNumberOfPeople(e.target.value)}
         />
-        <button type="submit">Buscar</button>
+        <button type="submit" className="search-button">Buscar</button>
       </form>
     </div>
   );
