@@ -5,7 +5,7 @@ import SearchResults from "../components/home/SearchResults";
 import "../assets/css/components/home/home.css";
 
 export function Home() {
-  // Estado para almacenar los resultados de la búsqueda
+
   const [searchResults, setSearchResults] = useState([]);
 
   // Función que maneja la búsqueda y actualiza los resultados
@@ -23,7 +23,8 @@ export function Home() {
           <SearchResults results={searchResults} />
         </div>
       </div>
-      <Banner />
     </>
   );
 }
+
+// hay que corregir la apertura de home para que SearchResults no quede sobre el footer
