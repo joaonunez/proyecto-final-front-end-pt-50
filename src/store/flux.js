@@ -20,7 +20,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       servicesRequesteds: [],
       mainImageRequested: null,
       selectedCamping: [],
-      unavailableDates:[],
+      unavailableDates: [],
     },
     actions: {
       createCamping: async (formData) => {
@@ -857,7 +857,30 @@ const getState = ({ getActions, getStore, setStore }) => {
           console.error("Error en la solicitud de fechas no disponibles:", error);
         }
       },
-
+      // funcion de busqueda
+      searchCampings: async (searchData) => {
+        try {
+            const response = await fetch("http://localhost:3001/camping/search", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include", // incluye las cookies
+                body: JSON.stringify(searchData),
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Resultado de la búsqueda:", data);
+                setStore({ campings: data });
+            } else {
+                console.error("Error en la búsqueda de campings. Código de estado: " + response.status);
+            }
+        } catch (err) {
+            console.error("Error en la solicitud de búsqueda de campings:", err);
+        }
+    },
+ 
     },
   };
 };
