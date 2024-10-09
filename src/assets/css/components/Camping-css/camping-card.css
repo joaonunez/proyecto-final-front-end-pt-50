@@ -68,11 +68,12 @@
 }
 
 .camping-logo-image {
-    width: 200px;
+    width: 300px;
     height: 200px;
     object-fit: contain;
-    margin-left: 5rem;   
-    margin-right: 5rem; 
+    margin-left: 8rem;  
+    margin-top: 1px; 
+    
    
 }
 
@@ -83,6 +84,7 @@
 }
 
 .camping-name {
+    width: 562px;
     padding-bottom: 1rem;
     border-bottom: 2px solid grey;
 }

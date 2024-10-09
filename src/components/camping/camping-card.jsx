@@ -19,7 +19,7 @@ export function CampingCard({ id }) {
     return (
         <>
             {camping && (
-                <div className="container-fluid camping-card mt-5 d-flex" style={{ width: "83rem", height: "32rem" }}>
+                <div className="container-fluid camping-card mt-5 d-flex"style={{ width: "83rem", height: "35rem" }}>
                     <div className="container-logo-provider">
 
                         <div className="camping-logo col-3">
@@ -49,9 +49,9 @@ export function CampingCard({ id }) {
                             </div>
                         </div>
                     </div>
-                    <div className="camping-card-info col-12">
+                    <div className="camping-card-info">
                         <div className="camping-header">
-                            <h1 className="camping-name">{camping.name}</h1>
+                            <h1 className="camping-name col-5">{camping.name}</h1>
                             <div className="data-camping-info">
                                 <h2>Camping Info</h2>
                                 <ul className="list-data">
@@ -61,10 +61,6 @@ export function CampingCard({ id }) {
                                     <li>Paisaje: {camping.landscape}</li>
 
                                 </ul>
-
-
-
-
                             </div>
 
                         </div>
