@@ -29,6 +29,9 @@ import { ProviderNav } from "./components/provider-components/ProviderNav";
 import { CreateCampingView } from "./views/provider-camping/CreateCampingView";
 import { ProviderManagement } from "./views/provider-camping/ProviderManagement}";
 
+import SearchResultsView from "./views/search/SearchResultsView";
+
+
 function App() {
   const { store } = useContext(Context);
   return (
@@ -42,6 +45,7 @@ function App() {
             <Route path="/campings" element={<CampingsList />} />
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/search-results" element={<SearchResultsView />} />
 
             <Route
               path="/login"

@@ -1,6 +1,6 @@
 import React from "react";
 import SearchCampingCard from "./SearchCampingCard";
-import "../../assets/css/components/search/Searchresults.css"
+import "../../assets/css/components/search/searchResults.css";
 
 // Componente que muestra los resultados de la búsqueda
 const SearchResults = ({ results }) => {
@@ -9,13 +9,7 @@ const SearchResults = ({ results }) => {
       {results.length > 0 ? (
         results.map((camping, index) => (
           <div key={index} className="camping-result">
-            <SearchCampingCard
-              id={camping.camping_id}
-              name={camping.camping_name}
-              region={camping.region}
-              comuna={camping.comuna}
-              availableSites={camping.available_sites_count}
-            />
+            <SearchCampingCard camping={camping} /> {/* Pasar el objeto camping completo */}
           </div>
         ))
       ) : (

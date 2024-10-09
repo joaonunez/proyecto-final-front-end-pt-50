@@ -26,6 +26,11 @@
 @import url('components/view-reserve/view-details-reserve.css');
 @import url('components/postReview/postReview.css');
 @import url('components/camping-form-edit/camping-form-edit.css');
+@import url('components/search/searchResultsView.css');
+@import url('components/search/search.css');
+@import url('components/search/searchResults.css');
+@import url('components/search/searchCampingCard.css');
+
 
 
 
