@@ -1,3 +1,12 @@
+@keyframes EntrarDesdeArriba{
+    from{
+        transform: translateY(-200%);
+    }
+    to{
+        transform: translateY(0);
+    }
+}
+
 .navbar {
     background-color: #004d40;  
     padding: 1rem;
@@ -11,11 +20,16 @@
     -ms-flex-pack: justify;
     justify-content: space-between;
     padding: .5rem 1rem;
+    position: relative;
+    animation: EntrarDesdeArriba .8s ease;
 }
 
 .logo-nav {
     width: 150px;
 }
+
+
+
 
 .navbar-brand {
     font-size: 1.5rem;
