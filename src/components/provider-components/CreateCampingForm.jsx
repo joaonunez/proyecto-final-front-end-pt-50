@@ -6,7 +6,7 @@ import { FaTrash } from "react-icons/fa";
 export function CreateCampingForm() {
   const { actions } = useContext(Context);
   const navigate = useNavigate();
-  
+
   // Estado inicial para los datos del formulario
   const [formData, setFormData] = useState({
     campingName: "",
@@ -134,8 +134,8 @@ export function CreateCampingForm() {
   };
 
   return (
-    <div className="create-camping-form">
-      <h3 className="create-camping-title">Registrar nuevo Camping</h3>
+    <div className="edit-camping-form">
+      <h3 className="create-camping-title text-center">Registrar nuevo Camping</h3>
       <form className="row g-4 mt-5" onSubmit={handleSubmit}>
         <div className="col-md-5">
           <label htmlFor="campingName" className="form-label">
@@ -429,10 +429,14 @@ export function CreateCampingForm() {
           </ul>
         </div>
 
+
         <div className="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
-          <button className="btn btn-primary" type="submit">
-            Registrar Camping
-          </button>
+          <button
+            className="btn btn-warning edit-camping-btn-save"
+            type="submit" >Registrar Camping</button>
+          <button
+            className="btn btn-warning edit-camping-btn-back"
+            type="button" >Volver</button>
         </div>
       </form>
     </div>

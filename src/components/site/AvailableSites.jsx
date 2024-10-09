@@ -27,8 +27,8 @@ const AvailableSites = ({ onSiteSelect }) => {
             key={site.id}
             className="btn m-2"
             style={{
-              backgroundColor: site.status === 'available' ? '#8BC34A' : '#9E9E9E',
-              color: 'white',
+              backgroundColor: site.status === 'available' ? '#ffc40c' : '#9E9E9E',
+              color: 'black',
             }}
             onClick={() => handleSiteSelect(site)}
           >

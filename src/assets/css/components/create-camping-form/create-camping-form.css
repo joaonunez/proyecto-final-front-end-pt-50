@@ -1,0 +1,12 @@
+.form-control {
+    border: 1px solid #ced4da; 
+    transition: border-color 0.3s;
+  }
+  
+  .form-control:focus {
+    border-color: green; 
+    outline: none; 
+  }
+  .form-label {
+    font-weight: bold; 
+  }  
