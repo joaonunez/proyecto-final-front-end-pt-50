@@ -1,13 +1,13 @@
 import React from "react";
-import { FaFacebook, FaInstagram, FaTiktok, FaGithub, FaTwitter } from "react-icons/fa"; 
-import { Link } from "react-router-dom"; 
+import { FaFacebook, FaInstagram, FaTiktok, FaGithub, FaTwitter } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export function Footer() {
     return (
         <div className="footer-container">
             <footer className="footer bg-black">
                 <div className="container-fluid">
-                    <div className="row">   
+                    <div className="row">
                         <div className="col-lg-3 col-md-6 mb-5 mb-lg-0">
                             <img className="logofooter"
                                 src="https://catarsiscreativa.com/camping_app/img/logoCamping.png"
@@ -44,14 +44,31 @@ export function Footer() {
                                 <p className="text-white">info@campingapp.cl</p>
                             </div>
                             <div className="redes">
-                                <div className="text-right">
-                                    <ul className="footer-socials list-inline">
-                                        <li className="list-inline-item"><Link to="#"><FaFacebook /></Link></li>
-                                        <li className="list-inline-item"><Link to="#"><FaInstagram /></Link></li>
-                                        <li className="list-inline-item"><Link to="#"><FaTiktok /></Link></li>
-                                        <li className="list-inline-item"><Link to="#"><FaTwitter /></Link></li>
-                                        <li className="list-inline-item"><Link to="#"><FaGithub /></Link></li>
-                                    </ul>
+                                <div class="wrapper">
+                                    <a href="#" class="icon facebook">
+                                        <div class="tooltip">
+                                            Facebook
+                                        </div>
+                                        <span><FaFacebook /></span>
+                                    </a>
+                                    <a href="#" class="icon twitter">
+                                        <div class="tooltip">
+                                            Twitter
+                                        </div>
+                                        <span><FaTwitter /></span>
+                                    </a>
+                                    <a href="#" class="icon instagram">
+                                        <div class="tooltip">
+                                            Instagram
+                                        </div>
+                                        <span><FaInstagram /></span>
+                                    </a>
+                                    <div class="icon github">
+                                        <div class="tooltip">
+                                            Github
+                                        </div>
+                                        <span><FaGithub /></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

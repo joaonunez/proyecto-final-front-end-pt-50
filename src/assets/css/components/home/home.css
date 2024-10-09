@@ -1,9 +1,22 @@
+@keyframes EntrarDesdeArriba{
+    from{
+        transform: translateY(-400%);
+    }
+    to{
+        transform: translateY(0);
+    }
+}
+
+
+
+
 .home-container {
     margin-top: 5rem; 
     padding: 2rem;
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    
 }
 
 .content {
@@ -13,6 +26,8 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 2rem;
+    position: relative;
+    animation: EntrarDesdeArriba .8s ease;
 }
 
 .search-form {
