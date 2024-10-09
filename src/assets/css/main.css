@@ -24,6 +24,9 @@
 @import url('components/view-reserve/view-reserve-.css');
 @import url('components/reservation-form/reservation-form.css');
 @import url('components/view-reserve/view-details-reserve.css');
+@import url('components/postReview/postReview.css');
+@import url('components/camping-form-edit/camping-form-edit.css');
+@import url(components/create-camping-form/create-camping-form.css);
 @import url('components/search/searchResultsView.css');
 @import url('components/search/search.css');
 @import url('components/search/searchResults.css');
