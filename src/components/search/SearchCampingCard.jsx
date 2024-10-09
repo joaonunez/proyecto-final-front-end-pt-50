@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { PiTentBold } from "react-icons/pi";
 import { FaWifi, FaShower, FaComments } from "react-icons/fa";
-import "../../assets/css/components/home/searchCampingCard.css";
+import "../../assets/css/components/search/searchCampingCard.css";
 
 const SearchCampingCard = ({ camping }) => {
     return (

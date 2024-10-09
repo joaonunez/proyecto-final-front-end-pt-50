@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../assets/css/components/home/search.css";
+import "../../assets/css/components/search/search.css";
 
 const SearchCamping = ({ onSearch }) => {
   const [destination, setDestination] = useState("");

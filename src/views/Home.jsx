@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { Banner } from "../components/home/Banner";
-import SearchCamping from "../components/home/SearchCamping";
-import SearchResults from "../components/home/SearchResults";
+import SearchCamping from "../components/search/SearchCamping";
 import "../assets/css/components/home/home.css";
+import { useNavigate } from "react-router-dom";
 
 export function Home() {
+  const navigate = useNavigate();
 
-  const [searchResults, setSearchResults] = useState([]);
-
-  // Función que maneja la búsqueda y actualiza los resultados
+  // Función que maneja la búsqueda y redirige a SearchResultsView con los resultados
   const handleSearch = (data) => {
-    setSearchResults(data);
+    navigate("/search-results", { state: { searchResults: data } });
   };
 
   return (
@@ -19,12 +18,11 @@ export function Home() {
         <div className="content">
           {/* Componente de búsqueda */}
           <SearchCamping onSearch={handleSearch} />
-          {/* Componente que muestra los resultados */}
-          <SearchResults results={searchResults} />
         </div>
       </div>
+      <Banner />
     </>
   );
 }
 
-// hay que corregir la apertura de home para que SearchResults no quede sobre el footer
+export default Home;
