@@ -1,4 +1,14 @@
+@keyframes EntrarDesdeArriba{
+    from{
+        transform: translateY(-400%);
+    }
+    to{
+        transform: translateY(0);
+    }
+}
 .container-camping-card {
+    position: relative;
+    animation: EntrarDesdeArriba .8s ease;
     cursor: pointer;
     position: relative;
     border-top-right-radius: 10px;

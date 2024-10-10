@@ -1,3 +1,15 @@
+@keyframes EntrarDesdeArriba{
+    from{
+        transform: translateY(-400%);
+    }
+    to{
+        transform: translateY(0);
+    }
+}
+
+
+
+
 .banner-section {
     padding: 2rem;
     text-align: center;
@@ -7,6 +19,8 @@
     margin-bottom: 2rem;
     position: relative; 
     z-index: 2;
+    position: relative;
+    animation: EntrarDesdeArriba .8s ease;
 }
 
 .banner-title {
