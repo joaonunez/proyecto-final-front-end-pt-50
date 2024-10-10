@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/context";
 import { FaTrash } from "react-icons/fa";
-import ImageBtn from "../formularios/ImageBtn";
 
 export function CreateCampingForm() {
   const { actions } = useContext(Context);
@@ -29,6 +28,7 @@ export function CreateCampingForm() {
   });
 
   const [newRule, setNewRule] = useState("");
+  const [newImage, setNewImage] = useState("");
   const [newService, setNewService] = useState({ name: "", price: "" });
 
   // Comunas de Chile
@@ -40,7 +40,9 @@ export function CreateCampingForm() {
     Coquimbo: ["La Serena", "Coquimbo", "Vicuña", "Illapel"],
     Valparaíso: ["Valparaíso", "Viña del Mar", "Quilpué", "San Antonio"],
     Metropolitana: ["Santiago", "Maipú", "Las Condes", "La Florida"],
-    "Libertador General Bernardo O'Higgins": ["Rancagua", "Machalí", "Pichidegua"],
+    "Libertador General Bernardo O'Higgins": [
+      "Rancagua", "Machalí", "Pichidegua"
+    ],
     Maule: ["Talca", "Curicó", "Linares", "Maule"],
     Ñuble: ["Chillán", "San Carlos", "Pemuco"],
     Biobío: ["Concepción", "Talcahuano", "Los Ángeles"],
@@ -85,6 +87,24 @@ export function CreateCampingForm() {
     }));
   };
 
+  const addImage = () => {
+    if (newImage.trim()) {
+      setFormData((prevState) => ({
+        ...prevState,
+        images: [...prevState.images, newImage],
+      }));
+      setNewImage("");
+    }
+  };
+
+  const deleteImage = (index) => {
+    const updatedImages = formData.images.filter((_, i) => i !== index);
+    setFormData((prevState) => ({
+      ...prevState,
+      images: updatedImages,
+    }));
+  };
+
   const addService = () => {
     if (newService.name.trim() && newService.price.trim()) {
       setFormData((prevState) => ({
@@ -113,25 +133,11 @@ export function CreateCampingForm() {
     }
   };
 
-  const handleMainImageUpload = (url) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      main_image: url,
-    }));
-  };
-
-  const handleImageUpload = (url) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      images: [...prevState.images, url],
-    }));
-  };
-
   return (
     <div className="edit-camping-form">
       <h3 className="create-camping-title text-center">Registrar nuevo Camping</h3>
       <form className="row g-4 mt-5" onSubmit={handleSubmit}>
-      <div className="col-md-5">
+        <div className="col-md-5">
           <label htmlFor="campingName" className="form-label">
             Nombre del Camping
           </label>
@@ -337,8 +343,23 @@ export function CreateCampingForm() {
 
         {/* Sección de Imágenes */}
         <div className="col-md-12">
-          <label className="form-label">Agregar Imágenes</label>
-          <ImageBtn backendUrl="http://localhost:3001" siteId={formData.campingName} onUpload={handleImageUpload} />
+          <label className="form-label">Agregar URLs de Imágenes</label>
+          <div className="input-group">
+            <input
+              type="url"
+              className="form-control"
+              value={newImage}
+              onChange={(e) => setNewImage(e.target.value)}
+              placeholder="Ingresa la URL de la imagen"
+            />
+            <button
+              type="button"
+              className="btn btn-success"
+              onClick={addImage}
+            >
+              Agregar
+            </button>
+          </div>
           <ul className="list-group mt-3">
             {formData.images.map((image, index) => (
               <li key={index} className="list-group-item">
@@ -346,7 +367,7 @@ export function CreateCampingForm() {
                 <button
                   type="button"
                   className="btn btn-danger float-end"
-                  onClick={() => deleteRule(index)}
+                  onClick={() => deleteImage(index)}
                 >
                   <FaTrash />
                 </button>
@@ -357,8 +378,17 @@ export function CreateCampingForm() {
 
         {/* Imagen Principal */}
         <div className="col-md-5">
-          <label className="form-label">Imagen Principal</label>
-          <ImageBtn backendUrl="http://localhost:3001" siteId={formData.campingName} onUpload={handleMainImageUpload} />
+          <label htmlFor="main_image" className="form-label">
+            URL de la Imagen Principal
+          </label>
+          <input
+            type="url"
+            className="form-control"
+            id="main_image"
+            value={formData.main_image}
+            onChange={handleChange}
+            placeholder="Ingresa la URL de la imagen principal"
+          />
         </div>
 
         {/* Sección de Servicios */}
@@ -398,6 +428,7 @@ export function CreateCampingForm() {
             ))}
           </ul>
         </div>
+
 
         <div className="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
           <button
