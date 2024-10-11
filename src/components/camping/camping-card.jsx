@@ -5,6 +5,7 @@ import { FaWifi } from "react-icons/fa";
 import { FaShower } from "react-icons/fa";
 import { FaHotTubPerson } from "react-icons/fa6";
 import { Context } from "../../store/context";
+import { LoadingCampingCard } from "../loadings/CampingCardLoading";
 
 export function CampingCard({ id }) {
     const { store, actions } = useContext(Context);
@@ -15,6 +16,12 @@ export function CampingCard({ id }) {
     }, [id]);
 
     const camping = store.selectedCamping;  // Acceder al camping seleccionado desde el store
+
+    if (store.loading) {
+        return( 
+            < LoadingCampingCard />
+        )
+    }
 
     return (
         <>

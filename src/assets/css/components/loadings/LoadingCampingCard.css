@@ -1,0 +1,91 @@
+/* Contenedor principal del skeleton de camping */
+.skeleton-camping-container {
+    padding: 20px;
+    margin: 20px 30px;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    animation: pulse 1s infinite;
+}
+
+/* Imagen simulada del logo del camping */
+.skeleton-logo-image {
+    background-color: #ddd;
+    width: 100%;
+    height: 150px;
+    margin-bottom: 20px;
+}
+
+/* Simulación del título del camping */
+.skeleton-title {
+    background-color: #ddd;
+    width: 70%;
+    height: 25px;
+    margin-bottom: 10px;
+}
+
+/* Texto general simulado */
+.skeleton-text {
+    background-color: #ddd;
+    width: 100%;
+    height: 20px;
+    margin-bottom: 10px;
+}
+
+/* Botón de rating simulado */
+.skeleton-rating-button {
+    background-color: #ddd;
+    width: 100px;
+    height: 40px;
+    margin-top: 20px;
+}
+
+/* Simulación de comentarios */
+.skeleton-comment {
+    background-color: #ddd;
+    width: 60%;
+    height: 20px;
+    margin-top: 10px;
+}
+
+/* Descripción del camping simulada */
+.skeleton-camping-description {
+    background-color: #ddd;
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* Simulación de iconos */
+.skeleton-icons-container {
+    display: flex;
+    gap: 10px;
+}
+
+/* Cada icono simulado */
+.skeleton-icon {
+    background-color: #ddd;
+    width: 50px;
+    height: 50px;
+}
+
+.skeleton-provider-list {
+    list-style: none;
+}
+
+.skeleton-camping-list {
+    list-style: none;
+}
+
+/* Animación de parpadeo para simular la carga */
+@keyframes pulse {
+    0% {
+        background-color: #f3f3f3;
+    }
+    50% {
+        background-color: #e0e0e0;
+    }
+    100% {
+        background-color: #f3f3f3;
+    }
+}

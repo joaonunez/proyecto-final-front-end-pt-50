@@ -221,7 +221,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       },
 
        getCampings: async () => {
-                // Accedemos a setStore directamente aquí
+                
                 setStore({ loading: true });
 
                 try {
@@ -248,30 +248,36 @@ const getState = ({ getActions, getStore, setStore }) => {
                 }
             },
 
-      getCampingById: async (campingId) => {
-        try {
-          const response = await fetch(
-            `http://localhost:3001/camping/camping/${campingId}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          if (response.ok) {
-            const campingData = await response.json();
-            setStore({
-              selectedCamping: campingData,
-              services: campingData.services || [], // compas aca asegurence qlos servicios se guarden correctamente
-            });
-          } else {
-            console.error("Error al obtener los detalles del camping.");
-          }
-        } catch (err) {
-          console.error("Error en la solicitud de detalles del camping:", err);
-        }
-      },
+            getCampingById: async (campingId) => {
+             
+              setStore({ loading: true });
+      
+              try {
+                const response = await fetch(
+                  `http://localhost:3001/camping/camping/${campingId}`,
+                  {
+                    method: "GET",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                  }
+                );
+                if (response.ok) {
+                  const campingData = await response.json();
+                  setStore({
+                    selectedCamping: campingData,
+                    services: campingData.services || [],
+                    loading: false, // Terminar la carga de datos
+                  });
+                } else {
+                  console.error("Error al obtener los detalles del camping.");
+                  setStore({ loading: false });
+                }
+              } catch (err) {
+                console.error("Error en la solicitud de detalles del camping:", err);
+                setStore({ loading: false }); // Terminar la carga si hay error
+              }
+            },
 
       getProviderCampings: async () => {
         const store = getStore();
