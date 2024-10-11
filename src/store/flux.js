@@ -5,6 +5,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       token: localStorage.getItem("token") || null,
       error: null,
       campings: [],
+      loading: false,
       reviews: [],
       reservations: [],
       reservationsByUser: [],
@@ -219,27 +220,33 @@ const getState = ({ getActions, getStore, setStore }) => {
         }
       },
 
-      getCampings: async () => {
-        try {
-          const response = await fetch(
-            "http://localhost:3001/camping/public-view-get-campings", // Nuevo endpoint
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-          if (response.ok) {
-            const data = await response.json();
-            setStore({ campings: data });
-          } else {
-            console.error("Error al obtener campings públicos. Código de estado: " + response.status);
-          }
-        } catch (err) {
-          console.error("Error en la solicitud de campings públicos:", err);
-        }
-      },
+       getCampings: async () => {
+                // Accedemos a setStore directamente aquí
+                setStore({ loading: true });
+
+                try {
+                    const response = await fetch(
+                        "http://localhost:3001/camping/public-view-get-campings",
+                        {
+                            method: "GET",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        }
+                    );
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        setStore({ campings: data, loading: false });
+                    } else {
+                        console.error("Error al obtener campings públicos. Código de estado: " + response.status);
+                        setStore({ loading: false });
+                    }
+                } catch (err) {
+                    console.error("Error en la solicitud de campings públicos:", err);
+                    setStore({ loading: false });
+                }
+            },
 
       getCampingById: async (campingId) => {
         try {

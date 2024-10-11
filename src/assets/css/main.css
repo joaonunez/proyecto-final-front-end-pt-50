@@ -27,6 +27,8 @@
 @import url('components/postReview/postReview.css');
 @import url('components/camping-form-edit/camping-form-edit.css');
 @import url('components/create-camping-form/create-camping-form.css');
+@import url('components/loadings/LoadingCampingList.css');
+@import url('components/loadings/LoadingCampingCard.css');
 
 
 

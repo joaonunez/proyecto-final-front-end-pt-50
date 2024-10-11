@@ -2,7 +2,7 @@ import React from "react";
 import { Context } from "../../store/context";
 import { useState, useEffect, useContext } from "react";
 import { StarFill, Star } from "react-bootstrap-icons";
-import { loadingCampingList } from "../loadings/campingLisLoading";
+
 
 
 export function PostReview() {
