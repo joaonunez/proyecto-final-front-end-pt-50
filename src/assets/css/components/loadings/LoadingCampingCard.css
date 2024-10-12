@@ -5,6 +5,7 @@
     background-color: #f3f3f3;
     border-radius: 5px;
     animation: pulse 1s infinite;
+    margin: 0 auto;
 }
 
 /* Imagen simulada del logo del camping */
@@ -75,6 +76,20 @@
 
 .skeleton-camping-list {
     list-style: none;
+}
+
+.container-charging-camping-img {
+    background-color: #f3f3f3;
+    animation: pulse 1s infinite;    
+}
+
+.charging-image {
+    background-color: #ddd;
+    
+    margin: 2rem;
+    
+
+    
 }
 
 /* Animación de parpadeo para simular la carga */

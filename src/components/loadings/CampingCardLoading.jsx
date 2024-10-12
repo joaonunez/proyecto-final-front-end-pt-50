@@ -2,6 +2,7 @@ import React from "react";
 
 
 export function LoadingCampingCard() {
+    const skeletons = Array(3).fill(0);
     return (
         <>
 
@@ -33,13 +34,22 @@ export function LoadingCampingCard() {
                 <div className="skeleton-camping-info">
                     <div className="skeleton-camping-header">
                         <div className="skeleton-title col-5"></div>
-                        
+
                     </div>
-                    
+
                 </div>
             </div>
+            <div className="line" />
 
 
+            <div className="container-charging-camping-img row d-flex justify-content-center m-5 h-100">
+                {skeletons.map((_, index) => (
+                    
+                    <div key={index} className="charging-image p-5 col-3"></div>
+                    
+
+                ))}
+            </div>
 
 
 

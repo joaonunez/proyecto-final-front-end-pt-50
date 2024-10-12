@@ -18,15 +18,16 @@ export function CampingCard({ id }) {
     const camping = store.selectedCamping;  // Acceder al camping seleccionado desde el store
 
     if (store.loading) {
-        return( 
+        return (
             < LoadingCampingCard />
         )
     }
 
     return (
         <>
+            
             {camping && (
-                <div className="container-fluid camping-card mt-5 d-flex"style={{ width: "83rem", height: "35rem" }}>
+                <div className="container-fluid camping-card mt-5 d-flex" style={{ width: "83rem", height: "35rem" }}>
                     <div className="container-logo-provider">
 
                         <div className="camping-logo col-3">
