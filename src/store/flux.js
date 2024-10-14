@@ -305,6 +305,7 @@ const getState = ({ getActions, getStore, setStore }) => {
         }
       },
 
+
       getReviews: async (campingId) => {
         try {
           const response = await fetch(
@@ -880,7 +881,8 @@ const getState = ({ getActions, getStore, setStore }) => {
             console.error("Error en la solicitud de búsqueda de campings:", err);
         }
     },
- 
+
+
     },
   };
 };

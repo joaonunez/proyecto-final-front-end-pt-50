@@ -8,14 +8,14 @@ export const Context = React.createContext(null);
 // https://github.com/4GeeksAcademy/react-hello-webapp/blob/master/src/js/layout.js#L35
 const injectContext = (PassedComponent) => {
   const StoreWrapper = (props) => {
-    const [state, setState] = useState(
+    const [state, setState] = useState(() =>
       getState({
-        getStore: () => state.store,
-        getActions: () => state.actions,
+        getStore: () => state?.store,
+        getActions: () => state?.actions,
         setStore: (updatedStore) =>
           setState({
-            store: Object.assign(state.store, updatedStore),
-            actions: { ...state.actions },
+            store: Object.assign({}, state?.store, updatedStore),
+            actions: { ...state?.actions },
           }),
       })
     );
@@ -25,7 +25,7 @@ const injectContext = (PassedComponent) => {
       const storedUser = JSON.parse(localStorage.getItem("user"));
       const storedToken = localStorage.getItem("token");
 
-      if (storedUser && storedToken) {
+      if (storedUser && storedToken && !state.store.user && !state.store.token) {
         setState((prevState) => ({
           ...prevState,
           store: {
@@ -35,10 +35,21 @@ const injectContext = (PassedComponent) => {
           },
         }));
       }
+    }, [state.store.user, state.store.token]); // Added missing dependencies
 
-      // Asegurarse de que se ejecuten las acciones necesarias después de cargar el usuario
-      state.actions.loadUserFromStorage();
-    }, []);
+    useEffect(() => {
+      // Ensure actions are loaded only once and call them if needed
+      if (state.actions && !state.store.actionsInitialized) {
+        state.actions.loadUserFromStorage();
+        setState((prevState) => ({
+          ...prevState,
+          store: {
+            ...prevState.store,
+            actionsInitialized: true, // Prevent re-triggering
+          },
+        }));
+      }
+    }, [state.actions, state.store.actionsInitialized]); // Added missing dependency
 
     return (
       <Context.Provider value={state}>
@@ -46,6 +57,7 @@ const injectContext = (PassedComponent) => {
       </Context.Provider>
     );
   };
+
   return StoreWrapper;
 };
 

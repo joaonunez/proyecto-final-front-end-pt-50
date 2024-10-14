@@ -12,9 +12,7 @@ import { CampingsList } from "./views/camping/CampingsList";
 import { Prereserva } from "./components/Prereserva/Prerserva";
 import { ProviderLogin } from "./views/login/ProviderLogin";
 import { ProviderRegister } from "./views/register/ProviderRegister";
-import { Review } from "./components/review/Review";
-import { Booking } from "./components/booking/Booking";
-import CampingSite from "./components/site/CampingSite";
+
 import { Footer } from "./components/footer/Footer";
 import { ProviderDashboard } from "./views/provider-camping/ProviderDashboard";
 import { UserSettings } from "./views/user-config/UserSettings";
@@ -27,10 +25,12 @@ import { Context } from "./store/context";
 import { ProviderNav } from "./components/provider-components/ProviderNav";
 
 import { CreateCampingView } from "./views/provider-camping/CreateCampingView";
-import { ProviderManagement } from "./views/provider-camping/ProviderManagement}";
-
+import ProviderManagement from "./views/provider-camping/ProviderManagement"; // Exportación corregida
 import SearchResultsView from "./views/search/SearchResultsView";
 
+
+// Nuevas importaciones
+import { ImageUploadCamping } from "./views/provider-camping/ImageUploadCamping";
 
 function App() {
   const { store } = useContext(Context);
@@ -46,6 +46,7 @@ function App() {
             <Route path="/about-us" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/search-results" element={<SearchResultsView />} />
+
 
             <Route
               path="/login"
@@ -140,6 +141,16 @@ function App() {
               element={
                 <ProtectedRoute requiredRole={2}>
                   <CreateCampingView />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Nueva ruta para el formulario de subida de imágenes */}
+            <Route
+              path="/image-upload/:camping_id"
+              element={
+                <ProtectedRoute requiredRole={2}>
+                  <ImageUploadCamping />
                 </ProtectedRoute>
               }
             />
