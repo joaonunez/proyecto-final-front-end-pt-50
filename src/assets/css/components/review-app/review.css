@@ -1,23 +1,69 @@
-.review{
-    width: 83rem;
-    height: 240px;
+.review {
+    width: 60rem;
     margin: 0 auto;
-    border: 2px solid green;
-    border-radius: 3px;
+    border: none; 
+    border-radius: 10px;
     margin-top: 5%;
-    display: flex;
-    flex-wrap: wrap;
+    padding: 20px;
+    background-color: #f0fdf4; 
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.card-comment{
-    margin: 15px;
-    width: 300px; 
+
+.review:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
 }
-.profile-pic {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
+
+.card-title {
+    background-color: #2dce89;
+    color: white; 
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    text-align: center;
 }
+
+.card-comment {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.card-comment:hover {
+    transform: scale(1.02); 
+}
+
 .rating {
-    color: green; 
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 18px;
+    background-color: #ecb92c; 
+    border-radius: 20px;
+    padding: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15); 
+    text-align: center;
+    width: max-content; 
+    margin-left: auto;
+}
+
+
+
+.text-muted {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.footer-info-review-card {
+    background-color: #2dce89;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    text-align: justify;
+    margin-top: 10px;
 }
