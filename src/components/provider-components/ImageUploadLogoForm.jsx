@@ -12,49 +12,27 @@ export function ImageUploadLogoForm() {
   const [formData, setFormData] = useState({
     images: [],
     main_image: "", // Guardará la URL de la imagen principal
-    publicId: "", // Guardar el publicId de la imagen principal
+    publicId: "", // Guardará el public_id de la imagen en Cloudinary
   });
-
-  const [newImage, setNewImage] = useState("");
 
   const handleMainImageUpload = (url, publicId) => {
     setFormData((prevState) => ({
       ...prevState,
       main_image: url,
-      publicId: publicId, // Guardar el publicId de la imagen subida
+      publicId: publicId, // Guardamos el public_id retornado por Cloudinary
     }));
   };
 
   const handleDeleteImage = async () => {
-    try {
-      // Solicitud a Cloudinary para borrar la imagen
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/dnrb5m9es/resources/image/upload`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Basic ${btoa('231452648138341:iTeTmDU0gkHFpHkYp6zGnjf6JUA')}`, // Autenticación básica
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            public_ids: [formData.publicId], // Eliminar por publicId
-          }),
-        }
-      );
-
-      if (response.ok) {
-        // Eliminar el preview de la imagen
-        setFormData((prevState) => ({
-          ...prevState,
-          main_image: "",
-          publicId: "", // Limpiar también el publicId
-        }));
-        console.log("Imagen eliminada de Cloudinary y del estado local.");
-      } else {
-        console.error("Error al eliminar la imagen en Cloudinary.");
-      }
-    } catch (err) {
-      console.error("Error en la solicitud de eliminación:", err);
+    const success = await actions.deleteImageFromCloudinary(formData.publicId);
+    if (success) {
+      setFormData((prevState) => ({
+        ...prevState,
+        main_image: "",
+        publicId: "", // Limpiar publicId
+      }));
+    } else {
+      alert("Error al borrar la imagen en Cloudinary.");
     }
   };
 
@@ -72,7 +50,8 @@ export function ImageUploadLogoForm() {
     <div className="create-camping-form">
       <h3 className="create-camping-title">Subir Imagen Principal</h3>
       <form className="row g-4 mt-5" onSubmit={handleSubmit}>
-        {/* Reemplazo del input para la imagen principal por el CloudinaryUploadWidget */}
+        
+        {/* Widget de Cloudinary para subir la imagen principal */}
         <div className="col-md-12">
           <label className="form-label">Subir Imagen Principal</label>
           <CloudinaryUploadWidget onUpload={handleMainImageUpload} />
@@ -83,6 +62,7 @@ export function ImageUploadLogoForm() {
                 alt="Imagen Principal"
                 style={{ maxWidth: "200px", maxHeight: "200px", objectFit: "cover" }}
               />
+              {/* Botón para borrar la imagen desde Cloudinary y del preview */}
               <button
                 type="button"
                 className="btn btn-danger float-end"
@@ -103,4 +83,3 @@ export function ImageUploadLogoForm() {
     </div>
   );
 }
-

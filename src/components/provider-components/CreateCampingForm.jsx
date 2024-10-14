@@ -22,13 +22,13 @@ export function CreateCampingForm() {
     comuna: "",
     region: "",
     rules: [],
-
+    images: [],
     services: [],
-
+    main_image: "",
   });
 
   const [newRule, setNewRule] = useState("");
-
+  const [newImage, setNewImage] = useState("");
   const [newService, setNewService] = useState({ name: "", price: "" });
 
   // Comunas de Chile
@@ -87,6 +87,23 @@ export function CreateCampingForm() {
     }));
   };
 
+  const addImage = () => {
+    if (newImage.trim()) {
+      setFormData((prevState) => ({
+        ...prevState,
+        images: [...prevState.images, newImage],
+      }));
+      setNewImage("");
+    }
+  };
+
+  const deleteImage = (index) => {
+    const updatedImages = formData.images.filter((_, i) => i !== index);
+    setFormData((prevState) => ({
+      ...prevState,
+      images: updatedImages,
+    }));
+  };
 
   const addService = () => {
     if (newService.name.trim() && newService.price.trim()) {
@@ -109,9 +126,8 @@ export function CreateCampingForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const created = await actions.createCamping(formData);
-    // Si el camping se crea correctamente, redirige con el ID al componente de subida de imágenes
-    if (created && created.id) {
-      navigate(`/image-upload/${created.id}`);  // Redirigir a la vista ImageUploadCamping.jsx con el ID del nuevo camping
+    if (created) {
+      navigate("/provider-dashboard");
     } else {
       alert("Error al crear el camping.");
     }
@@ -325,6 +341,55 @@ export function CreateCampingForm() {
           </ul>
         </div>
 
+        {/* Sección de Imágenes */}
+        <div className="col-md-12">
+          <label className="form-label">Agregar URLs de Imágenes</label>
+          <div className="input-group">
+            <input
+              type="url"
+              className="form-control"
+              value={newImage}
+              onChange={(e) => setNewImage(e.target.value)}
+              placeholder="Ingresa la URL de la imagen"
+            />
+            <button
+              type="button"
+              className="btn btn-success"
+              onClick={addImage}
+            >
+              Agregar
+            </button>
+          </div>
+          <ul className="list-group mt-3">
+            {formData.images.map((image, index) => (
+              <li key={index} className="list-group-item">
+                {image}
+                <button
+                  type="button"
+                  className="btn btn-danger float-end"
+                  onClick={() => deleteImage(index)}
+                >
+                  <FaTrash />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Imagen Principal */}
+        <div className="col-md-5">
+          <label htmlFor="main_image" className="form-label">
+            URL de la Imagen Principal
+          </label>
+          <input
+            type="url"
+            className="form-control"
+            id="main_image"
+            value={formData.main_image}
+            onChange={handleChange}
+            placeholder="Ingresa la URL de la imagen principal"
+          />
+        </div>
 
         {/* Sección de Servicios */}
         <div className="col-md-12">

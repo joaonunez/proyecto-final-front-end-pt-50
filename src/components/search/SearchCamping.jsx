@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import "../../assets/css/components/search/search.css";
 
 const SearchCamping = ({ onSearch }) => {
@@ -9,11 +10,20 @@ const SearchCamping = ({ onSearch }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Convertir el número de personas a un entero
+    const parsedNumberOfPeople = parseInt(numberOfPeople, 10);
+
+    // Verificar si el número de personas es válido
+    if (isNaN(parsedNumberOfPeople) || parsedNumberOfPeople <= 0) {
+      console.error("El número de personas debe ser un número mayor que 0");
+      return;
+    }
     const searchData = {
       destination,
       checkIn,
       checkOut,
-      numberOfPeople,
+      numPeople: parsedNumberOfPeople, // Enviamos el número de personas convertido a entero
     };
 
     try {
