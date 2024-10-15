@@ -17,7 +17,7 @@ export function Camping() {
             <CampingSite />
                 
 
-            <PostReview />
+            <PostReview campingId={id} />
             <Review />
 
         </>
