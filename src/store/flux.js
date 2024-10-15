@@ -20,7 +20,8 @@ const getState = ({ getActions, getStore, setStore }) => {
       servicesRequesteds: [],
       mainImageRequested: null,
       selectedCamping: [],
-      unavailableDates:[],
+      unavailableDates: [],
+      previousRoute: null,
     },
     actions: {
       createCamping: async (formData) => {
@@ -140,6 +141,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       },
       //para logearse en el sistema
       login: async (email, password) => {
+        const store = getStore();
         try {
           const response = await fetch(
             "http://localhost:3001/user/login-user",
@@ -155,8 +157,6 @@ const getState = ({ getActions, getStore, setStore }) => {
 
           const result = await response.json();
 
-          console.log("Resultado del login:", result); // Imprimir el resultado completo
-
           if (response.ok && result.token) {
             // Asegurarse de que el token esté presente
             setStore({
@@ -168,6 +168,15 @@ const getState = ({ getActions, getStore, setStore }) => {
             localStorage.setItem("user", JSON.stringify(result.user));
             localStorage.setItem("token", result.token); // Guarda el token en localStorage
             console.log("Token guardado en localStorage:", result.token);
+
+            const previousRoute = store.previousRoute;
+            console.log("Ruta anterior:", previousRoute); // Ver la ruta anterior
+            if (previousRoute && previousRoute !== "/") {
+              window.location.href = previousRoute;
+              setStore({ previousRoute: null }); // Establecer previousRoute a null
+            } else {
+              window.location.href = "/";
+            }
 
             return true;
           } else {
@@ -234,7 +243,10 @@ const getState = ({ getActions, getStore, setStore }) => {
             const data = await response.json();
             setStore({ campings: data });
           } else {
-            console.error("Error al obtener campings públicos. Código de estado: " + response.status);
+            console.error(
+              "Error al obtener campings públicos. Código de estado: " +
+                response.status
+            );
           }
         } catch (err) {
           console.error("Error en la solicitud de campings públicos:", err);
@@ -670,6 +682,11 @@ const getState = ({ getActions, getStore, setStore }) => {
 
       postReviewForCamping: async (postReviewData) => {
         const store = getStore();
+        if (!store.token) {
+            setStore({ previousRoute: window.location.pathname }); // Guardar la ruta actual
+            window.location.href = "/login"; // Redirigir al login
+            return;
+        }
         try {
           const response = await fetch("http://localhost:3001/review/review", {
             method: "POST",
@@ -683,8 +700,7 @@ const getState = ({ getActions, getStore, setStore }) => {
           if (response.ok) {
             const data = await response.json();
 
-            console.log("coment publicado listo pana", data);
-            window.location.reload(); // recarga la pagina después de una respuesta
+            window.location.reload(); // Recargar la página después de una respuesta
             return data;
           } else {
             console.error(
@@ -839,25 +855,33 @@ const getState = ({ getActions, getStore, setStore }) => {
       },
       getUnavailableDates: async (site_id) => {
         try {
-          const response = await fetch(`http://localhost:3001/reservation/get-unavailable-dates/${site_id}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          const response = await fetch(
+            `http://localhost:3001/reservation/get-unavailable-dates/${site_id}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
 
           if (response.ok) {
             const data = await response.json();
-            console.log("Fechas no disponibles recibidas del servidor:", data.unavailable_dates);
+            console.log(
+              "Fechas no disponibles recibidas del servidor:",
+              data.unavailable_dates
+            );
             setStore({ unavailableDates: data.unavailable_dates });
           } else {
             console.error("Error al obtener las fechas no disponibles.");
           }
         } catch (error) {
-          console.error("Error en la solicitud de fechas no disponibles:", error);
+          console.error(
+            "Error en la solicitud de fechas no disponibles:",
+            error
+          );
         }
       },
-
     },
   };
 };
