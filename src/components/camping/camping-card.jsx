@@ -5,6 +5,7 @@ import { FaWifi } from "react-icons/fa";
 import { FaShower } from "react-icons/fa";
 import { FaHotTubPerson } from "react-icons/fa6";
 import { Context } from "../../store/context";
+import { LoadingCampingCard } from "../loadings/CampingCardLoading";
 
 export function CampingCard({ id }) {
     const { store, actions } = useContext(Context);
@@ -16,10 +17,17 @@ export function CampingCard({ id }) {
 
     const camping = store.selectedCamping;  // Acceder al camping seleccionado desde el store
 
+    if (store.loading) {
+        return (
+            < LoadingCampingCard />
+        )
+    }
+
     return (
         <>
+            
             {camping && (
-                <div className="container-fluid camping-card mt-5 d-flex"style={{ width: "83rem", height: "35rem" }}>
+                <div className="container-fluid camping-card mt-5 d-flex" style={{ width: "83rem", height: "35rem" }}>
                     <div className="container-logo-provider">
 
                         <div className="camping-logo col-3">
