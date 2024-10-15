@@ -114,30 +114,34 @@ const getState = ({ getActions, getStore, setStore }) => {
       // Acción para registrar un nuevo cliente (Customer)
       registerCustomer: async (userData) => {
         try {
-          const response = await fetch(
-            "http://localhost:3001/user/create-one-user",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                ...userData,
-                role_id: 3, // Asigna el rol de cliente
-              }),
-            }
-          );
-
+          const response = await fetch("http://localhost:3001/user/create-one-user", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ...userData,
+              role_id: 3, // Asigna el rol de cliente
+            }),
+          });
+      
           if (response.ok) {
-            return true;
+            return { success: true };
           } else {
             const errorData = await response.json();
             console.error("Error al registrar el cliente:", errorData);
-            return false;
+      
+            if (errorData.error === "RUT already in use") {
+              return { success: false, message: "El RUT ingresado ya está registrado." };
+            } else if (errorData.error === "Email already in use") {
+              return { success: false, message: "El correo electrónico ya está en uso." };
+            } else {
+              return { success: false, message: "Error al registrar el usuario, inténtalo nuevamente." };
+            }
           }
         } catch (err) {
           console.error("Error en la solicitud de registro:", err);
-          return false;
+          return { success: false, message: "Error de conexión, inténtalo nuevamente." };
         }
       },
       //para logearse en el sistema

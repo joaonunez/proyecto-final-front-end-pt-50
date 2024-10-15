@@ -1,16 +1,17 @@
 import React from "react";
-import { Context } from "../../store/context";
 import { useState, useEffect, useContext } from "react";
+import { Context } from "../../store/context";
+import { useParams, useNavigate } from "react-router-dom";
 import { StarFill, Star } from "react-bootstrap-icons";
-
-
 
 export function PostReview() {
     const { store, actions } = useContext(Context);
+    const { id: campingId } = useParams();  // Obtenemos el camping_id desde la URL
+    const navigate = useNavigate();         // Para redirigir si es necesario
 
     const [reviewPost, setReviewPost] = useState({
         user_id: store.user?.id || '',
-        camping_id: store.selectedCamping?.id || '',
+        camping_id: campingId || '',  // Usamos el camping_id de la URL
         comment: '',
         rating: 0
     });
@@ -19,10 +20,9 @@ export function PostReview() {
         setReviewPost({
             ...reviewPost,
             user_id: store.user?.id || '',
-            camping_id: store.selectedCamping?.id || ''
+            camping_id: campingId || ''
         });
-    }, [store.user, store.selectedCamping]);
-
+    }, [store.user, campingId]);
 
     const handleOnChange = (e) => {
         setReviewPost({
@@ -36,11 +36,19 @@ export function PostReview() {
             ...reviewPost,
             rating: ratingValue
         });
-    }
+    };
 
-    // Enviar el formulario
     const handleOnSubmit = async (e) => {
         e.preventDefault();
+
+        // Verificamos si el usuario está autenticado
+        if (!store.user || !store.token) {
+            actions.setPreviousRoute(window.location.pathname); // Guardar la ruta actual
+            navigate('/login');  // Redirigir al login si no está autenticado
+            return;
+        }
+
+        // Si está autenticado, publicamos el comentario
         await actions.postReviewForCamping(reviewPost);
     };
 
