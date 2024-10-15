@@ -30,7 +30,7 @@ import SearchResultsView from "./views/search/SearchResultsView";
 
 
 // Nuevas importaciones
-import { ImageUploadCamping } from "./views/provider-camping/ImageUploadCamping";
+/* import { ImageUploadCamping } from "./views/provider-camping/ImageUploadCamping"; */
 
 function App() {
   const { store } = useContext(Context);
@@ -146,14 +146,14 @@ function App() {
             />
 
             {/* Nueva ruta para el formulario de subida de imágenes */}
-            <Route
+            {/* <Route
               path="/image-upload/:camping_id"
               element={
                 <ProtectedRoute requiredRole={2}>
                   <ImageUploadCamping />
                 </ProtectedRoute>
               }
-            />
+            /> */}
           </Routes>
         </div>
         <Footer />
