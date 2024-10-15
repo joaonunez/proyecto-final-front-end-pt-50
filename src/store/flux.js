@@ -5,6 +5,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       token: localStorage.getItem("token") || null,
       error: null,
       campings: [],
+      loading: false,
       reviews: [],
       reservations: [],
       reservationsByUser: [],
@@ -229,9 +230,12 @@ const getState = ({ getActions, getStore, setStore }) => {
       },
 
       getCampings: async () => {
+
+        setStore({ loading: true });
+
         try {
           const response = await fetch(
-            "http://localhost:3001/camping/public-view-get-campings", // Nuevo endpoint
+            "http://localhost:3001/camping/public-view-get-campings",
             {
               method: "GET",
               headers: {
@@ -239,21 +243,24 @@ const getState = ({ getActions, getStore, setStore }) => {
               },
             }
           );
+
           if (response.ok) {
             const data = await response.json();
-            setStore({ campings: data });
+            setStore({ campings: data, loading: false });
           } else {
-            console.error(
-              "Error al obtener campings públicos. Código de estado: " +
-                response.status
-            );
+            console.error("Error al obtener campings públicos. Código de estado: " + response.status);
+            setStore({ loading: false });
           }
         } catch (err) {
           console.error("Error en la solicitud de campings públicos:", err);
+          setStore({ loading: false });
         }
       },
 
       getCampingById: async (campingId) => {
+
+        setStore({ loading: true });
+
         try {
           const response = await fetch(
             `http://localhost:3001/camping/camping/${campingId}`,
@@ -268,13 +275,16 @@ const getState = ({ getActions, getStore, setStore }) => {
             const campingData = await response.json();
             setStore({
               selectedCamping: campingData,
-              services: campingData.services || [], // compas aca asegurence qlos servicios se guarden correctamente
+              services: campingData.services || [],
+              loading: false, // Terminar la carga de datos
             });
           } else {
             console.error("Error al obtener los detalles del camping.");
+            setStore({ loading: false });
           }
         } catch (err) {
           console.error("Error en la solicitud de detalles del camping:", err);
+          setStore({ loading: false }); // Terminar la carga si hay error
         }
       },
 
