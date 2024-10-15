@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import logo from "../assets/images/logo/logocamping.jpg";
+import logo from "../assets/images/logo/logoCamping.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdForest } from "react-icons/md";
 import { GiCampingTent } from "react-icons/gi";

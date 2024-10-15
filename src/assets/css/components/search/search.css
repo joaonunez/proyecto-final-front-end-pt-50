@@ -1,10 +1,11 @@
 /* Contenedor principal del formulario de búsqueda */
 .search-camping-container {
     display: flex;
+    width: 90%;
     justify-content: center;
     align-items: center;
     margin: 20px 0;
-    background-color: #03480f;
+    background-color: #012d26;
     padding: 15px;
     border-radius: 10px;
 }

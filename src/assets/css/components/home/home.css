@@ -7,8 +7,33 @@
     }
 }
 
+* {
+   margin: 0;
+   padding: 0;
+       
+}
 
+.home_body {
+width: 100%;
+height: 100vh;
+display: flex;
+position: absolute;
+top: 0;
+left: 0;
+justify-content: center;
 
+}
+
+.video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    width: 100%;
+    height: 90%;
+    z-index: -1;
+
+   }
 
 .home-container {
     margin-top: 5rem; 
@@ -22,8 +47,6 @@
 
 .content {  
     width: 100%;
-    height: 400px;
-    background-color: #9dafac;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 2rem;
