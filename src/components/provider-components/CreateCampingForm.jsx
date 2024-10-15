@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/context";
 import { FaTrash } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export function CreateCampingForm() {
   const { actions } = useContext(Context);
@@ -434,9 +435,12 @@ export function CreateCampingForm() {
           <button
             className="btn btn-warning edit-camping-btn-save"
             type="submit" >Registrar Camping</button>
-          <button
+            <Link to="/">
+            <button
             className="btn btn-warning edit-camping-btn-back"
             type="button" >Volver</button>
+            </Link>
+          
         </div>
       </form>
     </div>

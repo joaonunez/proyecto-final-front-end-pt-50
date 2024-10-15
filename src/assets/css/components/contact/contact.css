@@ -9,7 +9,38 @@
   margin-bottom: 2rem;
 }
 
-.contact-form, .contact-info {
+@keyframes EntrarDesdeDerecha{
+  from{
+      transform: translateX(-400%);
+  }
+  to{
+      transform: translateX(0);
+  }
+}
+.contact-form {
+  position: relative;
+  animation: EntrarDesdeDerecha .8s ease;
+  background-color: #004d40;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  color: white;
+}
+
+@keyframes EntrarDesdeIzquierda{
+  from{
+      transform: translateX(400%);
+  }
+  to{
+      transform: translateX(0);
+  }
+}
+
+.contact-info {
+  position: relative;
+  animation: EntrarDesdeIzquierda .8s ease;
   background-color: #004d40;
   padding: 2rem;
   border-radius: 10px;

@@ -1,4 +1,17 @@
+@keyframes EntrarDesdeArriba{
+    from{
+        transform: translateY(-400%);
+    }
+    to{
+        transform: translateY(0);
+    }
+}
+
+
+
 .provider-campings-container {
+    position: relative;
+    animation: EntrarDesdeArriba .8s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
