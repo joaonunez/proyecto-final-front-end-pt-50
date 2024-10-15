@@ -16,7 +16,7 @@
 }
 
 .card-title {
-    background-color: #2dce89;
+    background-color: #004d40;
     color: white; 
     padding: 10px;
     border-radius: 5px;
@@ -39,8 +39,7 @@
 }
 
 .rating {
-    color: #fff;
-    font-weight: bold;
+    color:black;
     margin-bottom: 10px;
     font-size: 18px;
     background-color: #ecb92c; 
@@ -56,11 +55,11 @@
 
 .text-muted {
     font-size: 0.8rem;
-    color: #6c757d;
+
 }
 
 .footer-info-review-card {
-    background-color: #2dce89;
+    background-color: #004d40;
     border-radius: 10px;
     padding: 10px;
     color: white;
