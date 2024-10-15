@@ -29,7 +29,7 @@ export const Review = () => {
                       </div>
                       <div className="footer-info-review-card">
                       <p className="card-text">{review.comment}</p>
-                      <small className="text-muted">{new Date(review.date).toLocaleString()}</small>
+                      <small className="text-white">{new Date(review.date).toLocaleString()}</small>
 
                       </div>
                     </div>

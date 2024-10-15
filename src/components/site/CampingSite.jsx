@@ -15,7 +15,7 @@ const CampingSite = () => {
   const selectedSiteData = store.sites.find(site => site.id === selectedSiteId);
 
   return (
-    <div className="container border rounded border-success p-2 mb-2" style={{ width: '100%'}}>
+    <div className="container border rounded border-success p-2 mb-2" style={{ width: '100%', transition: 'transform 0.3s ease' }}>
       <div className="row">
         <div className="col-8">
           <AvailableSites onSiteSelect={handleSiteSelect} />
