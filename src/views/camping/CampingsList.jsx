@@ -72,11 +72,11 @@ export function CampingsList() {
       {/* Botón para cargar más campings */}
       {store.offset < store.totalCampings && !loadingMore && (
         <div className="text-center">
-          <button className="btn btn-warning mt-4" onClick={loadMoreCampings}>
           <button
             className="btn btn-primary mt-4"
             onClick={loadMoreCampings}
-            disabled={loadingMore} // Deshabilitar el botón mientras está cargando>
+            disabled={loadingMore} // Deshabilitar el botón mientras está cargando
+          >
             Cargar más campings
           </button>
         </div>
