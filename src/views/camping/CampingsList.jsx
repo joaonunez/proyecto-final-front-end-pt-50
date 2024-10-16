@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaWifi, FaShower } from "react-icons/fa";
 import { GiCampingTent } from "react-icons/gi";
@@ -7,17 +7,23 @@ import { LoadingCampingList } from "../../components/loadings/CampingListLoading
 
 export function CampingsList() {
   const { store, actions } = useContext(Context);
+  const [limit] = useState(10); // Número de campings a cargar en cada solicitud
+  const [loadingMore, setLoadingMore] = useState(false); // Estado para el botón de "Cargar más"
 
   useEffect(() => {
-    actions.getCampings(); // Llamamos a la acción para obtener los campings
-  }, []); 
+    actions.getCampings(limit, 0); // Cargar los primeros 10 campings al montar el componente
+  }, []);
 
-  // Si está cargando, mostramos el componente de loading
-  if (store.loading) {
+  const loadMoreCampings = async () => {
+    setLoadingMore(true); // Mostrar el estado de carga mientras se cargan más campings
+    await actions.getCampings(limit, store.offset); // Cargar más campings
+    setLoadingMore(false); // Ocultar el estado de carga cuando termine
+  };
+
+  if (store.loading && store.campings.length === 0) {
     return <LoadingCampingList />;
   }
 
-  // Si los datos ya están cargados, renderizamos los campings
   return (
     <>
       <h1 className="title-page">Busqueda de Campings <GiCampingTent /></h1>
@@ -59,6 +65,18 @@ export function CampingsList() {
           </div>
         </div>
       ))}
+
+      {/* Mostrar el componente LoadingCampingList si se están cargando más campings */}
+      {loadingMore && <LoadingCampingList />}
+
+      {/* Botón para cargar más campings */}
+      {store.offset < store.totalCampings && !loadingMore && (
+        <div className="text-center">
+          <button className="btn btn-warning mt-4" onClick={loadMoreCampings}>
+          Cargar más campings
+          </button>
+        </div>
+      )}
     </>
   );
 }
