@@ -9,7 +9,7 @@ export const Review = () => {
 
     useEffect(() => {
         actions.getReviews(id); 
-    }, [id, actions]);
+    }, [id]);
 
     const handleDeleteReview = async (reviewId) => {
         Swal.fire({
