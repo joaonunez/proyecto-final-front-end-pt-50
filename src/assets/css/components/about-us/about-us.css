@@ -47,6 +47,8 @@
 
 .team-members .front{
   transform: perspective(600px) rotateY(0deg);
+  cursor: pointer;
+  
   
 }
 

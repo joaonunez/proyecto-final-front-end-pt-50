@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaWifi, FaShower } from "react-icons/fa";
 import { GiCampingTent } from "react-icons/gi";
@@ -7,17 +7,20 @@ import { LoadingCampingList } from "../../components/loadings/CampingListLoading
 
 export function CampingsList() {
   const { store, actions } = useContext(Context);
+  const [limit] = useState(10); // Número de campings a cargar en cada solicitud
 
   useEffect(() => {
-    actions.getCampings(); // Llamamos a la acción para obtener los campings
-  }, []); 
+    actions.getCampings(limit, 0); // Cargar los primeros 10 campings al montar el componente
+  }, []);
 
-  // Si está cargando, mostramos el componente de loading
-  if (store.loading) {
+  const loadMoreCampings = () => {
+    actions.getCampings(limit, store.offset); // Cargar más campings al hacer clic en el botón
+  };
+
+  if (store.loading && store.campings.length === 0) {
     return <LoadingCampingList />;
   }
 
-  // Si los datos ya están cargados, renderizamos los campings
   return (
     <>
       <h1 className="title-page">Busqueda de Campings <GiCampingTent /></h1>
@@ -59,6 +62,15 @@ export function CampingsList() {
           </div>
         </div>
       ))}
+
+      {/* Botón para cargar más campings */}
+      {store.offset < store.totalCampings && (
+        <div className="text-center">
+          <button className="btn btn-primary mt-4" onClick={loadMoreCampings}>
+            Cargar más campings
+          </button>
+        </div>
+      )}
     </>
   );
 }
