@@ -66,7 +66,7 @@ export function CampingsList() {
       {/* Botón para cargar más campings */}
       {store.offset < store.totalCampings && (
         <div className="text-center">
-          <button className="btn btn-primary mt-4" onClick={loadMoreCampings}>
+          <button className="btn btn-warning mt-4" onClick={loadMoreCampings}>
             Cargar más campings
           </button>
         </div>
