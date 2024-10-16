@@ -49,8 +49,10 @@ export function ViewReservationsProvider() {
         <thead>
           <tr>
             <th>ID Reserva</th>
+            <th>Sitio</th>
             <th>Cliente</th>
             <th>Camping</th>
+
             <th>Fecha Inicio</th>
             <th>Fecha Fin</th>
             <th>Número de Personas</th>
@@ -63,9 +65,12 @@ export function ViewReservationsProvider() {
             <React.Fragment key={reservation.id}>
               <tr>
                 <td>{reservation.id}</td>
+                <td>{reservation.site.name}</td>
                 <td>
                   {reservation.user.first_name} {reservation.user.last_name}
                 </td>
+                
+
                 <td>
                   {reservation.camping?.name || reservation.site?.camping_name}
                 </td>
