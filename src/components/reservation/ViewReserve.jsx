@@ -111,6 +111,7 @@ export function ViewReserve() {
           <tr>
             <th>ID Reserva</th>
             <th>Camping</th>
+            <th>Sitio</th>
             <th>Fecha Inicio</th>
             <th>Fecha Fin</th>
             <th>Número de Personas</th>
@@ -125,6 +126,9 @@ export function ViewReserve() {
                 <td>{reservation.id}</td>
                 <td>
                   {reservation.camping?.name || reservation.site?.camping_name}
+                </td>
+                <td>
+                  {reservation.site.name}
                 </td>
                 <td>{formatDate(reservation.start_date)}</td>
                 <td>{formatDate(reservation.end_date)}</td>

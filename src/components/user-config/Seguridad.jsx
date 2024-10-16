@@ -115,7 +115,7 @@ function Seguridad() {
           <Form.Group controlId="currentPasswordPhone">
             <Form.Label>Contraseña Actual</Form.Label>
             <Form.Control
-              type="warning"
+              type="password"
               value={currentPasswordPhone}
               onChange={(e) => setCurrentPasswordPhone(e.target.value)}
             />
