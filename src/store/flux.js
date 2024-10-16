@@ -613,79 +613,78 @@ const getState = ({ getActions, getStore, setStore }) => {
       setCampingFoundToEdit: async (campingId, providerId) => {
         const store = getStore();
         if (!store.token) {
-          console.error("No token found");
-          return null;
+            console.error("No token found");
+            return null;
         }
-
+    
         try {
-          setStore({ campingVisitForEdit: null });
-
-          const response = await fetch(
-            `http://localhost:3001/camping/provider/${providerId}/camping/${campingId}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${store.token}`,
-              },
-              credentials: "include",
-            }
-          );
-
-          const campingData = response.ok ? await response.json() : null;
-
-          if (!campingData) {
-            console.error(
-              `Error fetching camping data (ID: ${campingId}):`,
-              await response.json()
+            setStore({ campingVisitForEdit: null });
+    
+            const response = await fetch(
+                `http://localhost:3001/camping/provider/${providerId}/camping/${campingId}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${store.token}`,
+                    },
+                    credentials: "include",
+                }
             );
-            return;
-          }
-
-          console.log("Camping data from backend:", campingData);
-          console.log("Camping services from backend:", campingData.services);
-
-          setStore({
-            campingVisitForEdit: campingData,
-            rulesRequesteds: campingData.rules || [],
-            imagesRequesteds: campingData.images || [],
-            servicesRequesteds: campingData.services || [],
-            mainImageRequested: campingData.main_image || "",
-          });
-
-          return campingData;
+    
+            const campingData = response.ok ? await response.json() : null;
+    
+            if (!campingData) {
+                console.error(
+                    `Error fetching camping data (ID: ${campingId}):`,
+                    await response.json()
+                );
+                return;
+            }
+    
+            console.log("Camping data from backend:", campingData);
+            console.log("Camping services from backend:", campingData.services);
+    
+            setStore({
+                campingVisitForEdit: campingData,
+                rulesRequesteds: campingData.rules || [],
+                imagesRequesteds: campingData.images || [],
+                servicesRequesteds: campingData.services || [],
+                mainImageRequested: campingData.main_image || "",
+            });
+    
+            return campingData;
         } catch (err) {
-          console.error("Error in fetchCampingDataForEdit:", err);
-          return null;
+            console.error("Error in fetchCampingDataForEdit:", err);
+            return null;
         }
-      },
-
-      editCamping: (data, campingId, providerId) => {
-        fetch(
-          `http://localhost:3001/camping/provider/${providerId}/edit-camping/${campingId}`,
-          {
+    },
+    
+    editCamping: (data, campingId, providerId) => {
+        return fetch(`http://localhost:3001/camping/provider/${providerId}/edit-camping/${campingId}`, {
             method: "PUT",
             body: JSON.stringify(data),
             headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
             credentials: "include",
-          }
-        )
-          .then((response) => {
+        })
+        .then(response => {
             if (!response.ok) {
-              throw new Error("Network response was not ok");
+                throw new Error("Network response was not ok");
             }
             return response.json();
-          })
-          .then((data) => {
+        })
+        .then(data => {
             console.log("Camping updated successfully:", data);
-          })
-          .catch((error) => {
+            return true; // Devolver true si la actualización fue exitosa
+        })
+        .catch(error => {
             console.error("Error updating camping:", error);
-          });
-      },
+            return false; // Devolver false si hubo un error
+        });
+    },
 
       getSitesByCamping: async (campingId) => {
         try {
