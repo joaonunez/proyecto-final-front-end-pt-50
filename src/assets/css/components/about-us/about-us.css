@@ -15,6 +15,7 @@
   background-color: #f1f8e9;
 }
 
+
 .about-section {
   margin-bottom: 2rem;
   display: flex;
@@ -47,6 +48,8 @@
 
 .team-members .front{
   transform: perspective(600px) rotateY(0deg);
+  cursor: pointer;
+  
   
 }
 

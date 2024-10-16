@@ -1,12 +1,10 @@
 import React from "react";
 import { ProviderCampingStatus } from "../../components/provider-components/ProviderCampingStatus";
-
-const ProviderManagement = () => {
-  return (
+export function ProviderManagement(){
+    return(
+    
     <>
-      <ProviderCampingStatus />
+        <ProviderCampingStatus/>
     </>
-  );
-};
-
-export default ProviderManagement;
+    );
+}

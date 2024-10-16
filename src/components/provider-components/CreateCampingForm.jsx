@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../../store/context";
 import { FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import CloudinaryUploadWidget from "../formularios/CloudinaryUploadWidget";
 
 export function CreateCampingForm() {
   const { actions } = useContext(Context);
@@ -26,7 +25,7 @@ export function CreateCampingForm() {
     rules: [],
     images: [],
     services: [],
-    main_image: "", // Imagen principal
+    main_image: "",
   });
 
   const [newRule, setNewRule] = useState("");
@@ -122,14 +121,6 @@ export function CreateCampingForm() {
     setFormData((prevState) => ({
       ...prevState,
       services: updatedServices,
-    }));
-  };
-
-  // Función para manejar la subida de la imagen principal a través de Cloudinary
-  const handleMainImageUpload = (url) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      main_image: url, // Guardar la URL de la imagen principal en el formulario
     }));
   };
 
@@ -386,21 +377,19 @@ export function CreateCampingForm() {
           </ul>
         </div>
 
-        {/* Imagen Principal utilizando Cloudinary */}
+        {/* Imagen Principal */}
         <div className="col-md-5">
           <label htmlFor="main_image" className="form-label">
-            Subir Imagen Principal
+            URL de la Imagen Principal
           </label>
-          <CloudinaryUploadWidget onUpload={handleMainImageUpload} />
-          {formData.main_image && (
-            <div className="mt-3">
-              <img
-                src={formData.main_image}
-                alt="Imagen Principal"
-                style={{ maxWidth: "200px", maxHeight: "200px", objectFit: "cover" }}
-              />
-            </div>
-          )}
+          <input
+            type="url"
+            className="form-control"
+            id="main_image"
+            value={formData.main_image}
+            onChange={handleChange}
+            placeholder="Ingresa la URL de la imagen principal"
+          />
         </div>
 
         {/* Sección de Servicios */}
@@ -441,18 +430,17 @@ export function CreateCampingForm() {
           </ul>
         </div>
 
+
         <div className="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
           <button
             className="btn btn-warning edit-camping-btn-save"
-            type="submit"
-          >
-            Registrar Camping
-          </button>
-          <Link to="/">
-            <button className="btn btn-warning edit-camping-btn-back" type="button">
-              Volver
-            </button>
-          </Link>
+            type="submit" >Registrar Camping</button>
+            <Link to="/">
+            <button
+            className="btn btn-warning edit-camping-btn-back"
+            type="button" >Volver</button>
+            </Link>
+          
         </div>
       </form>
     </div>
