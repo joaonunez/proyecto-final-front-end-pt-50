@@ -1,6 +1,9 @@
 import React from "react";
 import { Context } from "../../store/context";
 import { useState, useEffect, useContext } from "react";
+import { StarFill, Star } from "react-bootstrap-icons";
+
+
 
 export function PostReview() {
     const { store, actions } = useContext(Context);
@@ -20,6 +23,7 @@ export function PostReview() {
         });
     }, [store.user, store.selectedCamping]);
 
+
     const handleOnChange = (e) => {
         setReviewPost({
             ...reviewPost,
@@ -27,20 +31,33 @@ export function PostReview() {
         });
     };
 
-    const handleRangeChange = (e) => {
+    const handleStarClick = (ratingValue) => {
         setReviewPost({
             ...reviewPost,
-            rating: parseInt(e.target.value)  // Convertimos el valor del slider a número entero
+            rating: ratingValue
         });
-    };
+    }
 
+    // Enviar el formulario
     const handleOnSubmit = async (e) => {
         e.preventDefault();
-        if (!reviewPost.comment || reviewPost.rating === 0) {
-            alert("Por favor, asegúrate de agregar un comentario y una calificación.");
-            return;
-        }
         await actions.postReviewForCamping(reviewPost);
+    };
+
+    const renderStars = () => {
+        const stars = [];
+        for (let i = 1; i <= 5; i++) {  
+            stars.push(
+                <span key={i} onClick={() => handleStarClick(i)} style={{ cursor: "pointer" }}>
+                    {i <= reviewPost.rating ? (
+                        <StarFill className="text-warning" size={30} /> 
+                    ) : (
+                        <Star className="text-warning" size={30} /> 
+                    )}
+                </span>
+            );
+        }
+        return stars;
     };
 
     return (
@@ -61,20 +78,10 @@ export function PostReview() {
                         />
                     </div>
 
-                    {/* Slider de calificación */}
+                    {/* Rating con estrellas */}
                     <div className="review-form">
-                        <label htmlFor="customRange2" className="form-label">Calificanos:</label>
-                        <input
-                            type="range"
-                            className="form-range"
-                            min="0"
-                            max="5"
-                            step="1"
-                            id="customRange2"
-                            value={reviewPost.rating}
-                            onChange={handleRangeChange}
-                        />
-                        <span>{reviewPost.rating} estrellas</span> {/* Mostramos la calificación seleccionada */}
+                        <label className="form-label">Calificanos:</label>
+                        <div className="rating-stars-icons">{renderStars()}</div> {/* Renderizamos las estrellas */}
                     </div>
 
                     {/* Botón para enviar la reseña */}
