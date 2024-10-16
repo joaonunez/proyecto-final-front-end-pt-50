@@ -5,7 +5,7 @@ import "../assets/css/components/home/home.css";
 export function Home() {
   return (
     <>
-      <div className="home-container">
+      {/* <div className="home-container">
         <div className="content">
           <div className="search-form">
             <h2>Encuentra tu próxima aventura</h2>
@@ -29,7 +29,7 @@ export function Home() {
             </form>
           </div>
         </div>
-      </div>
+      </div> */}
       <Banner />
     </>
   );
