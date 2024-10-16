@@ -1,9 +1,6 @@
 import React from "react";
 import { Context } from "../../store/context";
 import { useState, useEffect, useContext } from "react";
-import { StarFill, Star } from "react-bootstrap-icons";
-
-
 
 export function PostReview() {
     const { store, actions } = useContext(Context);
@@ -23,7 +20,6 @@ export function PostReview() {
         });
     }, [store.user, store.selectedCamping]);
 
-
     const handleOnChange = (e) => {
         setReviewPost({
             ...reviewPost,
@@ -31,33 +27,20 @@ export function PostReview() {
         });
     };
 
-    const handleStarClick = (ratingValue) => {
+    const handleRangeChange = (e) => {
         setReviewPost({
             ...reviewPost,
-            rating: ratingValue
+            rating: parseInt(e.target.value)  // Convertimos el valor del slider a número entero
         });
-    }
-
-    // Enviar el formulario
-    const handleOnSubmit = async (e) => {
-        e.preventDefault();
-        await actions.postReviewForCamping(reviewPost);
     };
 
-    const renderStars = () => {
-        const stars = [];
-        for (let i = 1; i <= 10; i++) {  
-            stars.push(
-                <span key={i} onClick={() => handleStarClick(i)} style={{ cursor: "pointer" }}>
-                    {i <= reviewPost.rating ? (
-                        <StarFill className="text-warning" size={30} /> 
-                    ) : (
-                        <Star className="text-warning" size={30} /> 
-                    )}
-                </span>
-            );
+    const handleOnSubmit = async (e) => {
+        e.preventDefault();
+        if (!reviewPost.comment || reviewPost.rating === 0) {
+            alert("Por favor, asegúrate de agregar un comentario y una calificación.");
+            return;
         }
-        return stars;
+        await actions.postReviewForCamping(reviewPost);
     };
 
     return (
@@ -78,10 +61,20 @@ export function PostReview() {
                         />
                     </div>
 
-                    {/* Rating con estrellas */}
+                    {/* Slider de calificación */}
                     <div className="review-form">
-                        <label className="form-label">Calificanos:</label>
-                        <div>{renderStars()}</div> {/* Renderizamos las estrellas */}
+                        <label htmlFor="customRange2" className="form-label">Calificanos:</label>
+                        <input
+                            type="range"
+                            className="form-range"
+                            min="0"
+                            max="5"
+                            step="1"
+                            id="customRange2"
+                            value={reviewPost.rating}
+                            onChange={handleRangeChange}
+                        />
+                        <span>{reviewPost.rating} estrellas</span> {/* Mostramos la calificación seleccionada */}
                     </div>
 
                     {/* Botón para enviar la reseña */}
