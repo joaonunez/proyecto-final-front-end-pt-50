@@ -22,7 +22,7 @@ export function PostReview() {
             user_id: store.user?.id || '',
             camping_id: campingId || ''
         });
-    }, [store.user, campingId]);
+    }, [store.user, store.selectedCamping]);
 
     const handleOnChange = (e) => {
         setReviewPost({
@@ -31,41 +31,20 @@ export function PostReview() {
         });
     };
 
-    const handleStarClick = (ratingValue) => {
+    const handleRangeChange = (e) => {
         setReviewPost({
             ...reviewPost,
-            rating: ratingValue
+            rating: parseInt(e.target.value)  // Convertimos el valor del slider a número entero
         });
     };
 
     const handleOnSubmit = async (e) => {
         e.preventDefault();
-
-        // Verificamos si el usuario está autenticado
-        if (!store.user || !store.token) {
-            actions.setPreviousRoute(window.location.pathname); // Guardar la ruta actual
-            navigate('/login');  // Redirigir al login si no está autenticado
+        if (!reviewPost.comment || reviewPost.rating === 0) {
+            alert("Por favor, asegúrate de agregar un comentario y una calificación.");
             return;
         }
-
-        // Si está autenticado, publicamos el comentario
         await actions.postReviewForCamping(reviewPost);
-    };
-
-    const renderStars = () => {
-        const stars = [];
-        for (let i = 1; i <= 10; i++) {  
-            stars.push(
-                <span key={i} onClick={() => handleStarClick(i)} style={{ cursor: "pointer" }}>
-                    {i <= reviewPost.rating ? (
-                        <StarFill className="text-warning" size={30} /> 
-                    ) : (
-                        <Star className="text-warning" size={30} /> 
-                    )}
-                </span>
-            );
-        }
-        return stars;
     };
 
     return (
@@ -86,10 +65,20 @@ export function PostReview() {
                         />
                     </div>
 
-                    {/* Rating con estrellas */}
+                    {/* Slider de calificación */}
                     <div className="review-form">
-                        <label className="form-label">Calificanos:</label>
-                        <div>{renderStars()}</div> {/* Renderizamos las estrellas */}
+                        <label htmlFor="customRange2" className="form-label">Calificanos:</label>
+                        <input
+                            type="range"
+                            className="form-range"
+                            min="0"
+                            max="5"
+                            step="1"
+                            id="customRange2"
+                            value={reviewPost.rating}
+                            onChange={handleRangeChange}
+                        />
+                        <span>{reviewPost.rating} estrellas</span> {/* Mostramos la calificación seleccionada */}
                     </div>
 
                     {/* Botón para enviar la reseña */}
