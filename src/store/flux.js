@@ -22,8 +22,9 @@ const getState = ({ getActions, getStore, setStore }) => {
       mainImageRequested: null,
       selectedCamping: [],
       unavailableDates: [],
-      totalCampings: 0, 
-      offset: 0, 
+      totalCampings: 0,
+      offset: 0,
+      previousRoute: null,
     },
     actions: {
       createCamping: async (formData) => {
@@ -130,19 +131,39 @@ const getState = ({ getActions, getStore, setStore }) => {
           );
 
           if (response.ok) {
-            return true;
+            return { success: true };
           } else {
             const errorData = await response.json();
             console.error("Error al registrar el cliente:", errorData);
-            return false;
+
+            if (errorData.error === "RUT already in use") {
+              return {
+                success: false,
+                message: "El RUT ingresado ya está registrado.",
+              };
+            } else if (errorData.error === "Email already in use") {
+              return {
+                success: false,
+                message: "El correo electrónico ya está en uso.",
+              };
+            } else {
+              return {
+                success: false,
+                message: "Error al registrar el usuario, inténtalo nuevamente.",
+              };
+            }
           }
         } catch (err) {
           console.error("Error en la solicitud de registro:", err);
-          return false;
+          return {
+            success: false,
+            message: "Error de conexión, inténtalo nuevamente.",
+          };
         }
       },
       //para logearse en el sistema
       login: async (email, password) => {
+        const store = getStore();
         try {
           const response = await fetch(
             "http://localhost:3001/user/login-user",
@@ -158,8 +179,6 @@ const getState = ({ getActions, getStore, setStore }) => {
 
           const result = await response.json();
 
-          console.log("Resultado del login:", result); // Imprimir el resultado completo
-
           if (response.ok && result.token) {
             // Asegurarse de que el token esté presente
             setStore({
@@ -171,6 +190,15 @@ const getState = ({ getActions, getStore, setStore }) => {
             localStorage.setItem("user", JSON.stringify(result.user));
             localStorage.setItem("token", result.token); // Guarda el token en localStorage
             console.log("Token guardado en localStorage:", result.token);
+
+            const previousRoute = store.previousRoute;
+            console.log("Ruta anterior:", previousRoute); // Ver la ruta anterior
+            if (previousRoute && previousRoute !== "/") {
+              window.location.href = previousRoute;
+              setStore({ previousRoute: null }); // Establecer previousRoute a null
+            } else {
+              window.location.href = "/";
+            }
 
             return true;
           } else {
@@ -223,7 +251,6 @@ const getState = ({ getActions, getStore, setStore }) => {
       },
 
       getCampings: async (limit = 10, offset = 0) => {
-
         const store = getStore(); // Obtener el store actual
         setStore({ loading: true });
 
@@ -247,12 +274,15 @@ const getState = ({ getActions, getStore, setStore }) => {
             // Actualizamos el store con los campings concatenados y el total
             setStore({
               campings: updatedCampings,
-              totalCampings: data.total,  // Guardamos el total de campings disponibles
-              offset: offset + limit,    // Incrementar el offset para la próxima solicitud
+              totalCampings: data.total, // Guardamos el total de campings disponibles
+              offset: offset + limit, // Incrementar el offset para la próxima solicitud
               loading: false,
             });
           } else {
-            console.error("Error al obtener campings públicos. Código de estado: " + response.status);
+            console.error(
+              "Error al obtener campings públicos. Código de estado: " +
+                response.status
+            );
             setStore({ loading: false });
           }
         } catch (err) {
@@ -261,9 +291,7 @@ const getState = ({ getActions, getStore, setStore }) => {
         }
       },
 
-
       getCampingById: async (campingId) => {
-
         setStore({ loading: true });
 
         try {
@@ -648,7 +676,7 @@ const getState = ({ getActions, getStore, setStore }) => {
       },
 
       editCamping: (data, campingId, providerId) => {
-        fetch(
+        return fetch(
           `http://localhost:3001/camping/provider/${providerId}/edit-camping/${campingId}`,
           {
             method: "PUT",
@@ -668,9 +696,11 @@ const getState = ({ getActions, getStore, setStore }) => {
           })
           .then((data) => {
             console.log("Camping updated successfully:", data);
+            return true; // Devolver true si la actualización fue exitosa
           })
           .catch((error) => {
             console.error("Error updating camping:", error);
+            return false; // Devolver false si hubo un error
           });
       },
 
@@ -702,7 +732,7 @@ const getState = ({ getActions, getStore, setStore }) => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${store.token}`,
+              Authorization: `Bearer ${store.token}`, // Incluir el token si está disponible
             },
             body: JSON.stringify(postReviewData),
           });
@@ -710,8 +740,7 @@ const getState = ({ getActions, getStore, setStore }) => {
           if (response.ok) {
             const data = await response.json();
 
-            console.log("coment publicado listo pana", data);
-            window.location.reload(); // recarga la pagina después de una respuesta
+            window.location.reload(); // Recargar la página después de una respuesta
             return data;
           } else {
             console.error(
@@ -866,25 +895,96 @@ const getState = ({ getActions, getStore, setStore }) => {
       },
       getUnavailableDates: async (site_id) => {
         try {
-          const response = await fetch(`http://localhost:3001/reservation/get-unavailable-dates/${site_id}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          });
+          const response = await fetch(
+            `http://localhost:3001/reservation/get-unavailable-dates/${site_id}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
 
           if (response.ok) {
             const data = await response.json();
-            console.log("Fechas no disponibles recibidas del servidor:", data.unavailable_dates);
+            console.log(
+              "Fechas no disponibles recibidas del servidor:",
+              data.unavailable_dates
+            );
             setStore({ unavailableDates: data.unavailable_dates });
           } else {
             console.error("Error al obtener las fechas no disponibles.");
           }
         } catch (error) {
-          console.error("Error en la solicitud de fechas no disponibles:", error);
+          console.error(
+            "Error en la solicitud de fechas no disponibles:",
+            error
+          );
         }
       },
+      deleteReview: async (reviewId, campingId) => {
+        const store = getStore();
+        try {
+          const response = await fetch(
+            `http://localhost:3001/review/review/${reviewId}`,
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${store.token}`,
+              },
+              credentials: "include",
+            }
+          );
 
+          if (response.ok) {
+            // Actualizar la lista de comentarios en el store
+            const updatedReviews = store.reviews.filter(
+              (review) => review.id !== reviewId
+            );
+            setStore({ reviews: updatedReviews });
+
+            return true; // Indicar que la eliminación fue exitosa
+          } else {
+            console.error("Error al eliminar el comentario:", response.status);
+            return false; // Indicar que hubo un error
+          }
+        } catch (error) {
+          console.error("Error al eliminar el comentario:", error);
+          return false; // Indicar que hubo un error
+        }
+      },
+      deleteCamping: async (id) => {
+        const token = localStorage.getItem("token");  // Obtén el token del localStorage
+        try {
+            const response = await fetch(`http://localhost:3001/camping/delete-camping/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,  // Añadir el token a la cabecera
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include',
+            });
+    
+            if (response.headers.get('content-type')?.includes('text/html')) {
+                throw new Error('Received HTML instead of JSON');
+            }
+    
+            if (!response.ok) {
+                throw new Error(`Failed to delete camping: ${response.statusText}`);
+            }
+    
+            const data = await response.json();
+            return data;
+    
+        } catch (error) {
+            console.error("Error deleting camping:", error.message);
+            throw error;
+        }
+    },
+    
+
+    
     },
   };
 };

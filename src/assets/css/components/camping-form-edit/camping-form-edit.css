@@ -47,3 +47,12 @@
 .edit-camping-btn-save, .edit-camping-btn-back {
     margin-top: 20px;
 }
+
+.edit-camping-form .is-invalid {
+    border-color: #dc3545; 
+  }
+  
+  .edit-camping-form .invalid-feedback {
+    color: #dc3545; 
+    font-size: 0.875em;
+  }

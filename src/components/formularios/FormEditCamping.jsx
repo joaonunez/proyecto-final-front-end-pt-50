@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../store/context";
 import { FaTrash } from "react-icons/fa";
-
+import Swal from 'sweetalert2';
 export function FormEditCamping({ campingId, providerId }) {
   const {
     store: {
@@ -16,27 +16,91 @@ export function FormEditCamping({ campingId, providerId }) {
   } = useContext(Context);
 
   const comunasData = {
-    "Arica y Parinacota": ["Arica", "Putre"],
-    Tarapacá: ["Iquique", "Alto Hospicio", "Pica", "Huara"],
-    Antofagasta: ["Antofagasta", "Calama", "Tocopilla", "Mejillones"],
-    Atacama: ["Copiapó", "Chañaral", "Vallenar", "Tierra Amarilla"],
-    Coquimbo: ["La Serena", "Coquimbo", "Vicuña", "Illapel"],
-    Valparaíso: ["Valparaíso", "Viña del Mar", "Quilpué", "San Antonio"],
-    Metropolitana: ["Santiago", "Maipú", "Las Condes", "La Florida"],
-    "Libertador General Bernardo O'Higgins": [
-      "Rancagua",
-      "Machalí",
-      "Pichidegua",
+    "Arica y Parinacota": [
+        "Arica",
+        "Putre"
     ],
-    Maule: ["Talca", "Curicó", "Linares", "Maule"],
-    Ñuble: ["Chillán", "San Carlos", "Pemuco"],
-    Biobío: ["Concepción", "Talcahuano", "Los Ángeles"],
-    "La Araucanía": ["Temuco", "Pucón", "Villarrica"],
-    "Los Ríos": ["Valdivia", "La Unión", "Lago Ranco"],
-    "Los Lagos": ["Puerto Montt", "Puerto Varas", "Osorno"],
-    Aysén: ["Coyhaique", "Puerto Aysén"],
-    "Magallanes y de la Antártica Chilena": ["Punta Arenas", "Puerto Natales"],
-  };
+    "Tarapacá": [
+        "Iquique",
+        "Alto Hospicio",
+        "Pica",
+        "Huara"
+    ],
+    "Antofagasta": [
+        "Antofagasta",
+        "Calama",
+        "Tocopilla",
+        "Mejillones"
+    ],
+    "Atacama": [
+        "Copiapó",
+        "Chañaral",
+        "Vallenar",
+        "Tierra Amarilla"
+    ],
+    "Coquimbo": [
+        "La Serena",
+        "Coquimbo",
+        "Vicuña",
+        "Illapel"
+    ],
+    "Valparaíso": [
+        "Valparaíso",
+        "Viña del Mar",
+        "Quilpué",
+        "San Antonio"
+    ],
+    "Metropolitana": [
+        "Santiago",
+        "Maipú",
+        "Las Condes",
+        "La Florida"
+    ],
+    "Libertador General Bernardo O'Higgins": [
+        "Rancagua",
+        "Machalí",
+        "Pichidegua"
+    ],
+    "Maule": [
+        "Talca",
+        "Curicó",
+        "Linares",
+        "Maule"
+    ],
+    "Ñuble": [
+        "Chillán",
+        "San Carlos",
+        "Pemuco"
+    ],
+    "Biobío": [
+        "Concepción",
+        "Talcahuano",
+        "Los Ángeles"
+    ],
+    "La Araucanía": [
+        "Temuco",
+        "Pucón",
+        "Villarrica"
+    ],
+    "Los Ríos": [
+        "Valdivia",
+        "La Unión",
+        "Lago Ranco"
+    ],
+    "Los Lagos": [
+        "Puerto Montt",
+        "Puerto Varas",
+        "Osorno"
+    ],
+    "Aysén": [
+        "Coyhaique",
+        "Puerto Aysén"
+    ],
+    "Magallanes y de la Antártica Chilena": [
+        "Punta Arenas",
+        "Puerto Natales"
+    ]
+}
 
   // Estado del formulario
   const [formData, setFormData] = useState({
@@ -72,7 +136,7 @@ export function FormEditCamping({ campingId, providerId }) {
         ? servicesRequesteds
         : [];
 
-      console.log("Services loaded into formData:", servicesData); 
+      console.log("Services loaded into formData:", servicesData);
       setFormData({
         campingName: campingVisitForEdit.name || "",
         razonSocial: campingVisitForEdit.razon_social || "",
@@ -88,7 +152,7 @@ export function FormEditCamping({ campingId, providerId }) {
         region: campingVisitForEdit.region || "",
         rules: rulesRequesteds || [],
         images: imagesData,
-        services: servicesData, 
+        services: servicesData,
         main_image: mainImageRequested || "",
       });
     } else {
@@ -162,7 +226,7 @@ export function FormEditCamping({ campingId, providerId }) {
     if (newService.name.trim() && newService.price.trim()) {
       setFormData((prevState) => ({
         ...prevState,
-        services: [...prevState.services, newService], 
+        services: [...prevState.services, newService],
       }));
       setNewService({ name: "", price: "" });
     }
@@ -172,7 +236,7 @@ export function FormEditCamping({ campingId, providerId }) {
     const updatedServices = formData.services.filter((_, i) => i !== index);
     setFormData((prevState) => ({
       ...prevState,
-      services: updatedServices, 
+      services: updatedServices,
     }));
   };
 
@@ -185,7 +249,37 @@ export function FormEditCamping({ campingId, providerId }) {
       services: formData.services,
       main_image: formData.main_image,
     };
-    actions.editCamping(data, campingId, providerId);
+    actions.editCamping(data, campingId, providerId)
+            .then(result => {
+                if (result) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Camping actualizado!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        // Recargar el camping editado en el store
+                        actions.getCampingById(campingId); 
+
+                        // Redirigir a /provider-dashboard
+                        window.location.href = "/provider-dashboard"; 
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al actualizar el camping',
+                        text: 'Por favor, inténtalo de nuevo.'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error("Error al actualizar el camping:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al actualizar el camping',
+                    text: 'Por favor, inténtalo de nuevo.'
+                });
+            });
   };
 
   return (
