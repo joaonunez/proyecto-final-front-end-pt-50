@@ -46,7 +46,7 @@ export function PostReview() {
 
     const renderStars = () => {
         const stars = [];
-        for (let i = 1; i <= 10; i++) {  
+        for (let i = 1; i <= 5; i++) {  
             stars.push(
                 <span key={i} onClick={() => handleStarClick(i)} style={{ cursor: "pointer" }}>
                     {i <= reviewPost.rating ? (
@@ -81,7 +81,7 @@ export function PostReview() {
                     {/* Rating con estrellas */}
                     <div className="review-form">
                         <label className="form-label">Calificanos:</label>
-                        <div>{renderStars()}</div> {/* Renderizamos las estrellas */}
+                        <div className="rating-stars-icons">{renderStars()}</div> {/* Renderizamos las estrellas */}
                     </div>
 
                     {/* Botón para enviar la reseña */}
