@@ -4,6 +4,7 @@ import { FaWifi, FaShower } from "react-icons/fa";
 import { GiCampingTent } from "react-icons/gi";
 import { Context } from "../../store/context"; 
 import { LoadingCampingList } from "../../components/loadings/CampingListLoading";
+import defaultImage from "../../assets/images/fotos/defectoCamping.jpg"; // Importar la imagen por defecto
 
 export function CampingsList() {
   const { store, actions } = useContext(Context);
@@ -33,7 +34,7 @@ export function CampingsList() {
           <div className="image-camping-card col-3">
             <img
               className="image-camping-size"
-              src={camping.main_image}
+              src={camping.main_image || defaultImage}  // Usar la imagen por defecto si no hay main_image
               alt={camping.name}
             />
           </div>
