@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import { PiTentBold } from "react-icons/pi";
 import { FaWifi, FaShower, FaComments } from "react-icons/fa";
 import "../../assets/css/components/search/searchCampingCard.css";
-import defaultImage from "../../assets/images/fotos/defectoCamping.jpg"
-
+import defaultImage from "../../assets/images/fotos/defectoCamping.jpg"; // Importar la imagen por defecto
 
 const SearchCampingCard = ({ camping }) => {
     // Validar que las propiedades necesarias existan antes de usarlas
@@ -13,9 +12,9 @@ const SearchCampingCard = ({ camping }) => {
     const description = camping?.description || "Descripción no disponible";
     const region = camping?.region || "Región no especificada";
     const comuna = camping?.comuna || "Comuna no especificada";
-    const availableSites = camping?.available_sites_count || "N/A";
-    const averageRating = camping?.average_rating || "N/A";
-    const totalReviews = camping?.total_reviews || "0";
+    const availableSites = camping?.available_zones_count || "N/A"; // Cambiado a available_zones_count
+    const averageRating = camping?.rating !== null ? camping.rating : "N/A"; // Usar rating si existe
+    const totalReviews = camping?.reviews_count !== undefined ? camping.reviews_count : "0"; // Usar reviews_count si existe
 
     return (
         <div className="container-camping-card row border-success">
@@ -34,8 +33,8 @@ const SearchCampingCard = ({ camping }) => {
                 <p className="camping-location-info">
                     Ubicación: {region}, {comuna}
                 </p>
-                <p className="camping-available-sites">
-                    Sitios disponibles: {availableSites}
+                <p className="camping-available-sites" style={{ fontSize: "1.5rem" }}>
+                    Sitios disponibles: {availableSites} 
                 </p>
             </div>
             <div className="rating-camping-info col-2">
