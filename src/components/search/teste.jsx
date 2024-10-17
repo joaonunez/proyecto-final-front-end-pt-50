@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 import { PiTentBold } from "react-icons/pi";
 import { FaWifi, FaShower, FaComments } from "react-icons/fa";
 import "../../assets/css/components/search/searchCampingCard.css";
-import defaultImage from "../../assets/images/fotos/defectoCamping.jpg"
-
 
 const SearchCampingCard = ({ camping }) => {
     // Validar que las propiedades necesarias existan antes de usarlas
-    const mainImage = camping?.main_image || defaultImage; // Usar la imagen por defecto si no hay main_image
+    const mainImage = camping?.main_image || "default-image.jpg"; // Imagen por defecto si no existe
     const campingName = camping?.camping_name || "Nombre no disponible";
     const description = camping?.description || "Descripción no disponible";
     const region = camping?.region || "Región no especificada";

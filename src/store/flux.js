@@ -22,6 +22,9 @@ const getState = ({ getActions, getStore, setStore }) => {
       mainImageRequested: null,
       selectedCamping: [],
       unavailableDates: [],
+      totalCampings: 0,
+      offset: 0,
+      previousRoute: null,
     },
     actions: {
       createCamping: async (formData) => {
@@ -247,8 +250,8 @@ const getState = ({ getActions, getStore, setStore }) => {
         }
       },
 
-      getCampings: async () => {
-
+      getCampings: async (limit = 10, offset = 0) => {
+        const store = getStore(); // Obtener el store actual
         setStore({ loading: true });
 
         try {
@@ -264,7 +267,17 @@ const getState = ({ getActions, getStore, setStore }) => {
 
           if (response.ok) {
             const data = await response.json();
-            setStore({ campings: data, loading: false });
+
+            // Concatenar nuevos campings con los ya existentes
+            const updatedCampings = [...store.campings, ...data.campings];
+
+            // Actualizamos el store con los campings concatenados y el total
+            setStore({
+              campings: updatedCampings,
+              totalCampings: data.total, // Guardamos el total de campings disponibles
+              offset: offset + limit, // Incrementar el offset para la próxima solicitud
+              loading: false,
+            });
           } else {
             console.error(
               "Error al obtener campings públicos. Código de estado: " +
@@ -277,7 +290,6 @@ const getState = ({ getActions, getStore, setStore }) => {
           setStore({ loading: false });
         }
       },
-
 
       getCampingById: async (campingId) => {
         setStore({ loading: true });

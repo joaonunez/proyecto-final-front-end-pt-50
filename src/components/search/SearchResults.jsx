@@ -13,7 +13,7 @@ const SearchResults = ({ results }) => {
           </div>
         ))
       ) : (
-        <p>No campings found for your search criteria.</p>
+        <p>No se encontraron campings para tu criterio de búsqueda.</p>
       )}
     </div>
   );

@@ -65,6 +65,18 @@ export function CampingsList() {
           </div>
         </div>
       ))}
+
+      {/* Mostrar el componente LoadingCampingList si se están cargando más campings */}
+      {loadingMore && <LoadingCampingList />}
+
+      {/* Botón para cargar más campings */}
+      {store.offset < store.totalCampings && !loadingMore && (
+        <div className="text-center">
+          <button className="btn btn-warning mt-4" onClick={loadMoreCampings}>
+          Cargar más campings
+          </button>
+        </div>
+      )}
     </>
   );
 }
