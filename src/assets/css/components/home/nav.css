@@ -8,7 +8,7 @@
 }
 
 .navbar {
-    background-color: #004d40;  
+    background-color: #012d26;  
     padding: 1rem;
     position: relative;
     display: -ms-flexbox;
@@ -130,7 +130,6 @@
 }
 
 .navbar-text {
-    
     font-size: 1.3rem;
     color: white;
 }
