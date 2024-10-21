@@ -25,7 +25,6 @@ import ProtectedRoute from "./ProtectedRoute";
 import { ViewReservationsViewProvider } from "./views/generate-reservation/ViewReservationsViewProvider";
 import { Context } from "./store/context";
 import { ProviderNav } from "./components/provider-components/ProviderNav";
-
 import { CreateCampingView } from "./views/provider-camping/CreateCampingView";
 import { ProviderManagement } from "./views/provider-camping/ProviderManagement}";
 import SearchResultsView from "./views/search/SearchResultsView";
